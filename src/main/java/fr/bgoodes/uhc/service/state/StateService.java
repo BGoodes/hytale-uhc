@@ -1,0 +1,55 @@
+package fr.bgoodes.uhc.service.state;
+
+import fr.bgoodes.uhc.exception.IllegalGameState;
+import fr.bgoodes.uhc.service.state.impl.LobbyState;
+import fr.bgoodes.uhc.service.state.impl.PlayingState;
+import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.service.state.model.IGameState;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class StateService {
+
+    private IGameState currentState;
+
+    @NotNull
+    private final Map<String, IGameState> statesMap = new HashMap<>();
+
+    public StateService() {
+        registerGameState(LobbyState.STATE_ID, new LobbyState());
+        registerGameState(StartingState.STATE_ID, new StartingState());
+        registerGameState(PlayingState.STATE_ID, new PlayingState());
+
+        changeGameState(LobbyState.STATE_ID);
+    }
+
+    public @NotNull IGameState getCurrentState() {
+        return currentState;
+    }
+
+    public void registerGameState(@NotNull String id, @NotNull IGameState gameState) {
+        this.statesMap.put(id, gameState);
+    }
+
+    public void unregisterGameState(@NotNull String stateId) {
+        this.statesMap.remove(stateId);
+    }
+
+    // must be on default world thread
+    public void changeGameState(@NotNull String stateId) {
+        @Nullable IGameState newState = this.statesMap.get(stateId);
+
+        if (newState == null)
+            throw new IllegalGameState(stateId);
+
+        if (this.currentState != null) {
+            this.currentState.onExit();
+        }
+
+        this.currentState = newState;
+        this.currentState.onEnter();
+    }
+}
