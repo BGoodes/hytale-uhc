@@ -2,18 +2,16 @@ package fr.bgoodes.uhc;
 
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.HytaleServer;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.WorldConfig;
 import com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager;
-import com.hypixel.hytale.server.core.universe.world.worldmap.markers.providers.*;
 import fr.bgoodes.uhc.commands.UHCCommand;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.listeners.PlayerListeners;
 import fr.bgoodes.uhc.service.state.StateService;
-import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.system.GameClockSystem;
 import fr.bgoodes.uhc.system.listeners.BreakBlockSystem;
 import fr.bgoodes.uhc.system.listeners.DamagePlayerSystem;
@@ -45,7 +43,7 @@ public class UHC extends JavaPlugin {
         this.gameContext = new GameContext();
 
         //services
-        this.stateService = new StateService();
+        this.stateService = new StateService(this.getGameContext());
 
         //systems
         this.getEntityStoreRegistry().registerSystem(new GameClockSystem());
@@ -53,6 +51,9 @@ public class UHC extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new BreakBlockSystem());
         this.getEntityStoreRegistry().registerSystem(new DamagePlayerSystem());
         this.getEntityStoreRegistry().registerSystem(new DeathPlayerSystem());
+
+        //events
+        new PlayerListeners(this.gameContext, this.stateService).register(this.getEventRegistry());
 
         //commands
         this.getCommandRegistry().registerCommand(new UHCCommand());
@@ -78,7 +79,7 @@ public class UHC extends JavaPlugin {
 
         WorldConfig worldConfig = defaultWorld.getWorldConfig();
         worldConfig.setDeleteOnRemove(true);
-        worldConfig.setPvpEnabled(false);
+        worldConfig.setPvpEnabled(true);
 
         this.gameContext.setWorld(defaultWorld);
         defaultWorld.execute(() -> LobbyUtil.generate(defaultWorld));

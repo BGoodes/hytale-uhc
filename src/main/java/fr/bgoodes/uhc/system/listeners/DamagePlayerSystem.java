@@ -1,19 +1,20 @@
 package fr.bgoodes.uhc.system.listeners;
 
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.component.SystemGroup;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageEventSystem;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageModule;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
 
 public class DamagePlayerSystem extends DamageEventSystem {
 
@@ -33,6 +34,21 @@ public class DamagePlayerSystem extends DamageEventSystem {
 
         if (gameContext.getGamerules().invincible()) {
             damage.setCancelled(true);
+            return;
+        }
+
+        if (damage.getSource() instanceof Damage.EntitySource entitySource) {
+            Ref<EntityStore> sourceRef = entitySource.getRef();
+            Player damager = commandBuffer.getComponent(sourceRef, Player.getComponentType());
+            PlayerRef damagerRef = commandBuffer.getComponent(sourceRef, PlayerRef.getComponentType());
+
+            if (sourceRef.isValid() && damager != null && damagerRef != null) {
+                // Player damage per players
+                if (!gameContext.getGamerules().pvp()) {
+                    MessageUtil.message(damagerRef, "Le pvp n'est pas encore activé.", Color.RED);
+                    damage.setCancelled(true);
+                }
+            }
         }
     }
 

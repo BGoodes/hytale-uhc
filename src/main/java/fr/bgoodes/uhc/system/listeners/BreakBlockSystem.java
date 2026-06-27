@@ -23,13 +23,13 @@ public class BreakBlockSystem extends EntityEventSystem<EntityStore, BreakBlockE
     @Override
     public void handle(
             int index,
-            @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk,
+            @NonNullDecl ArchetypeChunk<EntityStore> chunk,
             @NonNullDecl Store<EntityStore> store,
             @NonNullDecl CommandBuffer<EntityStore> commandBuffer,
             @NonNullDecl BreakBlockEvent event
     ) {
 
-        Player player = archetypeChunk.getComponent(index, Player.getComponentType());
+        Player player = chunk.getComponent(index, Player.getComponentType());
         if (player == null) return;
 
         GameContext gameContext = UHC.get().getGameContext();
@@ -42,6 +42,6 @@ public class BreakBlockSystem extends EntityEventSystem<EntityStore, BreakBlockE
     @NullableDecl
     @Override
     public Query<EntityStore> getQuery() {
-        return Query.any();
+        return Query.and(Player.getComponentType());
     }
 }

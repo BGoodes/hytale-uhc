@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc.service.state;
 
+import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.exception.IllegalGameState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
@@ -13,12 +14,18 @@ import java.util.Map;
 
 public class StateService {
 
+    @NotNull
     private IGameState currentState;
+
+    @NotNull
+    private final GameContext gameContext;
 
     @NotNull
     private final Map<String, IGameState> statesMap = new HashMap<>();
 
-    public StateService() {
+    public StateService(@NotNull GameContext gameContext) {
+        this.gameContext = gameContext;
+
         registerGameState(LobbyState.STATE_ID, new LobbyState());
         registerGameState(StartingState.STATE_ID, new StartingState());
         registerGameState(PlayingState.STATE_ID, new PlayingState());
@@ -45,11 +52,7 @@ public class StateService {
         if (newState == null)
             throw new IllegalGameState(stateId);
 
-        if (this.currentState != null) {
-            this.currentState.onExit();
-        }
-
+        newState.start(this.gameContext);
         this.currentState = newState;
-        this.currentState.onEnter();
     }
 }

@@ -1,12 +1,10 @@
 package fr.bgoodes.uhc.service.state.impl;
 
-import com.hypixel.hytale.server.core.universe.Universe;
-import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
-import fr.bgoodes.uhc.util.BroadcastUtil;
-import fr.bgoodes.uhc.util.LobbyUtil;
+import fr.bgoodes.uhc.util.MessageUtil;
+import org.jetbrains.annotations.NotNull;
 
 public class StartingState implements IGameState {
 
@@ -15,22 +13,7 @@ public class StartingState implements IGameState {
     private int time;
 
     @Override
-    public void onClock() {
-
-        if (time > 0) {
-            BroadcastUtil.message("Début de la partie dans %ss".formatted(time));
-            BroadcastUtil.sound("SFX_Axe_Iron_Impact");
-        } else {
-            UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
-            BroadcastUtil.message("Début de la partie !!!");
-            BroadcastUtil.sound("SFX_Rex_Alerted");
-        }
-
-        time--;
-    }
-
-    @Override
-    public void onEnter() {
+    public void start(@NotNull GameContext context) {
         GameContext gameContext = UHC.get().getGameContext();
 
         gameContext.getGamerules().pvp(false);
@@ -41,5 +24,17 @@ public class StartingState implements IGameState {
     }
 
     @Override
-    public void onExit() {}
+    public void onClock() {
+
+        if (time > 0) {
+            MessageUtil.broadcastMessage("Début de la partie dans %ss".formatted(time));
+            MessageUtil.broadcastSound("SFX_Axe_Iron_Impact");
+        } else {
+            UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
+            MessageUtil.broadcastMessage("Début de la partie !!!");
+            MessageUtil.broadcastSound("SFX_Rex_Alerted");
+        }
+
+        time--;
+    }
 }

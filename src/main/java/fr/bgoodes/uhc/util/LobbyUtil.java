@@ -1,8 +1,12 @@
 package fr.bgoodes.uhc.util;
 
+import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.server.core.universe.world.World;
+import org.jetbrains.annotations.NotNull;
 
 public class LobbyUtil {
+
+    public static final Transform LOBBY_SPAWN = new Transform(0, 305, 0);
 
     private static final int PLATFORM_SIZE = 50;
     private static final int WALL_HEIGHT = 5;
@@ -15,12 +19,12 @@ public class LobbyUtil {
 
     private LobbyUtil() {}
 
-    public static void generate(World world) {
+    public static void generate(@NotNull World world) {
         generatePlatform(world);
         generateWalls(world);
     }
 
-    private static void generatePlatform(World world) {
+    private static void generatePlatform(@NotNull World world) {
         for (int x = -PLATFORM_SIZE/2; x < PLATFORM_SIZE/2; x++) {
             for (int z = -PLATFORM_SIZE/2; z < PLATFORM_SIZE/2; z++) {
                 world.setBlock(x, PLATFORM_Y, z, PLATFORM_BLOCK);
@@ -28,7 +32,7 @@ public class LobbyUtil {
         }
     }
 
-    private static void generateWalls(World world) {
+    private static void generateWalls(@NotNull World world) {
         int min = -PLATFORM_SIZE/2;
         int max = PLATFORM_SIZE/2 - 1;
 
@@ -49,7 +53,7 @@ public class LobbyUtil {
         }
     }
 
-    public static void remove(World world) {
+    public static void remove(@NotNull World world) {
         int min = -PLATFORM_SIZE/2;
         int max = PLATFORM_SIZE/2 - 1;
 
