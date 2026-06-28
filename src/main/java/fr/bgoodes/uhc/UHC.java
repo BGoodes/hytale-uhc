@@ -21,6 +21,13 @@ import fr.bgoodes.uhc.util.LobbyUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.stream.Stream;
+
 public class UHC extends JavaPlugin {
 
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -101,12 +108,39 @@ public class UHC extends JavaPlugin {
 
     @Override
     protected void shutdown() {
+        LOGGER.atInfo().log("Shutting down UHC plugin...");
+
+        //delete player storage
+        Path universePath = Universe.get().getPath();
+        Path playersPath = universePath.resolve("players");
+
+        if (Files.notExists(playersPath)) {
+            LOGGER.atInfo().log("No player storage found.");
+            return;
+        }
+
+        try (Stream<Path> stream = Files.walk(playersPath)) {
+            stream.sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            throw new UncheckedIOException(e);
+                        }
+                    });
+            LOGGER.atInfo().log("Player storage deleted.");
+
+        } catch (IOException | UncheckedIOException e) {
+            LOGGER.atSevere().withCause(e).log("Failed to delete player storage.");
+        }
 
         // delete default world
         World defaultWorld = Universe.get().getDefaultWorld();
 
-        if (defaultWorld != null) {
-            Universe.get().removeWorld(defaultWorld.getName());
+        if (defaultWorld != null && Universe.get().removeWorld(defaultWorld.getName())) {
+            LOGGER.atInfo().log("Default world deleted.");
+        } else {
+            LOGGER.atSevere().log("Failed to delete default world deleted.");
         }
 
         LOGGER.atInfo().log("UHC plugin shutdown.");
