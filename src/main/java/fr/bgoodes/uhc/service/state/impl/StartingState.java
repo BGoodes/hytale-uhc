@@ -14,11 +14,11 @@ public class StartingState implements IGameState {
 
     @Override
     public void start(@NotNull GameContext context) {
-        GameContext gameContext = UHC.get().getGameContext();
 
-        gameContext.getGamerules().pvp(false);
-        gameContext.getGamerules().building(false);
-        gameContext.getGamerules().invincible(true);
+        context.getGamerules().allowNewPlayers(false);
+        context.getGamerules().pvp(false);
+        context.getGamerules().building(false);
+        context.getGamerules().invincible(true);
 
         this.time = 5;
     }
@@ -30,9 +30,9 @@ public class StartingState implements IGameState {
             MessageUtil.broadcastMessage("Début de la partie dans %ss".formatted(time));
             MessageUtil.broadcastSound("SFX_Axe_Iron_Impact");
         } else {
-            UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
             MessageUtil.broadcastMessage("Début de la partie !!!");
             MessageUtil.broadcastSound("SFX_Rex_Alerted");
+            UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
         }
 
         time--;

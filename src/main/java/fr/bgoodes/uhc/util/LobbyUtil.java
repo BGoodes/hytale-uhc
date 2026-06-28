@@ -59,7 +59,6 @@ public class LobbyUtil {
 
         for (int x = min; x <= max; x++) {
             for (int z = min; z <= max; z++) {
-
                 for (int y = PLATFORM_Y; y <= PLATFORM_Y + WALL_HEIGHT; y++) {
                     world.breakBlock(x, y, z, 0);
                 }

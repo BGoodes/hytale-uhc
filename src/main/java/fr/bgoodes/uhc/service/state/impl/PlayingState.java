@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.modules.time.WorldTimeResource;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.LobbyUtil;
@@ -21,7 +22,6 @@ public class PlayingState implements IGameState {
     public static final String STATE_ID = "playing";
 
     private GameContext gameContext;
-
     private int time;
 
     @Override
@@ -31,6 +31,7 @@ public class PlayingState implements IGameState {
         World world = context.getWorld();
 
         // update gamerules
+        context.getGamerules().allowNewPlayers(false);
         context.getGamerules().pvp(false);
         context.getGamerules().building(true);
         context.getGamerules().invincible(true);
@@ -40,6 +41,8 @@ public class PlayingState implements IGameState {
         Store<EntityStore> store = world.getEntityStore().getStore();
 
         Universe.get().getPlayers().forEach(ref -> {
+            gameContext.addPlayer(ref.getUuid());
+
             if (ref.getReference() != null) {
                 Player.setGameMode(ref.getReference(), GameMode.Adventure, store);
                 store.addComponent(ref.getReference(), Teleport.getComponentType(), teleport);
@@ -75,6 +78,13 @@ public class PlayingState implements IGameState {
             this.gameContext.getGamerules().pvp(true);
             MessageUtil.broadcastMessage("Le PVP est désormais activé.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
+        }
+
+        if (this.gameContext.getConnectedPlayerCount() <= 1) {
+            MessageUtil.broadcastMessage("Fin de la partie !!!");
+            MessageUtil.broadcastSound("SFX_Rex_Alerted");
+            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
+            return;
         }
 
         time++;

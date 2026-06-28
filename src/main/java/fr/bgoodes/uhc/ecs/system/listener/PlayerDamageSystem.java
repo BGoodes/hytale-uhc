@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.system.listeners;
+package fr.bgoodes.uhc.ecs.system.listener;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 
-public class DamagePlayerSystem extends DamageEventSystem {
+public class PlayerDamageSystem extends DamageEventSystem {
 
     @Override
     public void handle(

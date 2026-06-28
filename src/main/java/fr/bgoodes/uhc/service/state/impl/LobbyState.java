@@ -21,6 +21,7 @@ public class LobbyState implements IGameState {
 
     @Override
     public void start(@NotNull GameContext context) {
+        context.getGamerules().allowNewPlayers(true);
         context.getGamerules().pvp(false);
         context.getGamerules().building(false);
         context.getGamerules().invincible(true);
@@ -28,6 +29,10 @@ public class LobbyState implements IGameState {
 
     @Override
     public void onPlayerJoin(@NotNull PlayerReadyEvent event, @NotNull GameContext context) {
+        if (!event.getPlayerRef().isValid()) {
+            return;
+        }
+
         Ref<EntityStore> playerRef = event.getPlayerRef();
         Store<EntityStore> store = playerRef.getStore();
 

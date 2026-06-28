@@ -2,6 +2,7 @@ package fr.bgoodes.uhc.service.state;
 
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.exception.IllegalGameState;
+import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
@@ -29,6 +30,7 @@ public class StateService {
         registerGameState(LobbyState.STATE_ID, new LobbyState());
         registerGameState(StartingState.STATE_ID, new StartingState());
         registerGameState(PlayingState.STATE_ID, new PlayingState());
+        registerGameState(EndingState.STATE_ID, new EndingState());
 
         changeGameState(LobbyState.STATE_ID);
     }

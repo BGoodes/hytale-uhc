@@ -2,9 +2,18 @@ package fr.bgoodes.uhc.context;
 
 public class GameRules {
 
+    private boolean allowNewPlayers;
     private boolean pvp;
     private boolean building;
     private boolean invincible;
+
+    public boolean allowNewPlayers() {
+        return allowNewPlayers;
+    }
+
+    public void allowNewPlayers(boolean value) {
+        this.allowNewPlayers = value;
+    }
 
     public boolean pvp() {
         return pvp;

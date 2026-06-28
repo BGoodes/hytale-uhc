@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.system;
+package fr.bgoodes.uhc.ecs.system;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.system.DelayedSystem;
