@@ -17,6 +17,7 @@ import fr.bgoodes.uhc.ecs.system.listener.PlayerDeathSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerPlaceBlockSystem;
 import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
 import fr.bgoodes.uhc.service.state.StateService;
+import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,7 @@ public class UHC extends JavaPlugin {
 
     private GameContext gameContext;
     private StateService stateService;
+    private WorldBorderService worldBorderService;
 
     public UHC(@NonNullDecl JavaPluginInit init) {
         super(init);
@@ -52,6 +54,7 @@ public class UHC extends JavaPlugin {
 
         //services
         this.stateService = new StateService(this.getGameContext());
+        this.worldBorderService = new WorldBorderService(2000);
 
         //systems
         this.getEntityStoreRegistry().registerSystem(new GameClockSystem());
@@ -152,5 +155,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull StateService getStateService() {
         return stateService;
+    }
+
+    public @NotNull WorldBorderService getWorldBorderService() {
+        return worldBorderService;
     }
 }

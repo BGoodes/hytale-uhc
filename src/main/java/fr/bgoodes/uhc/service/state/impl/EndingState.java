@@ -26,6 +26,8 @@ public class EndingState implements IGameState {
     @Override
     public void start(@NotNull GameContext context) {
 
+        MessageUtil.broadcastTitle("Fin de la partie", "", true);
+
         context.getGamerules().allowNewPlayers(true);
         context.getGamerules().pvp(true);
         context.getGamerules().building(true);
