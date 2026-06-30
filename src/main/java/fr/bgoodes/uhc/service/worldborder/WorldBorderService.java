@@ -11,6 +11,7 @@ import com.hypixel.hytale.server.core.modules.entity.damage.DamageSystems;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import fr.bgoodes.uhc.context.GameContext;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
@@ -19,29 +20,32 @@ import org.joml.Vector3f;
 public class WorldBorderService {
 
     private final static int BORDER_HEIGHT = 1024;
-
+    private final static int BORDER_SIZE_MAX = 2000;
+    private final static int BORDER_SIZE_MIN = 200;
     private final static Vector3f COLOR_INSIDE = new Vector3f(0.5f, 0.85f, 1.0f);
     private final static Vector3f COLOR_OUTSIDE = new Vector3f(1, 0, 0);
-
     private static final int BORDER_DAMAGE = 10;
-
     private static final double BORDER_WARNING_DISTANCE = 30;
+
+    private final GameContext gameContext;
 
     private int worldBorderSize;
 
-    public WorldBorderService(int worldBorderSize) {
-        this.worldBorderSize = worldBorderSize;
+    public WorldBorderService(@NotNull GameContext gameContext) {
+        this.gameContext = gameContext;
+        this.worldBorderSize = BORDER_SIZE_MAX;
     }
 
     public int getWorldBorderSize() {
         return this.worldBorderSize;
     }
 
-    public void setWorldBorderSize(int worldBorderSize) {
-        this.worldBorderSize = worldBorderSize;
-    }
-
     public void update(@NotNull World world, @NotNull Store<EntityStore> store) {
+
+        if (gameContext.getGamerules().borderShrinking() && this.worldBorderSize > BORDER_SIZE_MIN) {
+            this.worldBorderSize--;
+        }
+
         for (PlayerRef playerRef : world.getPlayerRefs()) {
             Ref<EntityStore> ref = playerRef.getReference();
 

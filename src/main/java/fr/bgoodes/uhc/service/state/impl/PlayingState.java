@@ -80,6 +80,12 @@ public class PlayingState implements IGameState {
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
+        if (time == 1 * 60) {
+            this.gameContext.getGamerules().borderShrinking(true);
+            MessageUtil.broadcastMessage("La bordure du monde va commencer à réduire.");
+            MessageUtil.broadcastSound("SFX_Crow_Death");
+        }
+
         if (this.gameContext.getConnectedPlayerCount() <= 1) {
             MessageUtil.broadcastMessage("Fin de la partie !!!");
             MessageUtil.broadcastSound("SFX_Rex_Alerted");

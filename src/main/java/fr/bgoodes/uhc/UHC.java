@@ -1,6 +1,7 @@
 package fr.bgoodes.uhc;
 
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.shape.Box2D;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
@@ -21,6 +22,7 @@ import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2d;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -54,7 +56,7 @@ public class UHC extends JavaPlugin {
 
         //services
         this.stateService = new StateService(this.getGameContext());
-        this.worldBorderService = new WorldBorderService(2000);
+        this.worldBorderService = new WorldBorderService(this.getGameContext());
 
         //systems
         this.getEntityStoreRegistry().registerSystem(new GameClockSystem());
@@ -65,7 +67,7 @@ public class UHC extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystem());
 
         //events
-        new PlayerJoinListeners(this.gameContext, this.stateService).register(this.getEventRegistry());
+        new PlayerJoinListeners(this.getGameContext(), this.getStateService()).register(this.getEventRegistry());
 
         //commands
         this.getCommandRegistry().registerCommand(new UHCCommand());
@@ -92,6 +94,16 @@ public class UHC extends JavaPlugin {
         WorldConfig worldConfig = defaultWorld.getWorldConfig();
         worldConfig.setDeleteOnRemove(true);
         worldConfig.setPvpEnabled(true);
+
+        //pregenerate
+        worldConfig.getChunkConfig().setPregenerateRegion(
+                new Box2D(
+                    new Vector2d(-worldBorderService.getWorldBorderSize(), -worldBorderService.getWorldBorderSize()),
+                    new Vector2d(worldBorderService.getWorldBorderSize(), worldBorderService.getWorldBorderSize())
+                )
+        );
+
+        worldConfig.markChanged();
 
         this.gameContext.setWorld(defaultWorld);
         defaultWorld.execute(() -> LobbyUtil.generate(defaultWorld));

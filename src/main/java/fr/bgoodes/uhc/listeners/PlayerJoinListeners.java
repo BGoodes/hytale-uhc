@@ -1,13 +1,10 @@
 package fr.bgoodes.uhc.listeners;
 
 import com.hypixel.hytale.event.EventRegistry;
-import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
-import com.hypixel.hytale.server.core.universe.Universe;
-import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.StateService;
 import org.jetbrains.annotations.NotNull;

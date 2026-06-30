@@ -6,6 +6,7 @@ public class GameRules {
     private boolean pvp;
     private boolean building;
     private boolean invincible;
+    private boolean borderShrinking;
 
     public boolean allowNewPlayers() {
         return allowNewPlayers;
@@ -37,5 +38,13 @@ public class GameRules {
 
     public void invincible(boolean value) {
         this.invincible = value;
+    }
+
+    public boolean borderShrinking() {
+        return borderShrinking;
+    }
+
+    public void borderShrinking(boolean value) {
+        this.borderShrinking = value;
     }
 }
