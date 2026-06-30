@@ -68,19 +68,19 @@ public class PlayingState implements IGameState {
     @Override
     public void onClock() {
 
-        if (time == 60) {
+        if (time == this.gameContext.getConfig().invincibilityTime()) {
             this.gameContext.getGamerules().invincible(false);
             MessageUtil.broadcastMessage("Vous n'êtes désormais plus invincible.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
-        if (time == 10 * 60) {
+        if (time == this.gameContext.getConfig().pvpTime()) {
             this.gameContext.getGamerules().pvp(true);
             MessageUtil.broadcastMessage("Le PVP est désormais activé.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
-        if (time == 1 * 60) {
+        if (time == this.gameContext.getConfig().borderShrinkTime()) {
             this.gameContext.getGamerules().borderShrinking(true);
             MessageUtil.broadcastMessage("La bordure du monde va commencer à réduire.");
             MessageUtil.broadcastSound("SFX_Crow_Death");

@@ -9,6 +9,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.WorldConfig;
 import com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager;
+import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.ecs.system.GameClockSystem;
@@ -36,6 +37,7 @@ public class UHC extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static UHC instance;
 
+    private final Config<UHCConfig> config = this.withConfig("uhc_config", UHCConfig.CODEC);
     private GameContext gameContext;
     private StateService stateService;
     private WorldBorderService worldBorderService;
@@ -52,6 +54,7 @@ public class UHC extends JavaPlugin {
     protected void setup() {
         instance = this;
 
+        this.config.save();
         this.gameContext = new GameContext();
 
         //services
@@ -96,12 +99,14 @@ public class UHC extends JavaPlugin {
         worldConfig.setPvpEnabled(true);
 
         //pregenerate
-        worldConfig.getChunkConfig().setPregenerateRegion(
-                new Box2D(
-                    new Vector2d(-worldBorderService.getWorldBorderSize(), -worldBorderService.getWorldBorderSize()),
-                    new Vector2d(worldBorderService.getWorldBorderSize(), worldBorderService.getWorldBorderSize())
-                )
-        );
+        if (this.getConfig().get().pregenerateWorld()) {
+            worldConfig.getChunkConfig().setPregenerateRegion(
+                    new Box2D(
+                            new Vector2d(-worldBorderService.getWorldBorderSize(), -worldBorderService.getWorldBorderSize()),
+                            new Vector2d(worldBorderService.getWorldBorderSize(), worldBorderService.getWorldBorderSize())
+                    )
+            );
+        }
 
         worldConfig.markChanged();
 
@@ -159,6 +164,10 @@ public class UHC extends JavaPlugin {
         }
 
         LOGGER.atInfo().log("UHC plugin shutdown.");
+    }
+
+    public Config<UHCConfig> getConfig() {
+        return config;
     }
 
     public @NotNull GameContext getGameContext() {

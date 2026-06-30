@@ -2,6 +2,8 @@ package fr.bgoodes.uhc.context;
 
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
+import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.UHCConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -15,6 +17,10 @@ public class GameContext {
     private final Set<UUID> players = new HashSet<>();
     @NotNull
     private final GameRules gamerules = new GameRules();
+
+    public @NotNull UHCConfig getConfig() {
+        return UHC.get().getConfig().get();
+    }
 
     public void setWorld(@NotNull World world) {
         this.world = world;

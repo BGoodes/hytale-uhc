@@ -20,12 +20,9 @@ import org.joml.Vector3f;
 public class WorldBorderService {
 
     private final static int BORDER_HEIGHT = 1024;
-    private final static int BORDER_SIZE_MAX = 2000;
-    private final static int BORDER_SIZE_MIN = 200;
+
     private final static Vector3f COLOR_INSIDE = new Vector3f(0.5f, 0.85f, 1.0f);
     private final static Vector3f COLOR_OUTSIDE = new Vector3f(1, 0, 0);
-    private static final int BORDER_DAMAGE = 10;
-    private static final double BORDER_WARNING_DISTANCE = 30;
 
     private final GameContext gameContext;
 
@@ -33,7 +30,7 @@ public class WorldBorderService {
 
     public WorldBorderService(@NotNull GameContext gameContext) {
         this.gameContext = gameContext;
-        this.worldBorderSize = BORDER_SIZE_MAX;
+        this.worldBorderSize = gameContext.getConfig().borderSizeMax();
     }
 
     public int getWorldBorderSize() {
@@ -42,31 +39,30 @@ public class WorldBorderService {
 
     public void update(@NotNull World world, @NotNull Store<EntityStore> store) {
 
-        if (gameContext.getGamerules().borderShrinking() && this.worldBorderSize > BORDER_SIZE_MIN) {
+        if (gameContext.getGamerules().borderShrinking() && this.worldBorderSize > gameContext.getConfig().borderSizeMin()) {
             this.worldBorderSize--;
         }
 
         for (PlayerRef playerRef : world.getPlayerRefs()) {
             Ref<EntityStore> ref = playerRef.getReference();
+            if (!playerRef.isValid() || ref == null || !ref.isValid()) continue;
 
-            if (playerRef.isValid() && ref != null && ref.isValid()) {
-                TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
+            TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
 
-                if (transformComponent != null) {
-                    Vector3d playerPosition = transformComponent.getPosition();
+            if (transformComponent == null) continue;
+            Vector3d pos = transformComponent.getPosition();
 
-                    if (isOutsideBorder(playerPosition)) {
-                        this.displayWorldBorder(playerRef, false);
+            if (isOutsideBorder(pos)) {
+                this.displayWorldBorder(playerRef, false);
 
-                        Damage.EnvironmentSource damageSource = new Damage.EnvironmentSource("World Border");
-                        int damageCauseIndex = DamageCause.getAssetMap().getIndex("OutOfWorld");
-                        Damage damage = new Damage(damageSource, damageCauseIndex, BORDER_DAMAGE);
-                        DamageSystems.executeDamage(ref, store, damage);
+                //damage
+                Damage.EnvironmentSource damageSource = new Damage.EnvironmentSource("World Border");
+                int damageCauseIndex = DamageCause.getAssetMap().getIndex("OutOfWorld");
+                Damage damage = new Damage(damageSource, damageCauseIndex, gameContext.getConfig().borderDamage());
+                DamageSystems.executeDamage(ref, store, damage);
 
-                    } else if (isNearBorder(playerPosition)) {
-                        this.displayWorldBorder(playerRef, true);
-                    }
-                }
+            } else if (isNearBorder(pos)) {
+                this.displayWorldBorder(playerRef, true);
             }
         }
     }
@@ -80,14 +76,14 @@ public class WorldBorderService {
         double distanceX = this.worldBorderSize - Math.abs(position.x);
         double distanceZ = this.worldBorderSize - Math.abs(position.z);
 
-        return distanceX <= BORDER_WARNING_DISTANCE ||
-                distanceZ <= BORDER_WARNING_DISTANCE;
+        return distanceX <= gameContext.getConfig().borderWarningDistance() ||
+                distanceZ <= gameContext.getConfig().borderWarningDistance();
     }
 
     private void displayWorldBorder(PlayerRef ref, boolean inside) {
         Matrix4f transform = new Matrix4f()
-                .translation(0, BORDER_HEIGHT/2f, 0)
-                .scale(this.worldBorderSize*2, BORDER_HEIGHT, this.worldBorderSize*2);
+                .translation(0, BORDER_HEIGHT / 2f, 0)
+                .scale(this.worldBorderSize * 2, BORDER_HEIGHT, this.worldBorderSize * 2);
 
         float[] matrix = new float[16];
         transform.get(matrix);
@@ -99,7 +95,7 @@ public class WorldBorderService {
                 1f, // time = 1s
                 (byte)0,
                 null,
-                0.2f    // opacity
+                0.2f // opacity
         );
 
         ref.getPacketHandler().write(displayDebug);
