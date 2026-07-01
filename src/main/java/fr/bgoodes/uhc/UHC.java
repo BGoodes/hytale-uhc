@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc;
 
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.shape.Box2D;
 import com.hypixel.hytale.server.core.HytaleServer;
@@ -8,10 +9,12 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.WorldConfig;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.ecs.components.Spectator;
 import fr.bgoodes.uhc.ecs.system.GameClockSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerBreakBlockSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerDamageSystem;
@@ -60,6 +63,11 @@ public class UHC extends JavaPlugin {
         //services
         this.stateService = new StateService(this.getGameContext());
         this.worldBorderService = new WorldBorderService(this.getGameContext());
+
+        //components
+        ComponentType<EntityStore, Spectator> spectatorComponentType = this.getEntityStoreRegistry()
+                .registerComponent(Spectator.class, Spectator::new);
+        Spectator.setComponentType(spectatorComponentType);
 
         //systems
         this.getEntityStoreRegistry().registerSystem(new GameClockSystem());

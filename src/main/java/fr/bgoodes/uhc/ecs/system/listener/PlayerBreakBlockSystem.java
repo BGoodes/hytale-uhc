@@ -11,6 +11,7 @@ import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.ecs.components.Spectator;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -28,6 +29,11 @@ public class PlayerBreakBlockSystem extends EntityEventSystem<EntityStore, Break
             @NonNullDecl CommandBuffer<EntityStore> commandBuffer,
             @NonNullDecl BreakBlockEvent event
     ) {
+        //spectator
+        if (chunk.getComponent(index, Spectator.getComponentType()) != null) {
+            event.setCancelled(true);
+        }
+
         if (event.isCancelled()) {
             return;
         }

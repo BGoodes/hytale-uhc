@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.ecs.components.Spectator;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,8 +43,15 @@ public class PlayerDamageSystem extends DamageEventSystem {
             Player damager = commandBuffer.getComponent(sourceRef, Player.getComponentType());
             PlayerRef damagerRef = commandBuffer.getComponent(sourceRef, PlayerRef.getComponentType());
 
+            // Player damage per players
             if (sourceRef.isValid() && damager != null && damagerRef != null) {
-                // Player damage per players
+
+                //spectator
+                if (commandBuffer.getComponent(sourceRef, Spectator.getComponentType()) != null) {
+                    damage.setCancelled(true);
+                    return;
+                }
+
                 if (!gameContext.getGamerules().pvp()) {
                     MessageUtil.message(damagerRef, "Le pvp n'est pas encore activé.", Color.RED);
                     damage.setCancelled(true);

@@ -12,6 +12,10 @@ public class UHCConfig {
                     (config, value) -> config.pregenerateWorld = value, //setter
                     (config) -> config.pregenerateWorld).add() // getter
 
+            .append(new KeyedCodec<>("AllowSpectators", Codec.BOOLEAN),
+                    (config, value) -> config.allowSpectators = value,
+                    (config) -> config.allowSpectators).add()
+
             .append(new KeyedCodec<>("InvincibilityTime", Codec.INTEGER),
                     (config, value) -> config.invincibilityTime = value,
                     (config) -> config.invincibilityTime).add()
@@ -44,6 +48,7 @@ public class UHCConfig {
 
     // variables
     private boolean pregenerateWorld = true;
+    private boolean allowSpectators = false;
 
     private int invincibilityTime = 60;
     private int pvpTime = 600;
@@ -64,6 +69,13 @@ public class UHCConfig {
         this.pregenerateWorld = value;
     }
 
+    public boolean allowSpectators() {
+        return allowSpectators;
+    }
+
+    public void allowSpectators(boolean value) {
+        this.allowSpectators = value;
+    }
 
     public int invincibilityTime() {
         return invincibilityTime;

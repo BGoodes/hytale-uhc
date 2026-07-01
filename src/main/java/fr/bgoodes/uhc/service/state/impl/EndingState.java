@@ -1,12 +1,6 @@
 package fr.bgoodes.uhc.service.state.impl;
 
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.HytaleServer;
-import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.MessageUtil;
@@ -23,7 +17,7 @@ public class EndingState implements IGameState {
 
         MessageUtil.broadcastTitle("Fin de la partie", "", true);
 
-        context.getGamerules().allowNewPlayers(true);
+        context.getGamerules().allowNewPlayers(false);
         context.getGamerules().pvp(true);
         context.getGamerules().building(true);
         context.getGamerules().invincible(false);
@@ -40,17 +34,5 @@ public class EndingState implements IGameState {
         }
 
         this.time --;
-    }
-
-    @Override
-    public void onPlayerJoin(@NotNull PlayerReadyEvent event, @NotNull GameContext context) {
-        if (!event.getPlayerRef().isValid()) {
-            return;
-        }
-
-        Ref<EntityStore> playerRef = event.getPlayerRef();
-        Store<EntityStore> store = playerRef.getStore();
-
-        Player.setGameMode(playerRef, GameMode.Creative, store);
     }
 }

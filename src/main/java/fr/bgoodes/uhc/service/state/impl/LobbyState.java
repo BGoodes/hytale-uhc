@@ -29,25 +29,21 @@ public class LobbyState implements IGameState {
 
     @Override
     public void onPlayerJoin(@NotNull PlayerReadyEvent event, @NotNull GameContext context) {
-        if (!event.getPlayerRef().isValid()) {
-            return;
-        }
-
-        Ref<EntityStore> playerRef = event.getPlayerRef();
-        Store<EntityStore> store = playerRef.getStore();
+        Ref<EntityStore> ref = event.getPlayerRef();
+        Store<EntityStore> store = ref.getStore();
 
         // heal
-        EntityStatMap statMap = store.getComponent(playerRef, EntityStatMap.getComponentType());
+        EntityStatMap statMap = store.getComponent(ref, EntityStatMap.getComponentType());
         if (statMap != null) {
             statMap.maximizeStatValue(DefaultEntityStatTypes.getHealth());
         }
 
         // clear inventory & set gamemode
-        InventoryUtils.clear(playerRef, store);
-        Player.setGameMode(playerRef, GameMode.Adventure, store);
+        InventoryUtils.clear(ref, store);
+        Player.setGameMode(ref, GameMode.Adventure, store);
 
         // teleport
         Teleport teleport = Teleport.createForPlayer(LobbyUtil.LOBBY_SPAWN);
-        store.addComponent(playerRef, Teleport.getComponentType(), teleport);
+        store.addComponent(ref, Teleport.getComponentType(), teleport);
     }
 }
