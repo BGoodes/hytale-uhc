@@ -33,7 +33,7 @@ public class PlayerJoinListeners {
 
     // PlayerSetupConnectEvent -> PlayerConnectEvent -> AddPlayerToWorldEvent -> PlayerReadyEvent
     private void onPlayerSetupConnectEvent(PlayerSetupConnectEvent event) {
-        if (gameContext.getGamerules().allowNewPlayers() || gameContext.getConfig().allowSpectators()) {
+        if (gameContext.getGamerules().allowNewPlayers() || gameContext.getConfig().allowSpectators) {
             return;
         }
 

@@ -42,7 +42,7 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem {
         PlayerRef playerRef = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
         assert playerRef != null;
 
-        if (UHC.get().getGameContext().getConfig().allowSpectators()) {
+        if (UHC.get().getGameContext().getConfig().allowSpectators) {
             SpectatorUtil.addSpectator(playerRef, commandBuffer);
         } else {
             commandBuffer.removeEntity(ref, RemoveReason.REMOVE);

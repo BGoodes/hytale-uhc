@@ -107,7 +107,7 @@ public class UHC extends JavaPlugin {
         worldConfig.setPvpEnabled(true);
 
         //pregenerate
-        if (this.getConfig().get().pregenerateWorld()) {
+        if (this.getConfig().get().pregenerateWorld) {
             worldConfig.getChunkConfig().setPregenerateRegion(
                     new Box2D(
                             new Vector2d(-worldBorderService.getWorldBorderSize(), -worldBorderService.getWorldBorderSize()),

@@ -30,7 +30,7 @@ public class WorldBorderService {
 
     public WorldBorderService(@NotNull GameContext gameContext) {
         this.gameContext = gameContext;
-        this.worldBorderSize = gameContext.getConfig().borderSizeMax();
+        this.worldBorderSize = gameContext.getConfig().borderSizeMax;
     }
 
     public int getWorldBorderSize() {
@@ -39,7 +39,7 @@ public class WorldBorderService {
 
     public void update(@NotNull World world, @NotNull Store<EntityStore> store) {
 
-        if (gameContext.getGamerules().borderShrinking() && this.worldBorderSize > gameContext.getConfig().borderSizeMin()) {
+        if (gameContext.getGamerules().borderShrinking() && this.worldBorderSize > gameContext.getConfig().borderSizeMin) {
             this.worldBorderSize--;
         }
 
@@ -58,7 +58,7 @@ public class WorldBorderService {
                 //damage
                 Damage.EnvironmentSource damageSource = new Damage.EnvironmentSource("World Border");
                 int damageCauseIndex = DamageCause.getAssetMap().getIndex("OutOfWorld");
-                Damage damage = new Damage(damageSource, damageCauseIndex, gameContext.getConfig().borderDamage());
+                Damage damage = new Damage(damageSource, damageCauseIndex, gameContext.getConfig().borderDamage);
                 DamageSystems.executeDamage(ref, store, damage);
 
             } else if (isNearBorder(pos)) {
@@ -76,8 +76,8 @@ public class WorldBorderService {
         double distanceX = this.worldBorderSize - Math.abs(position.x);
         double distanceZ = this.worldBorderSize - Math.abs(position.z);
 
-        return distanceX <= gameContext.getConfig().borderWarningDistance() ||
-                distanceZ <= gameContext.getConfig().borderWarningDistance();
+        return distanceX <= gameContext.getConfig().borderWarningDistance ||
+                distanceZ <= gameContext.getConfig().borderWarningDistance;
     }
 
     private void displayWorldBorder(PlayerRef ref, boolean inside) {

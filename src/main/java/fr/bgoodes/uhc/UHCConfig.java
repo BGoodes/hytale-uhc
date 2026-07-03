@@ -47,95 +47,15 @@ public class UHCConfig {
             .build();
 
     // variables
-    private boolean pregenerateWorld = true;
-    private boolean allowSpectators = false;
+    public boolean pregenerateWorld = true;
+    public boolean allowSpectators = false;
 
-    private int invincibilityTime = 60;
-    private int pvpTime = 600;
-    private int borderShrinkTime = 2400;
+    public int invincibilityTime = 60;
+    public int pvpTime = 600;
+    public int borderShrinkTime = 2400;
 
-    private int borderSizeMax = 2000;
-    private int borderSizeMin = 200;
-    private int borderDamage = 10;
-    private int borderWarningDistance = 30;
-
-    // getters & setters
-
-    public boolean pregenerateWorld() {
-        return pregenerateWorld;
-    }
-
-    public void pregenerateWorld(boolean value) {
-        this.pregenerateWorld = value;
-    }
-
-    public boolean allowSpectators() {
-        return allowSpectators;
-    }
-
-    public void allowSpectators(boolean value) {
-        this.allowSpectators = value;
-    }
-
-    public int invincibilityTime() {
-        return invincibilityTime;
-    }
-
-    public void invincibilityTime(int value) {
-        this.invincibilityTime = value;
-    }
-
-
-    public int pvpTime() {
-        return pvpTime;
-    }
-
-    public void pvpTime(int value) {
-        this.pvpTime = value;
-    }
-
-
-    public int borderShrinkTime() {
-        return borderShrinkTime;
-    }
-
-    public void borderShrinkTime(int value) {
-        this.borderShrinkTime = value;
-    }
-
-
-    public int borderSizeMax() {
-        return borderSizeMax;
-    }
-
-    public void borderSizeMax(int value) {
-        this.borderSizeMax = value;
-    }
-
-
-    public int borderSizeMin() {
-        return borderSizeMin;
-    }
-
-    public void borderSizeMin(int value) {
-        this.borderSizeMin = value;
-    }
-
-
-    public int borderDamage() {
-        return borderDamage;
-    }
-
-    public void borderDamage(int value) {
-        this.borderDamage = value;
-    }
-
-
-    public int borderWarningDistance() {
-        return borderWarningDistance;
-    }
-
-    public void borderWarningDistance(int value) {
-        this.borderWarningDistance = value;
-    }
+    public int borderSizeMax = 2000;
+    public int borderSizeMin = 200;
+    public int borderDamage = 10;
+    public int borderWarningDistance = 30;
 }
