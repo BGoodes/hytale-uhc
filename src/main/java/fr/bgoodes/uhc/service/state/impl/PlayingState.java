@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
@@ -21,8 +22,10 @@ public class PlayingState implements IGameState {
 
     public static final String STATE_ID = "playing";
 
+    private final HUDService hudService = UHC.get().getHudService();
+
     private GameContext gameContext;
-    private int time;
+    private int time = 0;
 
     @Override
     public void start(@NotNull GameContext context) {
@@ -43,9 +46,15 @@ public class PlayingState implements IGameState {
         Universe.get().getPlayers().forEach(ref -> {
             gameContext.addPlayer(ref.getUuid());
 
-            if (ref.getReference() != null) {
+            if (ref.isValid() && ref.getReference() != null) {
                 Player.setGameMode(ref.getReference(), GameMode.Adventure, store);
                 store.addComponent(ref.getReference(), Teleport.getComponentType(), teleport);
+
+                // HUD
+                Player player = store.getComponent(ref.getReference(), Player.getComponentType());
+                if (player != null) {
+                    hudService.addHUDToPlayer(ref, player);
+                }
 
                 // heal
                 EntityStatMap statMap = store.getComponent(ref.getReference(), EntityStatMap.getComponentType());
@@ -66,33 +75,35 @@ public class PlayingState implements IGameState {
     }
 
     @Override
-    public void onClock() {
+    public void onClock(@NotNull World world, @NotNull Store<EntityStore> store) {
 
-        if (time == this.gameContext.getConfig().invincibilityTime) {
+        if (this.time == this.gameContext.getConfig().invincibilityTime) {
             this.gameContext.getGamerules().invincible(false);
             MessageUtil.broadcastMessage("Vous n'êtes désormais plus invincible.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
-        if (time == this.gameContext.getConfig().pvpTime) {
+        if (this.time == this.gameContext.getConfig().pvpTime) {
             this.gameContext.getGamerules().pvp(true);
             MessageUtil.broadcastMessage("Le PVP est désormais activé.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
-        if (time == this.gameContext.getConfig().borderShrinkTime) {
+        if (this.time == this.gameContext.getConfig().borderShrinkTime) {
             this.gameContext.getGamerules().borderShrinking(true);
             MessageUtil.broadcastMessage("La bordure du monde va commencer à réduire.");
             MessageUtil.broadcastSound("SFX_Crow_Death");
         }
 
-        if (this.gameContext.getConnectedPlayerCount() <= 1) {
-            MessageUtil.broadcastMessage("Fin de la partie !!!");
-            MessageUtil.broadcastSound("SFX_Rex_Alerted");
-            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
-            return;
-        }
+//        if (this.gameContext.getConnectedPlayerCount() <= 1) {
+//            MessageUtil.broadcastMessage("Fin de la partie !!!");
+//            MessageUtil.broadcastSound("SFX_Rex_Alerted");
+//            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
+//            return;
+//        }
 
-        time++;
+        this.hudService.update(world, store, time);
+
+        this.time++;
     }
 }

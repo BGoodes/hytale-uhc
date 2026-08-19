@@ -21,6 +21,7 @@ import fr.bgoodes.uhc.ecs.system.listener.PlayerDamageSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerDeathSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerPlaceBlockSystem;
 import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
+import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
@@ -41,8 +42,10 @@ public class UHC extends JavaPlugin {
     private static UHC instance;
 
     private final Config<UHCConfig> config = this.withConfig("uhc_config", UHCConfig.CODEC);
+
     private GameContext gameContext;
     private StateService stateService;
+    private HUDService hudService;
     private WorldBorderService worldBorderService;
 
     public UHC(@NonNullDecl JavaPluginInit init) {
@@ -61,8 +64,10 @@ public class UHC extends JavaPlugin {
         this.gameContext = new GameContext();
 
         //services
-        this.stateService = new StateService(this.getGameContext());
+        this.hudService = new HUDService();
         this.worldBorderService = new WorldBorderService(this.getGameContext());
+
+        this.stateService = new StateService(this.getGameContext());
 
         //components
         ComponentType<EntityStore, Spectator> spectatorComponentType = this.getEntityStoreRegistry()
@@ -184,6 +189,10 @@ public class UHC extends JavaPlugin {
 
     public @NotNull StateService getStateService() {
         return stateService;
+    }
+
+    public @NotNull HUDService getHudService() {
+        return hudService;
     }
 
     public @NotNull WorldBorderService getWorldBorderService() {

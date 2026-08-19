@@ -1,6 +1,9 @@
 package fr.bgoodes.uhc.service.state.impl;
 
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.HytaleServer;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.MessageUtil;
@@ -27,7 +30,7 @@ public class EndingState implements IGameState {
     }
 
     @Override
-    public void onClock() {
+    public void onClock(@NotNull World world, @NotNull Store<EntityStore> store) {
 
         if (time <= 0) {
             HytaleServer.get().shutdownServer();

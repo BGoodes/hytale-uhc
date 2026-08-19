@@ -1,5 +1,8 @@
 package fr.bgoodes.uhc.service.state.impl;
 
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
@@ -24,7 +27,7 @@ public class StartingState implements IGameState {
     }
 
     @Override
-    public void onClock() {
+    public void onClock(@NotNull World world, @NotNull Store<EntityStore> store) {
 
         if (time > 0) {
             MessageUtil.broadcastMessage("Début de la partie dans %ss".formatted(time));

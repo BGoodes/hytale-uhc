@@ -26,7 +26,7 @@ public class GameClockSystem extends DelayedSystem<EntityStore> {
             return;
         }
 
-        stateService.getCurrentState().onClock();
+        stateService.getCurrentState().onClock(world, store);
         worldBorderService.update(world, store);
     }
 }
