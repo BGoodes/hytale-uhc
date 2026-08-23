@@ -54,8 +54,8 @@ public class UHCConfig {
     public int pvpTime = 600;
     public int borderShrinkTime = 2400;
 
-    public int borderSizeMax = 2000;
+    public int borderSizeMax = 1200;
     public int borderSizeMin = 200;
     public int borderDamage = 10;
-    public int borderWarningDistance = 30;
+    public int borderWarningDistance = 20;
 }
