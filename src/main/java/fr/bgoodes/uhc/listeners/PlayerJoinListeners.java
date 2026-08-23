@@ -3,12 +3,14 @@ package fr.bgoodes.uhc.listeners;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.util.SpectatorUtil;
 import org.jetbrains.annotations.NotNull;
@@ -18,11 +20,14 @@ import java.awt.*;
 public class PlayerJoinListeners {
 
     private final GameContext gameContext;
-    private final StateService stateService;
 
-    public PlayerJoinListeners(@NotNull GameContext gameContext, @NotNull StateService stateService) {
+    private final StateService stateService;
+    private final HUDService hudService;
+
+    public PlayerJoinListeners(@NotNull GameContext gameContext, @NotNull StateService stateService, @NotNull HUDService hudService) {
         this.gameContext = gameContext;
         this.stateService = stateService;
+        this.hudService = hudService;
     }
 
     public void register(@NotNull EventRegistry eventBus) {
@@ -56,9 +61,14 @@ public class PlayerJoinListeners {
 
         Store<EntityStore> store = event.getPlayerRef().getStore();
         PlayerRef playerRef = store.getComponent(event.getPlayerRef(), PlayerRef.getComponentType());
+        Player player = store.getComponent(event.getPlayerRef(), Player.getComponentType());
 
-        if (!gameContext.getGamerules().allowNewPlayers() &&  playerRef != null && !gameContext.isPlayer(playerRef.getUuid())) {
-            SpectatorUtil.addSpectator(playerRef, store);
+        if (player != null && playerRef != null) {
+            hudService.addHUDToPlayer(playerRef, player);
+
+            if (!gameContext.getGamerules().allowNewPlayers() && !gameContext.isPlayer(playerRef.getUuid())) {
+                SpectatorUtil.addSpectator(playerRef, store);
+            }
         }
     }
 }

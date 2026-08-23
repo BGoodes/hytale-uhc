@@ -83,7 +83,7 @@ public class UHC extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystem());
 
         //events
-        new PlayerJoinListeners(this.getGameContext(), this.getStateService()).register(this.getEventRegistry());
+        new PlayerJoinListeners(this.getGameContext(), this.getStateService(), this.getHudService()).register(this.getEventRegistry());
 
         //commands
         this.getCommandRegistry().registerCommand(new UHCCommand());

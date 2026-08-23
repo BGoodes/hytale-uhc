@@ -8,10 +8,14 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Time;
+
 public class HUDService {
 
     public void addHUDToPlayer(@NotNull PlayerRef playerRef, @NotNull Player player) {
-        player.getHudManager().addCustomHud(playerRef, new TimerHUD(playerRef));
+        if (player.getHudManager().getCustomHud(TimerHUD.HUD_ID) == null) {
+            player.getHudManager().addCustomHud(playerRef, new TimerHUD(playerRef));
+        }
     }
 
     public void update(@NotNull World world, @NotNull Store<EntityStore> store, int time) {
