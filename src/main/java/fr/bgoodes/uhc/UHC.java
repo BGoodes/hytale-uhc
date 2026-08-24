@@ -26,6 +26,7 @@ import fr.bgoodes.uhc.ecs.system.listener.PlayerDeathSystem;
 import fr.bgoodes.uhc.ecs.system.listener.PlayerPlaceBlockSystem;
 import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
 import fr.bgoodes.uhc.service.hud.HUDService;
+import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
@@ -51,6 +52,7 @@ public class UHC extends JavaPlugin {
     private StateService stateService;
     private HUDService hudService;
     private WorldBorderService worldBorderService;
+    private PermissionService permissionService;
 
     public UHC(@NonNullDecl JavaPluginInit init) {
         super(init);
@@ -70,8 +72,8 @@ public class UHC extends JavaPlugin {
         //services
         this.hudService = new HUDService();
         this.worldBorderService = new WorldBorderService(this.getGameContext());
-
         this.stateService = new StateService(this.getGameContext());
+        this.permissionService = new PermissionService();
 
         //components
         ComponentType<EntityStore, Spectator> spectatorComponentType = this.getEntityStoreRegistry()
@@ -87,7 +89,7 @@ public class UHC extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystem());
 
         //events
-        new PlayerJoinListeners(this.getGameContext(), this.getStateService(), this.getHudService()).register(this.getEventRegistry());
+        new PlayerJoinListeners(this.getGameContext()).register(this.getEventRegistry());
 
         //commands
         this.getCommandRegistry().registerCommand(new UHCCommand());
@@ -97,6 +99,9 @@ public class UHC extends JavaPlugin {
 
     @Override
     protected void start() {
+
+        // add permissions group
+        this.permissionService.setup();
 
         // default world config
         LOGGER.atInfo().log("Checking for default world...");
@@ -157,6 +162,9 @@ public class UHC extends JavaPlugin {
     protected void shutdown() {
         LOGGER.atInfo().log("Shutting down UHC plugin...");
 
+        //remove host permissions
+        this.permissionService.removeHost();
+
         //delete player storage
         Path universePath = Universe.get().getPath();
         Path playersPath = universePath.resolve("players");
@@ -211,5 +219,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull WorldBorderService getWorldBorderService() {
         return worldBorderService;
+    }
+
+    public @NotNull PermissionService getPermissionService() {
+        return permissionService;
     }
 }

@@ -9,8 +9,10 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
+import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.util.SpectatorUtil;
 import org.jetbrains.annotations.NotNull;
@@ -21,13 +23,12 @@ public class PlayerJoinListeners {
 
     private final GameContext gameContext;
 
-    private final StateService stateService;
-    private final HUDService hudService;
+    private final StateService stateService = UHC.get().getStateService();
+    private final HUDService hudService = UHC.get().getHudService();
+    private final PermissionService permissionService = UHC.get().getPermissionService();
 
-    public PlayerJoinListeners(@NotNull GameContext gameContext, @NotNull StateService stateService, @NotNull HUDService hudService) {
+    public PlayerJoinListeners(@NotNull GameContext gameContext) {
         this.gameContext = gameContext;
-        this.stateService = stateService;
-        this.hudService = hudService;
     }
 
     public void register(@NotNull EventRegistry eventBus) {
@@ -38,11 +39,14 @@ public class PlayerJoinListeners {
 
     // PlayerSetupConnectEvent -> PlayerConnectEvent -> AddPlayerToWorldEvent -> PlayerReadyEvent
     private void onPlayerSetupConnectEvent(PlayerSetupConnectEvent event) {
-        if (gameContext.getGamerules().allowNewPlayers() || gameContext.getConfig().allowSpectators) {
+
+        if (!permissionService.hasHost() && !permissionService.canClaimHost(event.getUuid())) {
+            event.setCancelled(true);
+            event.setReason(Message.raw("Vous devez être membre du staff pour vous connecter.").color(Color.red));
             return;
         }
 
-        if (!gameContext.isPlayer(event.getUuid())) {
+        if (!gameContext.getGamerules().allowNewPlayers() && !gameContext.isPlayer(event.getUuid())) {
             event.setCancelled(true);
             event.setReason(Message.raw("Une partie est en cours !").color(Color.red));
         }

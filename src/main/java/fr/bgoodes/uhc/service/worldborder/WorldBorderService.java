@@ -23,11 +23,6 @@ import java.util.Set;
 
 public class WorldBorderService {
 
-    private final static int BORDER_HEIGHT = 1024;
-
-    private final static Vector3f COLOR_INSIDE = new Vector3f(0.5f, 0.85f, 1.0f);
-    private final static Vector3f COLOR_OUTSIDE = new Vector3f(1, 0, 0);
-
     private final GameContext gameContext;
 
     private int worldBorderSize;

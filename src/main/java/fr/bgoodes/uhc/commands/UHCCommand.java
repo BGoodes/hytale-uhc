@@ -1,44 +1,49 @@
 package fr.bgoodes.uhc.commands;
 
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
+import com.hypixel.hytale.server.core.entity.entities.player.movement.MovementManager;
+import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
+import com.hypixel.hytale.server.core.modules.entity.player.PlayerSkinComponent;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
-import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.service.state.impl.StartingState;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
 
 public class UHCCommand extends AbstractCommandCollection {
 
     public UHCCommand() {
         super("uhc", "UHC management commands");
 
-        addSubCommand(new StartCommand("start", "Start the UHC"));
+        this.addSubCommand(new HostCommand("host", "Configure the UHC"));
+        this.addSubCommand(new TestCommand("test", "Test command"));
     }
 
-    private static class StartCommand extends AbstractAsyncCommand {
+    @Override
+    protected boolean canGeneratePermission() {
+        return false;
+    }
 
-        private boolean started = false;
+    private static class TestCommand extends AbstractPlayerCommand {
 
-        public StartCommand(@NotNull String name, @NotNull String description) {
+        public TestCommand(@NotNull String name, @NotNull String description) {
             super(name, description);
         }
 
         @Override
-        protected @NotNull CompletableFuture<Void> executeAsync(@NotNull CommandContext commandContext) {
-
-            if (!started) {
-                started = true;
-                World world = UHC.get().getGameContext().getWorld();
-                world.execute(() -> {
-                    UHC.get().getStateService().changeGameState(StartingState.STATE_ID);
-                });
-            }
-
-
-            return CompletableFuture.completedFuture(null);
+        protected void execute(
+                @NotNull CommandContext commandContext,
+                @NotNull Store<EntityStore> store,
+                @NotNull Ref<EntityStore> ref,
+                @NotNull PlayerRef playerRef,
+                @NotNull World world
+        ) {
+            MovementManager movementManager = store.getComponent(ref, MovementManager.getComponentType());
+            PlayerSkinComponent skinComponent  = store.getComponent(ref, PlayerSkinComponent.getComponentType());
+            ModelComponent modelComponent = store.getComponent(ref, ModelComponent.getComponentType());
         }
     }
 }
