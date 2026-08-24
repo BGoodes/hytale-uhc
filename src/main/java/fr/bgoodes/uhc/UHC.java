@@ -3,7 +3,11 @@ package fr.bgoodes.uhc;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.shape.Box2D;
+import com.hypixel.hytale.protocol.Packet;
+import com.hypixel.hytale.protocol.packets.player.SyncPlayerPreferences;
 import com.hypixel.hytale.server.core.HytaleServer;
+import com.hypixel.hytale.server.core.io.PacketHandler;
+import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
@@ -137,6 +141,16 @@ public class UHC extends JavaPlugin {
         mapManager.addMarkerProvider("personal", markerProvider);
         mapManager.addMarkerProvider("shared", markerProvider);
         mapManager.addMarkerProvider("poi", markerProvider);
+
+        // always show armor
+        PacketAdapters.registerInbound((PacketHandler handler, Packet packet) -> {
+            if (packet instanceof SyncPlayerPreferences prefs) {
+                prefs.hideHelmet = false;
+                prefs.hideCuirass = false;
+                prefs.hideGauntlets = false;
+                prefs.hidePants = false;
+            }
+        });
     }
 
     @Override
