@@ -53,7 +53,7 @@ public class PlayerDamageSystem extends DamageEventSystem {
                 }
 
                 if (!gameContext.getGamerules().pvp()) {
-                    MessageUtil.message(damagerRef, "Le pvp n'est pas encore activé.", Color.RED);
+                    MessageUtil.send(damagerRef, MessageUtil.tr("uhc.gameState.playing.pvp.off").color(Color.red));
                     damage.setCancelled(true);
                 }
             }

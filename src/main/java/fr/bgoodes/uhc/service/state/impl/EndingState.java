@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,7 @@ public class EndingState implements IGameState {
     @Override
     public void start(@NotNull GameContext context) {
 
-        MessageUtil.broadcastTitle("Fin de la partie", "", true);
+        BroadcastUtil.title(MessageUtil.tr("uhc.gameState.ending"), null, true);
 
         context.getGamerules().allowNewPlayers(false);
         context.getGamerules().pvp(true);
@@ -26,7 +27,7 @@ public class EndingState implements IGameState {
         context.getGamerules().invincible(false);
 
         this.time = 60;
-        MessageUtil.broadcastMessage("Fermeture du serveur dans 1 minute.");
+        BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending.closing"));
     }
 
     @Override

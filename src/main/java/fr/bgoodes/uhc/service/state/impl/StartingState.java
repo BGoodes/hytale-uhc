@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,11 +31,11 @@ public class StartingState implements IGameState {
     public void onClock(@NotNull World world, @NotNull Store<EntityStore> store) {
 
         if (time > 0) {
-            MessageUtil.broadcastMessage("Début de la partie dans %ss".formatted(time));
-            MessageUtil.broadcastSound("SFX_Axe_Iron_Impact");
+            BroadcastUtil.message(MessageUtil.tr("uhc.gameState.starting").param("time", time));
+            BroadcastUtil.sound("SFX_Axe_Iron_Impact");
         } else {
-            MessageUtil.broadcastMessage("Début de la partie !!!");
-            MessageUtil.broadcastSound("SFX_Rex_Alerted");
+            BroadcastUtil.message(MessageUtil.tr("uhc.gameState.starting.start"));
+            BroadcastUtil.sound("SFX_Rex_Alerted");
             UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
         }
 

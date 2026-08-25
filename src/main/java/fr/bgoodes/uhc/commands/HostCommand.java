@@ -2,7 +2,6 @@ package fr.bgoodes.uhc.commands;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
@@ -13,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -49,9 +49,9 @@ public class HostCommand extends AbstractCommandCollection {
         ) {
             if (!permissionService.hasHost()) {
                 permissionService.setHost(playerRef.getUuid());
-                playerRef.sendMessage(Message.raw("Vous êtes désormais l'host de la partie.").color(Color.magenta));
+                MessageUtil.send(playerRef, MessageUtil.tr("uhc.host.claim.success").color(Color.magenta));
             } else {
-                playerRef.sendMessage(Message.raw("Il y a déjà un host dans la partie.").color(Color.red));
+                MessageUtil.send(playerRef, MessageUtil.tr("uhc.host.claim.failure").color(Color.red));
             }
         }
     }
@@ -76,7 +76,7 @@ public class HostCommand extends AbstractCommandCollection {
                     UHC.get().getStateService().changeGameState(StartingState.STATE_ID);
                 });
             } else {
-                context.sendMessage(Message.raw("La partie est déjà lancé.").color(Color.red));
+                MessageUtil.reply(context, MessageUtil.tr("uhc.host.start.failure").color(Color.red));
             }
 
 

@@ -1,0 +1,16 @@
+# === host ===
+
+host.claim.success = Vous êtes désormais l'hôte de la partie.
+host.claim.failure = Il y a déjà un host dans la partie.
+host.start.failure = La partie est déjà lancé.
+
+# == gameState ===
+
+gameState.starting = Début de la partie dans {time}s
+gameState.starting.start = Début de la partie !!!
+gameState.playing.invincibility.off = Vous n'êtes désormais plus invincible.
+gameState.playing.pvp.off = Le PVP n'est pas encore activé.
+gameState.playing.pvp.on = Le PVP est désormais activé.
+gameState.playing.border = La bordure du monde va commencer à réduire.
+gameState.ending = Fin de la partie !
+gameState.ending.closing =  Fermeture du serveur dans 1 minute.
