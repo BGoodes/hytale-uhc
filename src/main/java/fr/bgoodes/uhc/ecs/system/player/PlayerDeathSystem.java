@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.ecs.system.listener;
+package fr.bgoodes.uhc.ecs.system.player;
 
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;

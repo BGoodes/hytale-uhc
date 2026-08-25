@@ -20,10 +20,8 @@ import fr.bgoodes.uhc.commands.UHCCommand;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.ecs.components.Spectator;
 import fr.bgoodes.uhc.ecs.system.GameClockSystem;
-import fr.bgoodes.uhc.ecs.system.listener.PlayerBreakBlockSystem;
-import fr.bgoodes.uhc.ecs.system.listener.PlayerDamageSystem;
-import fr.bgoodes.uhc.ecs.system.listener.PlayerDeathSystem;
-import fr.bgoodes.uhc.ecs.system.listener.PlayerPlaceBlockSystem;
+import fr.bgoodes.uhc.ecs.system.UpgradeBenchSystem;
+import fr.bgoodes.uhc.ecs.system.player.*;
 import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
@@ -87,6 +85,8 @@ public class UHC extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new PlayerPlaceBlockSystem());
         this.getEntityStoreRegistry().registerSystem(new PlayerDamageSystem());
         this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystem());
+
+        this.getChunkStoreRegistry().registerSystem(new UpgradeBenchSystem());
 
         //events
         new PlayerJoinListeners(this.getGameContext()).register(this.getEventRegistry());
