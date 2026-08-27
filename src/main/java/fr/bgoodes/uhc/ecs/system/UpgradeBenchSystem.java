@@ -35,6 +35,6 @@ public class UpgradeBenchSystem extends RefSystem<ChunkStore> {
 
     @Override
     public @Nullable Query<ChunkStore> getQuery() {
-        return Query.and(BenchBlock.getComponentType());
+        return BenchBlock.getComponentType();
     }
 }

@@ -20,7 +20,7 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem {
     @Override
     public void onComponentAdded(
             @NotNull Ref<EntityStore> ref,
-            @NotNull DeathComponent deathComponent,
+            @NotNull DeathComponent death,
             @NotNull Store<EntityStore> store,
             @NotNull CommandBuffer<EntityStore> commandBuffer
     ) {
@@ -37,20 +37,11 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem {
             @NotNull Store<EntityStore> store,
             @NotNull CommandBuffer<EntityStore> commandBuffer
     ) {
-        death.setItemsLossMode(DeathConfig.ItemsLossMode.ALL);
 
-        PlayerRef playerRef = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
-        assert playerRef != null;
-
-        if (UHC.get().getGameContext().getConfig().allowSpectators) {
-            SpectatorUtil.addSpectator(playerRef, commandBuffer);
-        } else {
-            commandBuffer.removeEntity(ref, RemoveReason.REMOVE);
-        }
     }
 
     @Override
     public @Nullable Query<EntityStore> getQuery() {
-        return Query.and(PlayerRef.getComponentType());
+        return PlayerRef.getComponentType();
     }
 }

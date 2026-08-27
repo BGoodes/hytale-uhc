@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     compileOnly("org.jetbrains:annotations:24.1.0")
-    implementation("com.hypixel.hytale:Server:+")
+    implementation("com.hypixel.hytale:Server:0.6.0")
 }
 
 tasks.processResources.configure {

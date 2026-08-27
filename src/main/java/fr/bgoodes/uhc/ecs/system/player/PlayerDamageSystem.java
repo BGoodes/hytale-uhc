@@ -10,7 +10,6 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
-import fr.bgoodes.uhc.ecs.components.Spectator;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,12 +45,6 @@ public class PlayerDamageSystem extends DamageEventSystem {
             // Player damage per players
             if (sourceRef.isValid() && damager != null && damagerRef != null) {
 
-                //spectator
-                if (commandBuffer.getComponent(sourceRef, Spectator.getComponentType()) != null) {
-                    damage.setCancelled(true);
-                    return;
-                }
-
                 if (!gameContext.getGamerules().pvp()) {
                     MessageUtil.send(damagerRef, MessageUtil.tr("uhc.gameState.playing.pvp.off").color(Color.red));
                     damage.setCancelled(true);
@@ -67,6 +60,6 @@ public class PlayerDamageSystem extends DamageEventSystem {
 
     @Override
     public @Nullable Query<EntityStore> getQuery() {
-        return Query.and(Player.getComponentType());
+        return Player.getComponentType();
     }
 }

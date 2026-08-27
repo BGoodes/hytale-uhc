@@ -18,13 +18,10 @@ public class UHCCommand extends AbstractCommandCollection {
     public UHCCommand() {
         super("uhc", "UHC management commands");
 
+        this.requireNoPermission();
+
         this.addSubCommand(new HostCommand("host", "Configure the UHC"));
         this.addSubCommand(new TestCommand("test", "Test command"));
-    }
-
-    @Override
-    protected boolean canGeneratePermission() {
-        return false;
     }
 
     private static class TestCommand extends AbstractPlayerCommand {
@@ -41,9 +38,7 @@ public class UHCCommand extends AbstractCommandCollection {
                 @NotNull PlayerRef playerRef,
                 @NotNull World world
         ) {
-            MovementManager movementManager = store.getComponent(ref, MovementManager.getComponentType());
-            PlayerSkinComponent skinComponent  = store.getComponent(ref, PlayerSkinComponent.getComponentType());
-            ModelComponent modelComponent = store.getComponent(ref, ModelComponent.getComponentType());
+
         }
     }
 }

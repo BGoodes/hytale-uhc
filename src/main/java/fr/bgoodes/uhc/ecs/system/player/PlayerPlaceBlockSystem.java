@@ -11,7 +11,6 @@ import com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
-import fr.bgoodes.uhc.ecs.components.Spectator;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -29,11 +28,6 @@ public class PlayerPlaceBlockSystem extends EntityEventSystem<EntityStore, Place
             @NonNullDecl CommandBuffer<EntityStore> commandBuffer,
             @NonNullDecl PlaceBlockEvent event
     ) {
-        //spectator
-        if (chunk.getComponent(index, Spectator.getComponentType()) != null) {
-            event.setCancelled(true);
-        }
-
         if (event.isCancelled()) {
             return;
         }
@@ -51,6 +45,6 @@ public class PlayerPlaceBlockSystem extends EntityEventSystem<EntityStore, Place
     @NullableDecl
     @Override
     public Query<EntityStore> getQuery() {
-        return Query.and(Player.getComponentType());
+        return Player.getComponentType();
     }
 }

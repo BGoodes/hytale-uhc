@@ -27,9 +27,16 @@ public class PermissionService {
             Set<String> hostPerms = Set.of(
                     "uhc.host.*",
                     "hytale.command.gamemode.*",
+                    "hytale.teleport.command.tp",
+                    "hytale.teleport.command.tp.all",
                     "hytale.command.give.*",
+                    "hytale.system.command.inventory.clear",
                     "hytale.command.kick.*",
-                    "hytale.accesscontrolmodule.command.*"
+                    "hytale.command.kill.*",
+                    "hytale.accesscontrolmodule.command.*",
+                    "hytale.universe.command.world.settings.pregenerate.*",
+                    "hytale.universe.command.world.perf.*",
+                    "hytale.system.command.stop"
             );
             permissionsModule.addGroupPermission("Host", hostPerms);
         }

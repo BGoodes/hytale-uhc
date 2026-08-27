@@ -12,9 +12,13 @@ public class UHCConfig {
                     (config, value) -> config.pregenerateWorld = value, //setter
                     (config) -> config.pregenerateWorld).add() // getter
 
-            .append(new KeyedCodec<>("AllowSpectators", Codec.BOOLEAN),
-                    (config, value) -> config.allowSpectators = value,
-                    (config) -> config.allowSpectators).add()
+            .append(new KeyedCodec<>("ProximityChat", Codec.BOOLEAN),
+                    (config, value) -> config.proximityChat = value,
+                    (config) -> config.proximityChat).add()
+
+            .append(new KeyedCodec<>("ProximityChatDistance", Codec.INTEGER),
+                    (config, value) -> config.proximityChatDistance = value,
+                    (config) -> config.proximityChatDistance).add()
 
             .append(new KeyedCodec<>("InvincibilityTime", Codec.INTEGER),
                     (config, value) -> config.invincibilityTime = value,
@@ -48,7 +52,9 @@ public class UHCConfig {
 
     // variables
     public boolean pregenerateWorld = true;
-    public boolean allowSpectators = false;
+
+    public boolean proximityChat = true;
+    public int proximityChatDistance = 50;
 
     public int invincibilityTime = 60;
     public int pvpTime = 600;
