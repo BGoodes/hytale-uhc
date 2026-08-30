@@ -11,7 +11,6 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
-import fr.bgoodes.uhc.UHC;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,8 +22,6 @@ public class BroadcastUtil {
         Universe.get().getPlayers().forEach(
                 playerRef -> MessageUtil.send(playerRef, message)
         );
-
-        UHC.LOGGER.atInfo().log(message.toString());
     }
 
     public static void title(@NotNull Message primary, @Nullable Message secondary, boolean major) {

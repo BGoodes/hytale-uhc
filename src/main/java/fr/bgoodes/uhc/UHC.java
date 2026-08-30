@@ -175,8 +175,8 @@ public class UHC extends JavaPlugin {
     protected void shutdown() {
         LOGGER.atInfo().log("Shutting down UHC plugin...");
 
-        //remove host permissions
-        this.permissionService.removeHost();
+        //remove host & spec permissions
+        this.permissionService.shutdown();
 
         //delete player storage
         Path universePath = Universe.get().getPath();

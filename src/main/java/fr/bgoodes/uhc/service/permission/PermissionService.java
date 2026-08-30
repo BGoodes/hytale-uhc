@@ -2,7 +2,6 @@ package fr.bgoodes.uhc.service.permission;
 
 import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import fr.bgoodes.uhc.UHC;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.UUID;
@@ -21,14 +20,13 @@ public class PermissionService {
             permissionsModule.addGroupPermission("Staff",  staffPerms);
         }
 
-
         // host
         if (!permissionsModule.getAllRegisteredGroups().contains("Host")) {
             Set<String> hostPerms = Set.of(
                     "uhc.host.*",
                     "hytale.command.gamemode.*",
+                    "hytale.command.teleport.*",
                     "hytale.teleport.command.tp",
-                    "hytale.teleport.command.tp.all",
                     "hytale.command.give.*",
                     "hytale.system.command.inventory.clear",
                     "hytale.command.kick.*",
@@ -42,6 +40,13 @@ public class PermissionService {
         }
     }
 
+    public void shutdown() {
+        removeHost();
+
+        PermissionsModule.get().removeUserPermissionFromAll("hytale.teleport.command.tp");
+        PermissionsModule.get().removeUserPermissionFromAll("hytale.command.teleport.self");
+    }
+
     public Boolean hasHost() {
         return this.hostID != null;
     }
@@ -51,12 +56,20 @@ public class PermissionService {
     }
 
     public void setHost(UUID uuid) {
+        removeHost();
         PermissionsModule.get().addUserToGroup(uuid, "Host");
         this.hostID = uuid;
     }
 
     public void removeHost() {
-        PermissionsModule.get().removeUserFromGroup(hostID, "Host");
-        this.hostID = null;
+        if (hostID != null) {
+            PermissionsModule.get().removeUserFromGroup(hostID, "Host");
+            this.hostID = null;
+        }
+    }
+
+    public void addSpectator(UUID uuid) {
+        PermissionsModule.get().addUserPermission(uuid, Set.of("hytale.teleport.command.tp"));
+        PermissionsModule.get().addUserPermission(uuid, Set.of("hytale.command.teleport.self"));
     }
 }

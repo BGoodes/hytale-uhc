@@ -2,20 +2,20 @@ package fr.bgoodes.uhc.ecs.system.player;
 
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
-import com.hypixel.hytale.server.core.asset.type.gameplay.DeathConfig;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.util.SpectatorUtil;
+import fr.bgoodes.uhc.service.permission.PermissionService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PlayerDeathSystem extends DeathSystems.OnDeathSystem {
+
+    private final PermissionService permissionService = UHC.get().getPermissionService();
 
     @Override
     public void onComponentAdded(
@@ -28,6 +28,7 @@ public class PlayerDeathSystem extends DeathSystems.OnDeathSystem {
         assert playerRef != null;
 
         UHC.get().getGameContext().removePlayer(playerRef.getUuid());
+        permissionService.addSpectator(playerRef.getUuid());
     }
 
     @Override
