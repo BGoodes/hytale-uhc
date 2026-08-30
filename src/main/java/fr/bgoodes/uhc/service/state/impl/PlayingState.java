@@ -94,12 +94,12 @@ public class PlayingState implements IGameState {
             BroadcastUtil.sound("SFX_Crow_Death");
         }
 
-//        if (this.gameContext.getConnectedPlayerCount() <= 1) {
-//            MessageUtil.broadcastMessage("Fin de la partie !!!");
-//            MessageUtil.broadcastSound("SFX_Rex_Alerted");
-//            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
-//            return;
-//        }
+        if (this.gameContext.getConnectedPlayerCount() <= 1) {
+            BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending"));
+            BroadcastUtil.sound("SFX_Rex_Alerted");
+            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
+            return;
+        }
 
         this.hudService.update(world, store, time);
 
