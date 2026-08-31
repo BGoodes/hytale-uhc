@@ -1,14 +1,16 @@
 package fr.bgoodes.uhc.service.hud;
 
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.sql.Time;
+import java.util.function.Consumer;
 
 public class HUDService {
 
@@ -16,9 +18,62 @@ public class HUDService {
         if (player.getHudManager().getCustomHud(TimerHUD.HUD_ID) == null) {
             player.getHudManager().addCustomHud(playerRef, new TimerHUD(playerRef));
         }
+
+        if (player.getHudManager().getCustomHud(TitleHUD.HUD_ID) == null) {
+            player.getHudManager().addCustomHud(playerRef, new TitleHUD(playerRef));
+        }
     }
 
-    public void update(@NotNull World world, @NotNull Store<EntityStore> store, int time) {
+    public void updateTimer(
+            @NotNull World world,
+            @NotNull Store<EntityStore> store,
+            @Nullable Message phaseLabel,
+            long secondsRemaining,
+            long totalElapsedSeconds
+    ) {
+        forEachHud(world, store, TimerHUD.HUD_ID, TimerHUD.class,
+                hud -> hud.refresh(phaseLabel, secondsRemaining, totalElapsedSeconds));
+    }
+
+    public void showTimer(@NotNull World world, @NotNull Store<EntityStore> store) {
+        forEachHud(world, store, TimerHUD.HUD_ID, TimerHUD.class, hud -> hud.setVisible(true));
+    }
+
+    public void hideTimer(@NotNull World world, @NotNull Store<EntityStore> store) {
+        forEachHud(world, store, TimerHUD.HUD_ID, TimerHUD.class, hud -> hud.setVisible(false));
+    }
+
+    public void showTitle(
+            @NotNull World world,
+            @NotNull Store<EntityStore> store,
+            @NotNull Message primary,
+            @Nullable Message secondary)
+    {
+        showTitle(world, store, primary, secondary, 4);
+    }
+
+    public void showTitle(
+            @NotNull World world,
+            @NotNull Store<EntityStore> store,
+            @NotNull Message primary,
+            @Nullable Message secondary,
+            long durationTicks
+    ) {
+        forEachHud(world, store, TitleHUD.HUD_ID, TitleHUD.class,
+                hud -> hud.show(primary, secondary, durationTicks));
+    }
+
+    public void tickTitles(@NotNull World world, @NotNull Store<EntityStore> store) {
+        forEachHud(world, store, TitleHUD.HUD_ID, TitleHUD.class, TitleHUD::tickHide);
+    }
+
+    private <T extends CustomUIHud> void forEachHud(
+            @NotNull World world,
+            @NotNull Store<EntityStore> store,
+            @NotNull String hudId,
+            @NotNull Class<T> hudType,
+            @NotNull Consumer<T> action
+    ) {
         for (PlayerRef ref : world.getPlayerRefs()) {
             if (!ref.isValid() || ref.getReference() == null) {
                 continue;
@@ -30,10 +85,10 @@ public class HUDService {
                 continue;
             }
 
-            CustomUIHud hud = player.getHudManager().getCustomHud(TimerHUD.HUD_ID);
+            CustomUIHud hud = player.getHudManager().getCustomHud(hudId);
 
-            if (hud instanceof TimerHUD testHud) {
-                testHud.refresh(time);
+            if (hudType.isInstance(hud)) {
+                action.accept(hudType.cast(hud));
             }
         }
     }

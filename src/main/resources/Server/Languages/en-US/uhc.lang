@@ -6,7 +6,6 @@ host.start.failure = La partie est déjà lancé.
 
 # == gameState ===
 
-gameState.starting = Début de la partie dans {time}s
 gameState.starting.start = Début de la partie !!!
 gameState.playing.invincibility.off = Vous n'êtes désormais plus invincible.
 gameState.playing.pvp.off = Le PVP n'est pas encore activé.
@@ -19,3 +18,14 @@ gameState.ending.closing =  Fermeture du serveur dans 1 minute.
 
 death.player = {player} est mort.
 death.killed = {player} a été tué par {killer}.
+
+# === hud ===
+
+hud.title.invincibility.off = Invincibilité terminée !
+hud.title.pvp.on = PVP activé !
+hud.title.border = La bordure rétrécit !
+hud.title.ending.winner = Vainqueur : {name}
+
+hud.timer.phase.invincibility = Fin de l'invincibilité dans
+hud.timer.phase.pvp = Début du PVP dans
+hud.timer.phase.border = Réduction de la bordure dans

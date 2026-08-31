@@ -2,6 +2,7 @@ package fr.bgoodes.uhc.service.state.impl;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.GameMode;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryUtils;
 import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
@@ -12,6 +13,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.UHCConfig;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
@@ -19,6 +21,7 @@ import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PlayingState implements IGameState {
 
@@ -66,6 +69,8 @@ public class PlayingState implements IGameState {
         //delete lobby
         LobbyUtil.remove(world);
 
+        hudService.showTimer(world, store);
+
         // time set day
         WorldTimeResource worldTimeResource = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
         worldTimeResource.setDayTime(0.2, world, world.getEntityStore().getStore());
@@ -80,18 +85,24 @@ public class PlayingState implements IGameState {
             this.gameContext.getGamerules().invincible(false);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.invincibility.off"));
             BroadcastUtil.sound("SFX_Crow_Death");
+            hudService.showTitle(world, store,
+                    MessageUtil.tr("uhc.hud.title.invincibility.off"), null);
         }
 
         if (this.time == this.gameContext.getConfig().pvpTime) {
             this.gameContext.getGamerules().pvp(true);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.pvp.on"));
             BroadcastUtil.sound("SFX_Crow_Death");
+            hudService.showTitle(world, store,
+                    MessageUtil.tr("uhc.hud.title.pvp.on"), null);
         }
 
         if (this.time == this.gameContext.getConfig().borderShrinkTime) {
             this.gameContext.getGamerules().borderShrinking(true);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.border"));
             BroadcastUtil.sound("SFX_Crow_Death");
+            hudService.showTitle(world, store,
+                    MessageUtil.tr("uhc.hud.title.border"), null);
         }
 
         if (this.gameContext.getConnectedPlayerCount() <= 1) {
@@ -101,8 +112,32 @@ public class PlayingState implements IGameState {
             return;
         }
 
-        this.hudService.update(world, store, time);
+        NextEvent nextEvent = computeNextEvent();
+        Message phaseLabel = nextEvent == null ? null : nextEvent.label();
+        long secondsRemaining = nextEvent == null ? 0 : nextEvent.seconds();
+        hudService.updateTimer(world, store, phaseLabel, secondsRemaining, time);
 
         this.time++;
     }
+
+    //TODO: refacto phase management (is a phase a state ??)
+    private @Nullable NextEvent computeNextEvent() {
+        UHCConfig config = this.gameContext.getConfig();
+
+        if (time < config.invincibilityTime) {
+            return new NextEvent(MessageUtil.tr("uhc.hud.timer.phase.invincibility"), config.invincibilityTime - time);
+        }
+
+        if (time < config.pvpTime) {
+            return new NextEvent(MessageUtil.tr("uhc.hud.timer.phase.pvp"), config.pvpTime - time);
+        }
+
+        if (time < config.borderShrinkTime) {
+            return new NextEvent(MessageUtil.tr("uhc.hud.timer.phase.border"), config.borderShrinkTime - time);
+        }
+
+        return null;
+    }
+
+    private record NextEvent(@NotNull Message label, long seconds) {}
 }

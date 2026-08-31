@@ -1,0 +1,92 @@
+Group #TimerRoot {
+    Anchor: (Top: 50, Width: 560, Height: 56);
+    LayoutMode: Top;
+    Visible: false;
+
+    Group #TwoColumnGroup {
+        Anchor: (Full: 0);
+        LayoutMode: Left;
+
+        Group {
+            FlexWeight: 1;
+            LayoutMode: Top;
+
+            Label #TotalTimeCaption {
+                Anchor: (Height: 16);
+                Style: (
+                    FontSize: 12,
+                    TextColor: #ffffff(0.6),
+                    HorizontalAlignment: Center,
+                    RenderBold: true
+                );
+                Text: "Temps de jeu";
+            }
+
+            Label #TotalTimeLabel {
+                Anchor: (Height: 34);
+                Style: (
+                    FontSize: 24,
+                    TextColor: #ffffff,
+                    HorizontalAlignment: Center,
+                    RenderBold: true
+                );
+                Text: "00:00";
+            }
+        }
+
+        Group {
+            FlexWeight: 1;
+            LayoutMode: Top;
+
+            Label #PhaseLabel {
+                Anchor: (Height: 16);
+                Style: (
+                    FontSize: 12,
+                    TextColor: #ffffff(0.6),
+                    HorizontalAlignment: Center,
+                    RenderBold: true
+                );
+                Text: "";
+            }
+
+            Label #TimerLabel {
+                Anchor: (Height: 34);
+                Style: (
+                    FontSize: 24,
+                    TextColor: #ffffff,
+                    HorizontalAlignment: Center,
+                    RenderBold: true
+                );
+                Text: "00:00";
+            }
+        }
+    }
+
+    Group #CenteredGroup {
+        Anchor: (Full: 0);
+        LayoutMode: Top;
+        Visible: false;
+
+        Label #TotalTimeCaptionCentered {
+            Anchor: (Height: 16);
+            Style: (
+                FontSize: 12,
+                TextColor: #ffffff(0.6),
+                HorizontalAlignment: Center,
+                RenderBold: true
+            );
+            Text: "Temps de jeu";
+        }
+
+        Label #TotalTimeLabelCentered {
+            Anchor: (Height: 34);
+            Style: (
+                FontSize: 24,
+                TextColor: #ffffff,
+                HorizontalAlignment: Center,
+                RenderBold: true
+            );
+            Text: "00:00";
+        }
+    }
+}
