@@ -1,12 +1,10 @@
 package fr.bgoodes.uhc.util;
 
-import com.hypixel.hytale.protocol.ItemWithAllMetadata;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.io.PacketHandler;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
@@ -19,8 +17,12 @@ public class BroadcastUtil {
     private BroadcastUtil() {}
 
     public static void message(@NotNull Message message) {
+        message(message, true);
+    }
+
+    public static void message(@NotNull Message message, boolean prefix) {
         Universe.get().getPlayers().forEach(
-                playerRef -> MessageUtil.send(playerRef, message)
+                playerRef -> MessageUtil.send(playerRef, message, prefix)
         );
     }
 
@@ -45,22 +47,13 @@ public class BroadcastUtil {
             @Nullable String iconId,
             @Nullable NotificationStyle style
     ) {
-        Universe.get().getPlayers().forEach(playerRef -> {
-            PacketHandler packetHandler = playerRef.getPacketHandler();
 
-            ItemWithAllMetadata icon = null;
-            if (iconId != null) {
-                icon = new ItemStack(iconId, 1).toPacket();
-            }
-
-            NotificationUtil.sendNotification(
-                    packetHandler,
-                    primary,
-                    secondary,
-                    icon,
-                    style == null ? NotificationStyle.Default : style
-             );
-        });
+        NotificationUtil.sendNotificationToUniverse(
+                primary,
+                secondary,
+                iconId == null ? null : new ItemStack(iconId, 1).toPacket(),
+                style == null ? NotificationStyle.Default : style
+        );
     }
 
     public static void sound(@NotNull String soundKey) {

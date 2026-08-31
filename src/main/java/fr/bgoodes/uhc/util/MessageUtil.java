@@ -21,8 +21,12 @@ public class MessageUtil {
     }
 
     public static void send(@NotNull PlayerRef playerRef, @NotNull Message message) {
+        send(playerRef, message, true);
+    }
+
+    public static void send(@NotNull PlayerRef playerRef, @NotNull Message message, boolean prefix) {
         playerRef.sendMessage(
-                Message.join(PREFIX, message)
+                prefix ? Message.join(PREFIX, message) : message
         );
     }
 

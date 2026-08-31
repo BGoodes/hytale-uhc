@@ -14,3 +14,8 @@ gameState.playing.pvp.on = Le PVP est désormais activé.
 gameState.playing.border = La bordure du monde va commencer à réduire.
 gameState.ending = Fin de la partie !
 gameState.ending.closing =  Fermeture du serveur dans 1 minute.
+
+# === death ===
+
+death.player = {player} est mort.
+death.killed = {player} a été tué par {killer}.
