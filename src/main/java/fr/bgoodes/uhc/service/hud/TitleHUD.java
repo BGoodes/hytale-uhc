@@ -11,7 +11,7 @@ public class TitleHUD extends CustomUIHud {
 
     public static final String HUD_ID = "uhc_title";
 
-    private long ticksUntilHide = -1;
+    private long secondsUntilHide = -1;
 
     public TitleHUD(@NotNull PlayerRef playerRef) {
         super(playerRef, HUD_ID);
@@ -23,7 +23,7 @@ public class TitleHUD extends CustomUIHud {
         ui.set("#TitleRoot.Visible", false);
     }
 
-    public void show(@NotNull Message primary, @Nullable Message secondary, long durationTicks) {
+    public void show(@NotNull Message primary, @Nullable Message secondary, long durationSeconds) {
         UICommandBuilder ui = new UICommandBuilder();
         ui.set("#TitleRoot.Visible", true);
         ui.set("#PrimaryLabel.TextSpans", primary);
@@ -35,17 +35,17 @@ public class TitleHUD extends CustomUIHud {
 
         update(false, ui);
 
-        this.ticksUntilHide = durationTicks;
+        this.secondsUntilHide = durationSeconds;
     }
 
-    public void tickHide() {
-        if (ticksUntilHide <= 0) {
+    public void onSecondElapsed() {
+        if (secondsUntilHide <= 0) {
             return;
         }
 
-        ticksUntilHide--;
+        secondsUntilHide--;
 
-        if (ticksUntilHide == 0) {
+        if (secondsUntilHide == 0) {
             UICommandBuilder ui = new UICommandBuilder();
             ui.set("#TitleRoot.Visible", false);
 

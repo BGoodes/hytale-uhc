@@ -30,7 +30,6 @@ public class GameClockSystem extends DelayedSystem<EntityStore> {
 
         stateService.getCurrentState().onClock(world, store);
         worldBorderService.update(world, store);
-
-        hudService.tickTitles(world, store);
+        hudService.advanceTitles(world, store);
     }
 }

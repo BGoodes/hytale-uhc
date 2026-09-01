@@ -83,7 +83,7 @@ public class PlayerDeathSystems {
             if (killerName != null) {
                 deathMessage.param("killer", killerName);
             }
-            BroadcastUtil.message(deathMessage.color(Color.ORANGE).bold(true));
+            BroadcastUtil.message(deathMessage.color(Color.ORANGE).bold(true), false);
             BroadcastUtil.sound("SFX_Pistol_Fire");
         }
 

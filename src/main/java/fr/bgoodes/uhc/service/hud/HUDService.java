@@ -24,6 +24,7 @@ public class HUDService {
         }
     }
 
+    // timer UHD management
     public void updateTimer(
             @NotNull World world,
             @NotNull Store<EntityStore> store,
@@ -43,6 +44,7 @@ public class HUDService {
         forEachHud(world, store, TimerHUD.HUD_ID, TimerHUD.class, hud -> hud.setVisible(false));
     }
 
+    // title management
     public void showTitle(
             @NotNull World world,
             @NotNull Store<EntityStore> store,
@@ -57,14 +59,14 @@ public class HUDService {
             @NotNull Store<EntityStore> store,
             @NotNull Message primary,
             @Nullable Message secondary,
-            long durationTicks
+            long durationSeconds
     ) {
         forEachHud(world, store, TitleHUD.HUD_ID, TitleHUD.class,
-                hud -> hud.show(primary, secondary, durationTicks));
+                hud -> hud.show(primary, secondary, durationSeconds));
     }
 
-    public void tickTitles(@NotNull World world, @NotNull Store<EntityStore> store) {
-        forEachHud(world, store, TitleHUD.HUD_ID, TitleHUD.class, TitleHUD::tickHide);
+    public void advanceTitles(@NotNull World world, @NotNull Store<EntityStore> store) {
+        forEachHud(world, store, TitleHUD.HUD_ID, TitleHUD.class, TitleHUD::onSecondElapsed);
     }
 
     private <T extends CustomUIHud> void forEachHud(
