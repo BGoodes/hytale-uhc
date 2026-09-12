@@ -66,7 +66,7 @@ public class UHCConfig {
 
     public int disconnectEliminationDelay = 180;
 
-    public int borderSizeMax = 1200;
+    public int borderSizeMax = 1600;
     public int borderSizeMin = 200;
     public int borderDamage = 10;
     public int borderWarningDistance = 20;

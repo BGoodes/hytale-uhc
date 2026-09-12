@@ -154,10 +154,22 @@ public class UHC extends JavaPlugin {
         VoiceModule.get().setVoiceEnabled(this.getConfig().get().proximityChat);
         VoiceModule.get().setMaxHearingDistance(this.getConfig().get().proximityChatDistance);
 
-        // remove markers
         WorldMapManager mapManager = defaultWorld.getWorldMapManager();
         PlayerMarkerProvider markerProvider = new PlayerMarkerProvider();
 
+        // reveal the whole play area on the world map
+//        int borderRadiusBlocks = this.getConfig().get().borderSizeMax;
+//        int neededChunkRadius = (int) Math.ceil((2.0 * borderRadiusBlocks) / ChunkUtil.SIZE);
+//        int chunkRadius = Math.min(neededChunkRadius, WorldMapConfig.ABSOLUTE_MAX_VIEW_RADIUS);
+//
+//        WorldWorldMapConfig mapConfig = new WorldWorldMapConfig();
+//        mapConfig.setViewRadiusMin(chunkRadius);
+//        mapConfig.setViewRadiusMax(chunkRadius);
+//        worldConfig.setWorldMapConfig(mapConfig);
+//
+//        mapManager.setGenerator(mapManager.getGenerator());
+
+        // remove markers
         mapManager.addMarkerProvider("spawn", markerProvider);
         mapManager.addMarkerProvider("playerIcons", markerProvider);
         mapManager.addMarkerProvider("death", markerProvider);
