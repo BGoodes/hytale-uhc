@@ -107,7 +107,7 @@ public class PlayingState implements IGameState {
                     MessageUtil.tr("uhc.hud.title.border"), null);
         }
 
-        if (this.playerService.getConnectedParticipantCount() <= 1) {
+        if (this.playerService.getParticipantCount() <= 1) {
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending"));
             BroadcastUtil.sound("SFX_Rex_Alerted");
             UHC.get().getStateService().changeGameState(EndingState.STATE_ID);

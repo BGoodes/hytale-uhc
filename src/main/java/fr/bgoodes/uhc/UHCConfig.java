@@ -32,6 +32,10 @@ public class UHCConfig {
                     (config, value) -> config.borderShrinkTime = value,
                     (config) -> config.borderShrinkTime).add()
 
+            .append(new KeyedCodec<>("DisconnectEliminationDelay", Codec.INTEGER),
+                    (config, value) -> config.disconnectEliminationDelay = value,
+                    (config) -> config.disconnectEliminationDelay).add()
+
             .append(new KeyedCodec<>("BorderSizeMax", Codec.INTEGER),
                     (config, value) -> config.borderSizeMax = value,
                     (config) -> config.borderSizeMax).add()
@@ -59,6 +63,8 @@ public class UHCConfig {
     public int invincibilityTime = 60;
     public int pvpTime = 600;
     public int borderShrinkTime = 2400;
+
+    public int disconnectEliminationDelay = 180;
 
     public int borderSizeMax = 1200;
     public int borderSizeMin = 200;

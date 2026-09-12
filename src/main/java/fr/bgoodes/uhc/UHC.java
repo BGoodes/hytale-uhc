@@ -19,13 +19,14 @@ import com.hypixel.hytale.server.core.universe.world.worldmap.WorldMapManager;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
 import fr.bgoodes.uhc.context.GameContext;
+import fr.bgoodes.uhc.ecs.system.DisconnectEliminationSystem;
 import fr.bgoodes.uhc.ecs.system.GameClockSystem;
 import fr.bgoodes.uhc.ecs.system.UpgradeBenchSystem;
 import fr.bgoodes.uhc.ecs.system.player.PlayerBreakBlockSystem;
 import fr.bgoodes.uhc.ecs.system.player.PlayerDamageSystem;
 import fr.bgoodes.uhc.ecs.system.player.PlayerDeathSystems;
 import fr.bgoodes.uhc.ecs.system.player.PlayerPlaceBlockSystem;
-import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
+import fr.bgoodes.uhc.listeners.PlayerConnectionListeners;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.player.PlayerService;
@@ -87,18 +88,18 @@ public class UHC extends JavaPlugin {
 
         //systems
         this.getEntityStoreRegistry().registerSystem(new GameClockSystem());
+        this.getEntityStoreRegistry().registerSystem(new DisconnectEliminationSystem());
 
         this.getEntityStoreRegistry().registerSystem(new PlayerBreakBlockSystem());
         this.getEntityStoreRegistry().registerSystem(new PlayerPlaceBlockSystem());
         this.getEntityStoreRegistry().registerSystem(new PlayerDamageSystem());
 
-        this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystems.RemovePlayer());
-        this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystems.DeathMessage());
+        this.getEntityStoreRegistry().registerSystem(new PlayerDeathSystems.Eliminate());
 
         this.getChunkStoreRegistry().registerSystem(new UpgradeBenchSystem());
 
         //events
-        new PlayerJoinListeners(this.getGameContext()).register(this.getEventRegistry());
+        new PlayerConnectionListeners(this.getGameContext()).register(this.getEventRegistry());
 
         //commands
         this.getCommandRegistry().registerCommand(new UHCCommand());

@@ -5,6 +5,7 @@ import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class PlayerJoinListeners {
+public class PlayerConnectionListeners {
 
     private final GameContext gameContext;
 
@@ -29,7 +30,7 @@ public class PlayerJoinListeners {
     private final PermissionService permissionService = UHC.get().getPermissionService();
     private final PlayerService playerService = UHC.get().getPlayerService();
 
-    public PlayerJoinListeners(@NotNull GameContext gameContext) {
+    public PlayerConnectionListeners(@NotNull GameContext gameContext) {
         this.gameContext = gameContext;
     }
 
@@ -37,6 +38,7 @@ public class PlayerJoinListeners {
         eventBus.register(PlayerSetupConnectEvent.class, this::onPlayerSetupConnectEvent);
         eventBus.register(PlayerConnectEvent.class, this::onPlayerConnect);
         eventBus.registerGlobal(PlayerReadyEvent.class, this::onPlayerJoin);
+        eventBus.registerGlobal(PlayerDisconnectEvent.class, this::onPlayerDisconnect);
     }
 
     // PlayerSetupConnectEvent -> PlayerConnectEvent -> AddPlayerToWorldEvent -> PlayerReadyEvent
@@ -64,11 +66,17 @@ public class PlayerJoinListeners {
         Player player = store.getComponent(event.getPlayerRef(), Player.getComponentType());
 
         if (player != null && playerRef != null) {
+            playerService.removeDisconnectCountdown(playerRef.getUuid());
             hudService.addHUDToPlayer(playerRef, player);
 
             if (!gameContext.getGamerules().allowNewPlayers() && !playerService.isParticipant(playerRef.getUuid())) {
                 SpectatorUtil.addSpectator(playerRef, store);
             }
         }
+    }
+
+    private void onPlayerDisconnect(@NotNull PlayerDisconnectEvent event) {
+        int delay = UHC.get().getConfig().get().disconnectEliminationDelay;
+        playerService.setDisconnectCountdown(event.getPlayerRef().getUuid(), delay);
     }
 }
