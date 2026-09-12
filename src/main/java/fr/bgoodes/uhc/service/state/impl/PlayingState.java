@@ -86,7 +86,7 @@ public class PlayingState implements IGameState {
         if (this.time == this.gameContext.getConfig().invincibilityTime) {
             this.gameContext.getGamerules().invincible(false);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.invincibility.off"));
-            BroadcastUtil.sound("SFX_Crow_Death");
+            BroadcastUtil.sound("SFX_Drum_Stinger");
             hudService.showTitle(world, store,
                     MessageUtil.tr("uhc.hud.title.invincibility.off"), null);
         }
@@ -94,7 +94,7 @@ public class PlayingState implements IGameState {
         if (this.time == this.gameContext.getConfig().pvpTime) {
             this.gameContext.getGamerules().pvp(true);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.pvp.on"));
-            BroadcastUtil.sound("SFX_Crow_Death");
+            BroadcastUtil.sound("SFX_Drum_Stinger");
             hudService.showTitle(world, store,
                     MessageUtil.tr("uhc.hud.title.pvp.on"), null);
         }
@@ -102,7 +102,7 @@ public class PlayingState implements IGameState {
         if (this.time == this.gameContext.getConfig().borderShrinkTime) {
             this.gameContext.getGamerules().borderShrinking(true);
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.playing.border"));
-            BroadcastUtil.sound("SFX_Crow_Death");
+            BroadcastUtil.sound("SFX_Drum_Stinger");
             hudService.showTitle(world, store,
                     MessageUtil.tr("uhc.hud.title.border"), null);
         }

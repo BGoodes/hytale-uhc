@@ -59,8 +59,6 @@ public class PlayerConnectionListeners {
             return;
         }
 
-        stateService.getCurrentState().onPlayerJoin(event, gameContext);
-
         Store<EntityStore> store = event.getPlayerRef().getStore();
         PlayerRef playerRef = store.getComponent(event.getPlayerRef(), PlayerRef.getComponentType());
         Player player = store.getComponent(event.getPlayerRef(), Player.getComponentType());
@@ -73,6 +71,8 @@ public class PlayerConnectionListeners {
                 SpectatorUtil.addSpectator(playerRef, store);
             }
         }
+
+        stateService.getCurrentState().onPlayerJoin(event, gameContext);
     }
 
     private void onPlayerDisconnect(@NotNull PlayerDisconnectEvent event) {

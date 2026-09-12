@@ -15,13 +15,8 @@ import java.util.function.Consumer;
 public class HUDService {
 
     public void addHUDToPlayer(@NotNull PlayerRef playerRef, @NotNull Player player) {
-        if (player.getHudManager().getCustomHud(TimerHUD.HUD_ID) == null) {
-            player.getHudManager().addCustomHud(playerRef, new TimerHUD(playerRef));
-        }
-
-        if (player.getHudManager().getCustomHud(TitleHUD.HUD_ID) == null) {
-            player.getHudManager().addCustomHud(playerRef, new TitleHUD(playerRef));
-        }
+        player.getHudManager().addCustomHud(playerRef, new TimerHUD(playerRef));
+        player.getHudManager().addCustomHud(playerRef, new TitleHUD(playerRef));
     }
 
     // timer UHD management
@@ -33,7 +28,10 @@ public class HUDService {
             long totalElapsedSeconds
     ) {
         forEachHud(world, store, TimerHUD.HUD_ID, TimerHUD.class,
-                hud -> hud.refresh(phaseLabel, secondsRemaining, totalElapsedSeconds));
+                hud -> {
+                    hud.setVisible(true);
+                    hud.refresh(phaseLabel, secondsRemaining, totalElapsedSeconds);
+                });
     }
 
     public void showTimer(@NotNull World world, @NotNull Store<EntityStore> store) {

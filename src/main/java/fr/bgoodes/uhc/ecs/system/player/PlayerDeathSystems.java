@@ -35,7 +35,7 @@ public class PlayerDeathSystems {
             Message killerName = resolveKillerName(ref, death, store);
             DeathUtil.eliminate(playerRef.getUuid(), playerRef.getUsername(), killerName);
 
-            SpectatorUtil.addSpectator(playerRef, store);
+            SpectatorUtil.addSpectator(playerRef, commandBuffer);
         }
 
         @Nullable

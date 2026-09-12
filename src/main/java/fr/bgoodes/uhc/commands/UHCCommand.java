@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayer
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import fr.bgoodes.uhc.util.BroadcastUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class UHCCommand extends AbstractCommandCollection {

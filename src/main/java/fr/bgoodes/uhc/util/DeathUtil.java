@@ -41,7 +41,7 @@ public class DeathUtil {
         }
 
         BroadcastUtil.message(deathMessage.color(Color.ORANGE).bold(true), false);
-        BroadcastUtil.sound("SFX_Pistol_Fire");
+        BroadcastUtil.sound("SFX_Taiko");
     }
 
     public static void dropStoredInventory(@NotNull Holder<EntityStore> savedHolder, @NotNull Store<EntityStore> worldStore) {
