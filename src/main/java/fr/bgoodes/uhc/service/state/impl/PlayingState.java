@@ -16,6 +16,7 @@ import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.UHCConfig;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
+import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.LobbyUtil;
@@ -28,6 +29,7 @@ public class PlayingState implements IGameState {
     public static final String STATE_ID = "playing";
 
     private final HUDService hudService = UHC.get().getHudService();
+    private final PlayerService playerService = UHC.get().getPlayerService();
 
     private GameContext gameContext;
     private int time = 0;
@@ -49,7 +51,7 @@ public class PlayingState implements IGameState {
         Store<EntityStore> store = world.getEntityStore().getStore();
 
         Universe.get().getPlayers().forEach(playerRef -> {
-            gameContext.addPlayer(playerRef.getUuid());
+            playerService.addParticipant(playerRef.getUuid());
 
             if (playerRef.isValid() && playerRef.getReference() != null) {
                 Player.setGameMode(playerRef.getReference(), GameMode.Adventure, store);
@@ -105,7 +107,7 @@ public class PlayingState implements IGameState {
                     MessageUtil.tr("uhc.hud.title.border"), null);
         }
 
-        if (this.gameContext.getConnectedPlayerCount() <= 1) {
+        if (this.playerService.getConnectedParticipantCount() <= 1) {
             BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending"));
             BroadcastUtil.sound("SFX_Rex_Alerted");
             UHC.get().getStateService().changeGameState(EndingState.STATE_ID);

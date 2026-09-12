@@ -38,7 +38,7 @@ public class PlayerDeathSystems {
             PlayerRef playerRef = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
             assert playerRef != null;
 
-            UHC.get().getGameContext().removePlayer(playerRef.getUuid());
+            UHC.get().getPlayerService().removeParticipant(playerRef.getUuid());
             permissionService.addSpectator(playerRef.getUuid());
         }
 

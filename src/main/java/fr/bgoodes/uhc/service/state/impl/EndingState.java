@@ -9,6 +9,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
+import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
@@ -20,6 +21,7 @@ public class EndingState implements IGameState {
     public static final String STATE_ID = "ending";
 
     private final HUDService hudService = UHC.get().getHudService();
+    private final PlayerService playerService = UHC.get().getPlayerService();
 
     private int time;
 
@@ -29,7 +31,7 @@ public class EndingState implements IGameState {
         World world = context.getWorld();
         Store<EntityStore> store = world.getEntityStore().getStore();
 
-        @Nullable PlayerRef winner = context.getWinner().orElse(null);
+        @Nullable PlayerRef winner = playerService.getWinner().orElse(null);
         Message winnerLine = winner == null ? null :
                 MessageUtil.tr("uhc.hud.title.ending.winner").param("name", winner.getUsername());
 

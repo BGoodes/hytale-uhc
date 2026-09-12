@@ -13,6 +13,7 @@ import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
+import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.util.SpectatorUtil;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +27,7 @@ public class PlayerJoinListeners {
     private final StateService stateService = UHC.get().getStateService();
     private final HUDService hudService = UHC.get().getHudService();
     private final PermissionService permissionService = UHC.get().getPermissionService();
+    private final PlayerService playerService = UHC.get().getPlayerService();
 
     public PlayerJoinListeners(@NotNull GameContext gameContext) {
         this.gameContext = gameContext;
@@ -41,14 +43,8 @@ public class PlayerJoinListeners {
     private void onPlayerSetupConnectEvent(PlayerSetupConnectEvent event) {
 
         if (!permissionService.hasHost() && !permissionService.canClaimHost(event.getUuid())) {
-            event.setCancelled(true);
             event.setReason(Message.raw("Vous devez être membre du staff pour vous connecter.").color(Color.red));
-            return;
-        }
-
-        if (!gameContext.getGamerules().allowNewPlayers() && !gameContext.isPlayer(event.getUuid())) {
             event.setCancelled(true);
-            event.setReason(Message.raw("Une partie est en cours !").color(Color.red));
         }
     }
 
@@ -70,7 +66,7 @@ public class PlayerJoinListeners {
         if (player != null && playerRef != null) {
             hudService.addHUDToPlayer(playerRef, player);
 
-            if (!gameContext.getGamerules().allowNewPlayers() && !gameContext.isPlayer(playerRef.getUuid())) {
+            if (!gameContext.getGamerules().allowNewPlayers() && !playerService.isParticipant(playerRef.getUuid())) {
                 SpectatorUtil.addSpectator(playerRef, store);
             }
         }

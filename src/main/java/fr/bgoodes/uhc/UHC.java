@@ -28,6 +28,7 @@ import fr.bgoodes.uhc.ecs.system.player.PlayerPlaceBlockSystem;
 import fr.bgoodes.uhc.listeners.PlayerJoinListeners;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
+import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
@@ -51,10 +52,11 @@ public class UHC extends JavaPlugin {
     private final Config<UHCConfig> config = this.withConfig("uhc_config", UHCConfig.CODEC);
 
     private GameContext gameContext;
-    private StateService stateService;
+    private PlayerService playerService;
     private HUDService hudService;
     private WorldBorderService worldBorderService;
     private PermissionService permissionService;
+    private StateService stateService;
 
     public UHC(@NonNullDecl JavaPluginInit init) {
         super(init);
@@ -71,11 +73,12 @@ public class UHC extends JavaPlugin {
         this.config.save();
         this.gameContext = new GameContext();
 
-        //services
+        //services (the order matter, state service at the end)
+        this.playerService = new PlayerService();
         this.hudService = new HUDService();
         this.worldBorderService = new WorldBorderService(this.getGameContext());
-        this.stateService = new StateService(this.getGameContext());
         this.permissionService = new PermissionService();
+        this.stateService = new StateService(this.getGameContext());
 
         //components
 //        ComponentType<EntityStore, Spectator> spectatorComponentType = this.getEntityStoreRegistry()
@@ -226,6 +229,10 @@ public class UHC extends JavaPlugin {
 
     public @NotNull StateService getStateService() {
         return stateService;
+    }
+
+    public @NotNull PlayerService getPlayerService() {
+        return playerService;
     }
 
     public @NotNull HUDService getHudService() {
