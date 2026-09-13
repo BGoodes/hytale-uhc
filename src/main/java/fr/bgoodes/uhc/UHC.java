@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc;
 
+import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.shape.Box2D;
 import com.hypixel.hytale.protocol.Packet;
@@ -35,6 +36,8 @@ import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.SpectatorUtil;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
@@ -138,6 +141,12 @@ public class UHC extends JavaPlugin {
         deathConfig.setGameModeTypeOnDeath(SpectatorUtil.GAME_MODE_TYPE_ID);
         deathConfig.setItemsLossMode(DeathConfig.ItemsLossMode.ALL);
         worldConfig.setDeathConfigOverride(deathConfig);
+
+        // day/night cycle duration override
+        BsonDocument dayNightPatch = new BsonDocument()
+                .append("DaytimeDurationSeconds", new BsonInt32(this.getConfig().get().dayDuration))
+                .append("NighttimeDurationSeconds", new BsonInt32(this.getConfig().get().nightDuration));
+        WorldConfig.CODEC.decode(dayNightPatch, worldConfig, ExtraInfo.THREAD_LOCAL.get());
 
         //pregenerate
         if (this.getConfig().get().pregenerateWorld) {

@@ -9,8 +9,8 @@ public class UHCConfig {
     public static final BuilderCodec<UHCConfig> CODEC = BuilderCodec.builder(UHCConfig.class, UHCConfig::new)
 
             .append(new KeyedCodec<>("AllowVictory", Codec.BOOLEAN),
-                    (config, value) -> config.pregenerateWorld = value, //setter
-                    (config) -> config.pregenerateWorld).add() // getter
+                    (config, value) -> config.allowVictory = value, //setter
+                    (config) -> config.allowVictory).add() // getter
 
             .append(new KeyedCodec<>("PregenerateWorld", Codec.BOOLEAN),
                     (config, value) -> config.pregenerateWorld = value,
@@ -35,6 +35,14 @@ public class UHCConfig {
             .append(new KeyedCodec<>("BorderShrinkTime", Codec.INTEGER),
                     (config, value) -> config.borderShrinkTime = value,
                     (config) -> config.borderShrinkTime).add()
+
+            .append(new KeyedCodec<>("DayDuration", Codec.INTEGER),
+                    (config, value) -> config.dayDuration = value,
+                    (config) -> config.dayDuration).add()
+
+            .append(new KeyedCodec<>("NightDuration", Codec.INTEGER),
+                    (config, value) -> config.nightDuration = value,
+                    (config) -> config.nightDuration).add()
 
             .append(new KeyedCodec<>("DisconnectEliminationDelay", Codec.INTEGER),
                     (config, value) -> config.disconnectEliminationDelay = value,
@@ -69,6 +77,9 @@ public class UHCConfig {
     public int invincibilityTime = 60;
     public int pvpTime = 600;
     public int borderShrinkTime = 2400;
+
+    public int dayDuration = 1728;
+    public int nightDuration = 1152;
 
     public int disconnectEliminationDelay = 180;
 

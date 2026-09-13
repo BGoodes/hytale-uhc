@@ -21,6 +21,7 @@ import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.BroadcastUtil;
+import fr.bgoodes.uhc.util.DayNightUtil;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
@@ -83,7 +84,7 @@ public class PlayingState implements IGameState {
 
         // time set day
         WorldTimeResource worldTimeResource = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
-        worldTimeResource.setDayTime(0.2, world, world.getEntityStore().getStore());
+        worldTimeResource.setDayTime(DayNightUtil.SUNRISE, world, world.getEntityStore().getStore());
 
         this.time = 0;
     }
