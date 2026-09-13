@@ -3,7 +3,6 @@ package fr.bgoodes.uhc.service.state.impl;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
@@ -11,10 +10,14 @@ import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.service.team.Team;
+import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class EndingState implements IGameState {
 
@@ -22,6 +25,7 @@ public class EndingState implements IGameState {
 
     private final HUDService hudService = UHC.get().getHudService();
     private final PlayerService playerService = UHC.get().getPlayerService();
+    private final TeamService teamService = UHC.get().getTeamService();
 
     private int time;
 
@@ -31,9 +35,9 @@ public class EndingState implements IGameState {
         World world = context.getWorld();
         Store<EntityStore> store = world.getEntityStore().getStore();
 
-        @Nullable PlayerRef winner = playerService.getWinner().orElse(null);
+        String winner = resolveWinningTeamName();
         Message winnerLine = winner == null ? null :
-                MessageUtil.tr("uhc.hud.title.ending.winner").param("name", winner.getUsername());
+                MessageUtil.tr("uhc.hud.title.ending.winner").param("name", Message.raw(winner));
 
         hudService.showTitle(world, store, MessageUtil.tr("uhc.gameState.ending"), winnerLine, 8);
 
@@ -46,6 +50,16 @@ public class EndingState implements IGameState {
 
         this.time = 60;
         BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending.closing"));
+    }
+
+    @Nullable
+    private String resolveWinningTeamName() {
+        return playerService.getParticipants().stream()
+                .map(teamService::getPlayerTeam)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .map(Team::getName)
+                .orElse(null);
     }
 
     @Override

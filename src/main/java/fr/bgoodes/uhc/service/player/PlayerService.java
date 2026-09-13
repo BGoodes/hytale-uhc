@@ -1,16 +1,8 @@
 package fr.bgoodes.uhc.service.player;
 
-import com.hypixel.hytale.server.core.universe.PlayerRef;
-import com.hypixel.hytale.server.core.universe.Universe;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerService {
 
@@ -33,15 +25,8 @@ public class PlayerService {
         return this.participants.contains(uuid);
     }
 
-    public int getParticipantCount() {
-        return participants.size();
-    }
-
-    public @NotNull Optional<PlayerRef> getWinner() {
-        return participants.stream()
-                .map(uuid -> Universe.get().getPlayer(uuid))
-                .filter(Objects::nonNull)
-                .findFirst();
+    public @NotNull Set<UUID> getParticipants() {
+        return new HashSet<>(participants);
     }
 
     // disconnect countdown

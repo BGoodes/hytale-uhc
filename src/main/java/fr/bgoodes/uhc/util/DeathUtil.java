@@ -27,8 +27,8 @@ public class DeathUtil {
     private DeathUtil() {}
 
 
-    public static void eliminate(@NotNull UUID uuid, @NotNull String username, @Nullable Message killerName) {
-        UHC.get().getPlayerService().removeParticipant(uuid);
+    public static void eliminate(@NotNull UUID playerUuid, @NotNull String username, @Nullable Message killerName) {
+        UHC.get().getPlayerService().removeParticipant(playerUuid);
         broadcastDeathMessage(username, killerName);
     }
 

@@ -50,14 +50,14 @@ public class DisconnectEliminationSystem extends DelayedSystem<EntityStore> {
         }
     }
 
-    private void eliminate(@NotNull UUID uuid, @NotNull World world) {
-        Universe.get().getPlayerStorage().load(uuid).thenAccept(holder ->
+    private void eliminate(@NotNull UUID playerUuid, @NotNull World world) {
+        Universe.get().getPlayerStorage().load(playerUuid).thenAccept(holder ->
                 world.execute(() -> {
 
                     Nameplate nameplate = holder.getComponent(Nameplate.getComponentType());
-                    String username = nameplate != null ? nameplate.getText() : uuid.toString();
+                    String username = nameplate != null ? nameplate.getText() : playerUuid.toString();
 
-                    DeathUtil.eliminate(uuid, username, null);
+                    DeathUtil.eliminate(playerUuid, username, null);
                     DeathUtil.dropStoredInventory(holder, world.getEntityStore().getStore());
                 })
         );

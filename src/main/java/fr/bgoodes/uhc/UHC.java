@@ -31,6 +31,7 @@ import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.StateService;
+import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.service.worldborder.WorldBorderService;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.SpectatorUtil;
@@ -54,6 +55,7 @@ public class UHC extends JavaPlugin {
 
     private GameContext gameContext;
     private PlayerService playerService;
+    private TeamService teamService;
     private HUDService hudService;
     private WorldBorderService worldBorderService;
     private PermissionService permissionService;
@@ -76,6 +78,7 @@ public class UHC extends JavaPlugin {
 
         //services (the order matter, state service at the end)
         this.playerService = new PlayerService();
+        this.teamService = new TeamService();
         this.hudService = new HUDService();
         this.worldBorderService = new WorldBorderService(this.getGameContext());
         this.permissionService = new PermissionService();
@@ -246,6 +249,10 @@ public class UHC extends JavaPlugin {
 
     public @NotNull PlayerService getPlayerService() {
         return playerService;
+    }
+
+    public @NotNull TeamService getTeamService() {
+        return teamService;
     }
 
     public @NotNull HUDService getHudService() {

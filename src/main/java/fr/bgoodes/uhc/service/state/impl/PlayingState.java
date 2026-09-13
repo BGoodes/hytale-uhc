@@ -18,11 +18,17 @@ import fr.bgoodes.uhc.context.GameContext;
 import fr.bgoodes.uhc.service.hud.HUDService;
 import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.service.team.Team;
+import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.BroadcastUtil;
 import fr.bgoodes.uhc.util.LobbyUtil;
 import fr.bgoodes.uhc.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlayingState implements IGameState {
 
@@ -30,6 +36,7 @@ public class PlayingState implements IGameState {
 
     private final HUDService hudService = UHC.get().getHudService();
     private final PlayerService playerService = UHC.get().getPlayerService();
+    private final TeamService teamService = UHC.get().getTeamService();
 
     private GameContext gameContext;
     private int time = 0;
@@ -52,6 +59,7 @@ public class PlayingState implements IGameState {
 
         Universe.get().getPlayers().forEach(playerRef -> {
             playerService.addParticipant(playerRef.getUuid());
+            teamService.createPersonalTeam(playerRef.getUuid(), playerRef.getUsername());
 
             if (playerRef.isValid() && playerRef.getReference() != null) {
                 Player.setGameMode(playerRef.getReference(), GameMode.Adventure, store);
@@ -107,11 +115,19 @@ public class PlayingState implements IGameState {
                     MessageUtil.tr("uhc.hud.title.border"), null);
         }
 
-        if (this.playerService.getParticipantCount() <= 1) {
-            BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending"));
-            BroadcastUtil.sound("SFX_Rex_Alerted");
-            UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
-            return;
+        // check to end the game
+        if (this.gameContext.getConfig().allowVictory) {
+            Set<Team> remainingTeams = playerService.getParticipants().stream()
+                    .map(teamService::getPlayerTeam)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            if (remainingTeams.size() <= 1) {
+                BroadcastUtil.message(MessageUtil.tr("uhc.gameState.ending"));
+                BroadcastUtil.sound("SFX_Rex_Alerted");
+                UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
+                return;
+            }
         }
 
         NextEvent nextEvent = computeNextEvent();

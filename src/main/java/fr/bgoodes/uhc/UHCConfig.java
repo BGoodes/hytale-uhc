@@ -8,9 +8,13 @@ public class UHCConfig {
 
     public static final BuilderCodec<UHCConfig> CODEC = BuilderCodec.builder(UHCConfig.class, UHCConfig::new)
 
-            .append(new KeyedCodec<>("PregenerateWorld", Codec.BOOLEAN),
+            .append(new KeyedCodec<>("AllowVictory", Codec.BOOLEAN),
                     (config, value) -> config.pregenerateWorld = value, //setter
                     (config) -> config.pregenerateWorld).add() // getter
+
+            .append(new KeyedCodec<>("PregenerateWorld", Codec.BOOLEAN),
+                    (config, value) -> config.pregenerateWorld = value,
+                    (config) -> config.pregenerateWorld).add()
 
             .append(new KeyedCodec<>("ProximityChat", Codec.BOOLEAN),
                     (config, value) -> config.proximityChat = value,
@@ -55,6 +59,8 @@ public class UHCConfig {
             .build();
 
     // variables
+    public boolean allowVictory = true;
+
     public boolean pregenerateWorld = true;
 
     public boolean proximityChat = true;

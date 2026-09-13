@@ -51,14 +51,14 @@ public class PermissionService {
         return this.hostID != null;
     }
 
-    public Boolean canClaimHost(UUID uuid) {
-        return PermissionsModule.get().hasPermission(uuid, "uhc.host.claim");
+    public Boolean canClaimHost(UUID playerUuid) {
+        return PermissionsModule.get().hasPermission(playerUuid, "uhc.host.claim");
     }
 
-    public void setHost(UUID uuid) {
+    public void setHost(UUID playerUuid) {
         removeHost();
-        PermissionsModule.get().addUserToGroup(uuid, "Host");
-        this.hostID = uuid;
+        PermissionsModule.get().addUserToGroup(playerUuid, "Host");
+        this.hostID = playerUuid;
     }
 
     public void removeHost() {
