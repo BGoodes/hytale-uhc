@@ -148,6 +148,9 @@ public class UHC extends JavaPlugin {
                 .append("NighttimeDurationSeconds", new BsonInt32(this.getConfig().get().nightDuration));
         WorldConfig.CODEC.decode(dayNightPatch, worldConfig, ExtraInfo.THREAD_LOCAL.get());
 
+        //lobby
+        defaultWorld.execute(() -> LobbyUtil.generate(defaultWorld));
+
         //pregenerate
         if (this.getConfig().get().pregenerateWorld) {
             worldConfig.getChunkConfig().setPregenerateRegion(
@@ -159,7 +162,6 @@ public class UHC extends JavaPlugin {
         }
 
         this.gameContext.setWorld(defaultWorld);
-        defaultWorld.execute(() -> LobbyUtil.generate(defaultWorld));
         worldConfig.markChanged();
 
         // voice module config
@@ -191,7 +193,7 @@ public class UHC extends JavaPlugin {
         mapManager.addMarkerProvider("poi", markerProvider);
 
         // always show armor
-        PacketAdapters.registerInbound((PacketHandler handler, Packet packet) -> {
+        PacketAdapters.registerInbound((PacketHandler _, Packet packet) -> {
             if (packet instanceof SyncPlayerPreferences prefs) {
                 prefs.hideHelmet = false;
                 prefs.hideCuirass = false;
