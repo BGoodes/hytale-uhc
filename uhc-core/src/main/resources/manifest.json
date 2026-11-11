@@ -1,0 +1,16 @@
+{
+  "Group": "fr.bgoodes",
+  "Name": "UHC",
+  "Version": "${version}",
+  "Description": "A simple UHC plugin",
+  "Authors": [
+    {
+      "Name": "Moullec Julien",
+      "Email": "contact@julien-moullec.fr"
+    }
+  ],
+  "ServerVersion": ">=${hytaleVersion}",
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false,
+  "Main": "fr.bgoodes.uhc.UHC"
+}

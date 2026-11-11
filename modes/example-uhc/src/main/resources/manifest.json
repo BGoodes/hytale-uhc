@@ -1,0 +1,19 @@
+{
+  "Group": "fr.bgoodes",
+  "Name": "Example-UHC",
+  "Version": "${version}",
+  "Description": "Empty example game mode for the UHC core",
+  "Authors": [
+    {
+      "Name": "Moullec Julien",
+      "Email": "contact@julien-moullec.fr"
+    }
+  ],
+  "ServerVersion": ">=${hytaleVersion}",
+  "Dependencies": {
+    "fr.bgoodes:UHC": "*"
+  },
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false,
+  "Main": "fr.bgoodes.uhc.mode.example.ExampleUHC"
+}

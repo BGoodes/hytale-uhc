@@ -1,30 +1,37 @@
-plugins {
-    id("java")
-}
+val hytaleVersion = "0.7.7"
 
-group = "fr.bgoodes.uhc"
-version = "1.0-SNAPSHOT"
+subprojects {
+    apply(plugin = "java")
 
-repositories {
-    mavenCentral()
+    group = "fr.bgoodes.uhc"
+    version = "0.1.0"
 
-    maven {
-        name = "hytale"
-        url = uri("https://maven.hytale.com/release")
+    repositories {
+        mavenCentral()
+        maven {
+            name = "hytale"
+            url = uri("https://maven.hytale.com/release")
+        }
     }
-}
 
-dependencies {
-    compileOnly("org.jetbrains:annotations:24.1.0")
-    implementation("com.hypixel.hytale:Server:0.7.7")
-}
+    dependencies {
+        add("compileOnly", "com.hypixel.hytale:Server:$hytaleVersion")
 
-tasks.processResources.configure {
-    val props = mapOf(Pair("version", "$version"))
+        if (name != "uhc-core") {
+            add("compileOnly", project(":uhc-core"))
+        }
+    }
 
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("manifest.json") {
-        expand(props)
+    tasks.named<ProcessResources>("processResources") {
+        val props = mapOf(
+            "version" to project.version.toString(),
+            "hytaleVersion" to hytaleVersion,
+        )
+
+        inputs.properties(props)
+        filteringCharset = "UTF-8"
+        filesMatching("manifest.json") {
+            expand(props)
+        }
     }
 }
