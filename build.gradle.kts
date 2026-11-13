@@ -15,7 +15,9 @@ subprojects {
     }
 
     dependencies {
+
         add("compileOnly", "com.hypixel.hytale:Server:$hytaleVersion")
+        add("compileOnly", "org.jetbrains:annotations:24.1.0")
 
         if (name != "uhc-core") {
             add("compileOnly", project(":uhc-core"))

@@ -11,6 +11,6 @@
   ],
   "ServerVersion": ">=${hytaleVersion}",
   "DisabledByDefault": false,
-  "IncludesAssetPack": false,
+  "IncludesAssetPack": true,
   "Main": "fr.bgoodes.uhc.UHC"
 }
