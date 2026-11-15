@@ -6,10 +6,11 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
-import fr.bgoodes.uhc.config.ServerConfig;
+import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.ServiceRegistry;
 import fr.bgoodes.uhc.service.clock.ClockEvent;
 import fr.bgoodes.uhc.service.clock.ClockService;
+import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.state.impl.EndingState;
@@ -22,7 +23,9 @@ import java.nio.file.Files;
 public class UHC extends JavaPlugin {
 
     private final ServiceRegistry services = new ServiceRegistry();
+
     private final Config<ServerConfig> serverConfig = withConfig(ServerConfig.CODEC);
+    private final GameConfig gameConfig = new GameConfig();
 
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
@@ -36,15 +39,19 @@ public class UHC extends JavaPlugin {
     @Override
     protected void setup() {
 
-        // config
+        // server config
         if (!Files.exists(getDataDirectory().resolve("config.json"))) {
             serverConfig.save();
         }
 
         // services
+        services.register(ConfigService.class, new ConfigService(getDataDirectory()));
         services.register(ClockService.class, new ClockService());
         services.register(StateService.class, new StateService());
         services.register(FlagService.class, new FlagService());
+
+        // game config
+        getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
 
         // states
         getStateService().registerGameState(LobbyState.STATE_ID, new LobbyState());
@@ -80,8 +87,16 @@ public class UHC extends JavaPlugin {
         return serverConfig.get();
     }
 
+    public GameConfig getGameConfig() {
+        return gameConfig;
+    }
+
     public ServiceRegistry getServices() {
         return services;
+    }
+
+    public ConfigService getConfigService() {
+        return services.get(ConfigService.class);
     }
 
     public ClockService getClockService() {
