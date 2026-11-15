@@ -14,6 +14,7 @@ import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.permission.PermissionService;
+import fr.bgoodes.uhc.service.player.PlayerService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
@@ -51,6 +52,7 @@ public class UHC extends JavaPlugin {
         services.register(ClockService.class, new ClockService());
         services.register(StateService.class, new StateService());
         services.register(PermissionService.class, new PermissionService());
+        services.register(PlayerService.class, new PlayerService());
         services.register(FlagService.class, new FlagService());
 
         // game config
@@ -115,6 +117,10 @@ public class UHC extends JavaPlugin {
 
     public PermissionService getPermissionService() {
         return services.get(PermissionService.class);
+    }
+
+    public PlayerService getPlayerService() {
+        return services.get(PlayerService.class);
     }
 
     public StateService getStateService() {

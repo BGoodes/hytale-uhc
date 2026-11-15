@@ -31,8 +31,6 @@ public class HostCommand extends AbstractCommandCollection {
 
     private static class ClaimCommand extends AbstractPlayerCommand {
 
-        private final PermissionService permissionService = UHC.get().getPermissionService();
-
         public ClaimCommand(@NotNull String name, @NotNull String description) {
             super(name, description);
 
@@ -47,6 +45,8 @@ public class HostCommand extends AbstractCommandCollection {
                 @NotNull PlayerRef playerRef,
                 @NotNull World world
         ) {
+            PermissionService permissionService = UHC.get().getPermissionService();
+
             if (!permissionService.hasHost()) {
                 permissionService.setHost(playerRef.getUuid());
                 UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.host.claim.success").color(Color.magenta));

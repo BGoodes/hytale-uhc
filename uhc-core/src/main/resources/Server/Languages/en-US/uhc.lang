@@ -3,7 +3,11 @@
 host.claim.success = Vous êtes désormais l'hôte de la partie.
 host.claim.failure = Il y a déjà un host dans la partie.
 host.start.failure = La partie est déjà lancée.
-host.missing.disconnect = Cette partie n'a pas encore d'host.
+
+# === connection ===
+
+connection.denied.host = Cette partie n'a pas encore d'host.
+connection.denied.started = La partie a déjà commencé !
 
 # === game ===
 
