@@ -4,8 +4,9 @@ import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import fr.bgoodes.uhc.commands.HostCommand;
+import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
+import fr.bgoodes.uhc.config.ServerConfig;
 import fr.bgoodes.uhc.service.ServiceRegistry;
 import fr.bgoodes.uhc.service.clock.ClockEvent;
 import fr.bgoodes.uhc.service.clock.ClockService;
@@ -16,9 +17,13 @@ import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 
+import java.nio.file.Files;
+
 public class UHC extends JavaPlugin {
 
     private final ServiceRegistry services = new ServiceRegistry();
+    private final Config<ServerConfig> serverConfig = withConfig(ServerConfig.CODEC);
+
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private static UHC instance;
@@ -31,10 +36,15 @@ public class UHC extends JavaPlugin {
     @Override
     protected void setup() {
 
+        // config
+        if (!Files.exists(getDataDirectory().resolve("config.json"))) {
+            serverConfig.save();
+        }
+
         // services
         services.register(ClockService.class, new ClockService());
-        services.register(FlagService.class, new FlagService());
         services.register(StateService.class, new StateService());
+        services.register(FlagService.class, new FlagService());
 
         // states
         getStateService().registerGameState(LobbyState.STATE_ID, new LobbyState());
@@ -64,6 +74,10 @@ public class UHC extends JavaPlugin {
 
     public static UHC get() {
         return instance;
+    }
+
+    public ServerConfig getServerConfig() {
+        return serverConfig.get();
     }
 
     public ServiceRegistry getServices() {

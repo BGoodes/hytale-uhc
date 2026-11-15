@@ -20,10 +20,10 @@ public class StartingState implements IGameState {
     public void onClock() {
         if (time > 0) {
 //            hudService.showTitle(world, store, Message.raw(String.valueOf(time)), null, TITLE_DURATION);
-//            BroadcastUtil.sound("SFX_Axe_Iron_Impact");
+            UHCSoundUtil.broadcast("SFX_Axe_Iron_Impact");
             UHC.LOGGER.atInfo().log(String.valueOf(time));
         } else {
-            UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.gameState.starting.start"));
+            UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.game.started.chat"));
             UHCSoundUtil.broadcast("SFX_Rex_Alerted");
             UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
         }
