@@ -6,12 +6,14 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.commands.UHCCommand;
-import fr.bgoodes.uhc.service.config.impl.GameConfig;
+import fr.bgoodes.uhc.listeners.PlayerConnectionListener;
 import fr.bgoodes.uhc.service.ServiceRegistry;
 import fr.bgoodes.uhc.service.clock.ClockEvent;
 import fr.bgoodes.uhc.service.clock.ClockService;
 import fr.bgoodes.uhc.service.config.ConfigService;
+import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.FlagService;
+import fr.bgoodes.uhc.service.permission.PermissionService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
@@ -48,6 +50,7 @@ public class UHC extends JavaPlugin {
         services.register(ConfigService.class, new ConfigService(getDataDirectory()));
         services.register(ClockService.class, new ClockService());
         services.register(StateService.class, new StateService());
+        services.register(PermissionService.class, new PermissionService());
         services.register(FlagService.class, new FlagService());
 
         // game config
@@ -66,12 +69,15 @@ public class UHC extends JavaPlugin {
 
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
+        new PlayerConnectionListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }
 
     @Override
     protected void start() {
+        getPermissionService().initialize(getServerConfig());
+
         LOGGER.atInfo().log("UHC Core plugin start.");
     }
 
@@ -105,6 +111,10 @@ public class UHC extends JavaPlugin {
 
     public FlagService getFlagService() {
         return services.get(FlagService.class);
+    }
+
+    public PermissionService getPermissionService() {
+        return services.get(PermissionService.class);
     }
 
     public StateService getStateService() {
