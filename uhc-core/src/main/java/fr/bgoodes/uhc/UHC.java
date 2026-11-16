@@ -20,6 +20,8 @@ import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.system.BlockSystems;
+import fr.bgoodes.uhc.system.DamageSystem;
 
 import java.nio.file.Files;
 
@@ -68,6 +70,12 @@ public class UHC extends JavaPlugin {
 
         // commands
         this.getCommandRegistry().registerCommand(new UHCCommand());
+
+        // systems
+        getEntityStoreRegistry().registerSystem(new BlockSystems.BreakBlock());
+        getEntityStoreRegistry().registerSystem(new BlockSystems.DamageBlock());
+        getEntityStoreRegistry().registerSystem(new BlockSystems.PlaceBlock());
+        getEntityStoreRegistry().registerSystem(new DamageSystem());
 
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
