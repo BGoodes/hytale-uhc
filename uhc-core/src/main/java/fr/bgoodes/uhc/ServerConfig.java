@@ -17,10 +17,14 @@ public class ServerConfig {
             .append(new KeyedCodec<>("Spectator", Spectator.CODEC),
                     (config, value) -> config.spectator = value,
                     (config) -> config.spectator).add()
+            .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
+                    (config, value) -> config.spawnMaxAttempts = value,
+                    (config) -> config.spawnMaxAttempts).add()
             .build();
 
     private Host host = new Host();
     private Spectator spectator = new Spectator();
+    private int spawnMaxAttempts = 20;
 
     public Host getHost() {
         return host;
@@ -28,6 +32,10 @@ public class ServerConfig {
 
     public Spectator getSpectator() {
         return spectator;
+    }
+
+    public int getSpawnMaxAttempts() {
+        return spawnMaxAttempts;
     }
 
     public static class Host {

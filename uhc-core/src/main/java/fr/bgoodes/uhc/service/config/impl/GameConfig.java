@@ -21,11 +21,15 @@ public class GameConfig implements IConfig {
             .append(new KeyedCodec<>("BorderShrinkTime", Codec.INTEGER),
                     (config, value) -> config.borderShrinkTime = value,
                     (config) -> config.borderShrinkTime).add()
+            .append(new KeyedCodec<>("BorderRadius", Codec.INTEGER),
+                    (config, value) -> config.borderRadius = value,
+                    (config) -> config.borderRadius).add()
             .build();
 
     public int invincibilityTime = 60;
     public int pvpTime = 600;
     public int borderShrinkTime = 2400;
+    public int borderRadius = 500;
 
     @Override
     public BsonDocument encode() {

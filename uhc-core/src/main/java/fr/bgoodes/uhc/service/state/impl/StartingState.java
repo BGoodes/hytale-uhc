@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc.service.state.impl;
 
+import com.hypixel.hytale.server.core.Message;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.utils.UHCMessageUtil;
@@ -19,6 +20,7 @@ public class StartingState implements IGameState {
     @Override
     public void onClock() {
         if (time > 0) {
+            UHCMessageUtil.broadcast(Message.raw(String.valueOf(time)));
 //            hudService.showTitle(world, store, Message.raw(String.valueOf(time)), null, TITLE_DURATION);
             UHCSoundUtil.broadcast("SFX_Axe_Iron_Impact");
             UHC.LOGGER.atInfo().log(String.valueOf(time));
