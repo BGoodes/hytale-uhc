@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.listeners;
+package fr.bgoodes.uhc.listener;
 
 import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;

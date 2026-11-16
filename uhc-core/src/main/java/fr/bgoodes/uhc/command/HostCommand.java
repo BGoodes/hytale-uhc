@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.commands;
+package fr.bgoodes.uhc.command;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
