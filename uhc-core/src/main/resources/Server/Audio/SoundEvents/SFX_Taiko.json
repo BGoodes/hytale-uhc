@@ -1,0 +1,19 @@
+{
+  "AudioCategory": "AudioCat_SFX",
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/UI/Taiko.ogg"
+      ],
+      "RandomSettings": {
+        "MinPitch": 0,
+        "MaxPitch": 0,
+        "MinVolume": 0
+      },
+      "Volume": 5.0
+    }
+  ],
+  "Volume": 0,
+  "MaxDistance": 25,
+  "StartAttenuationDistance": 8
+}

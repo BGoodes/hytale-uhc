@@ -7,10 +7,8 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEven
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.PermissionService;
-import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.util.UHCTeleportUtil;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
@@ -35,15 +33,6 @@ public class PlayerConnectionListener {
         if (!permissionService.hasHost() && !permissionService.canHost(event.getUuid())) {
             event.setReason(UHCMessageUtil.tr("uhc.connection.denied.host").color(Color.RED));
             event.setCancelled(true);
-            return;
-        }
-
-        FlagService flagService = UHC.get().getFlagService();
-        PlayerService playerService = UHC.get().getPlayerService();
-
-        if (!flagService.isEnabled(UHCFlag.NEW_PLAYERS) && !playerService.isParticipant(event.getUuid())) {
-            event.setReason(UHCMessageUtil.tr("uhc.connection.denied.started").color(Color.RED));
-            event.setCancelled(true);
         }
     }
 
@@ -55,6 +44,12 @@ public class PlayerConnectionListener {
             return;
         }
 
+        if (!UHC.get().getFlagService().isEnabled(UHCFlag.NEW_PLAYERS)) {
+            UHCPlayerUtil.setSpectator(playerRef);
+            return;
+        }
+
+        UHC.get().getPermissionService().removeSpectator(playerRef.getUuid());
         UHCPlayerUtil.reset(playerRef);
         UHCTeleportUtil.teleport(playerRef, UHC.get().getWorldService().getGameWorld(), UHCLobbyUtil.LOBBY_SPAWN);
     }

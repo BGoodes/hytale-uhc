@@ -5,6 +5,8 @@ import com.hypixel.hytale.math.shape.Box2D;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.ShutdownReason;
+import com.hypixel.hytale.server.core.asset.type.gameplay.DeathConfig;
+import com.hypixel.hytale.server.core.asset.type.gameplay.MutableDeathConfig;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.WorldConfig;
@@ -13,6 +15,7 @@ import com.hypixel.hytale.server.core.universe.world.events.AllWorldsLoadedEvent
 import com.hypixel.hytale.server.core.universe.world.events.RemoveWorldEvent;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
+import fr.bgoodes.uhc.util.UHCPlayerUtil;
 
 public class WorldListener {
 
@@ -31,6 +34,11 @@ public class WorldListener {
         int radius = UHC.get().getServerConfig().getPregenerateRadius();
 
         worldConfig.setDeleteOnUniverseStart(true);
+
+        MutableDeathConfig deathConfig = new MutableDeathConfig();
+        deathConfig.setGameModeTypeOnDeath(UHCPlayerUtil.SPECTATOR_GAME_MODE_TYPE_ID);
+        deathConfig.setItemsLossMode(DeathConfig.ItemsLossMode.ALL);
+        worldConfig.setDeathConfigOverride(deathConfig);
 
         if (radius > 0) {
             worldConfig.getChunkConfig().setPregenerateRegion(new Box2D(-radius, -radius, radius, radius));

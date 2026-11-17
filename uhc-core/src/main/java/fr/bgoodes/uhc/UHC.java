@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
+import fr.bgoodes.uhc.listener.ParticipantListener;
 import fr.bgoodes.uhc.listener.PlayerConnectionListener;
 import fr.bgoodes.uhc.listener.WorldListener;
 import fr.bgoodes.uhc.service.ServiceRegistry;
@@ -25,6 +26,7 @@ import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.service.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
+import fr.bgoodes.uhc.system.DeathSystem;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;
@@ -82,11 +84,13 @@ public class UHC extends JavaPlugin {
         getEntityStoreRegistry().registerSystem(new BlockSystems.DamageBlock());
         getEntityStoreRegistry().registerSystem(new BlockSystems.PlaceBlock());
         getEntityStoreRegistry().registerSystem(new DamageSystem());
+        getEntityStoreRegistry().registerSystem(new DeathSystem());
 
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new PlayerConnectionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());
+        new ParticipantListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }
