@@ -9,9 +9,9 @@ import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.ParticipantDeathEvent;
 import fr.bgoodes.uhc.event.ParticipantEliminatedEvent;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
+import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
 
-import java.awt.Color;
 import java.util.UUID;
 
 public class ParticipantListener {
@@ -22,26 +22,18 @@ public class ParticipantListener {
     }
 
     private void onDeath(ParticipantDeathEvent event) {
-        UUID playerId = event.getPlayerRef().getUuid();
-        PlayerRef killer = event.getKiller();
-
-        Message message = UHCMessageUtil.tr(killer == null ? "uhc.death.player" : "uhc.death.killed")
-                .param("player", Message.raw(event.getPlayerRef().getUsername()));
-
-        if (killer != null) {
-            message.param("killer", Message.raw(killer.getUsername()));
+        if (event.isCancelled()) {
+            return;
         }
 
-        if (UHC.get().getPlayerService().removeParticipant(playerId)) {
-            // call ParticipantEliminatedEvent
-            HytaleServer.get().getEventBus()
-                    .dispatchFor(ParticipantEliminatedEvent.class)
-                    .dispatch(new ParticipantEliminatedEvent(playerId, message.color(Color.ORANGE)));
-        }
-    }
+        UUID uuid = event.getUuid();
+        PlayerRef playerRef = event.getPlayerRef();
 
-    private void onEliminated(ParticipantEliminatedEvent event) {
-        UHC.get().getPermissionService().addSpectator(event.getUuid());
+        if (playerRef != null) {
+            UHCPlayerUtil.dropInventory(playerRef, event.getPosition());
+        } else {
+            UHCPlayerUtil.dropStoredInventory(uuid, event.getWorld());
+        }
 
         Message message = event.getMessage();
 
@@ -49,5 +41,15 @@ public class ParticipantListener {
             UHCMessageUtil.broadcast(message);
             UHCSoundUtil.broadcast("SFX_Taiko");
         }
+
+        if (UHC.get().getPlayerService().removeParticipant(uuid)) {
+            HytaleServer.get().getEventBus()
+                    .dispatchFor(ParticipantEliminatedEvent.class)
+                    .dispatch(new ParticipantEliminatedEvent(uuid));
+        }
+    }
+
+    private void onEliminated(ParticipantEliminatedEvent event) {
+        UHC.get().getPermissionService().addSpectator(event.getUuid());
     }
 }

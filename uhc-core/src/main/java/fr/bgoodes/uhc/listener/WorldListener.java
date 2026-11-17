@@ -37,7 +37,7 @@ public class WorldListener {
 
         MutableDeathConfig deathConfig = new MutableDeathConfig();
         deathConfig.setGameModeTypeOnDeath(UHCPlayerUtil.SPECTATOR_GAME_MODE_TYPE_ID);
-        deathConfig.setItemsLossMode(DeathConfig.ItemsLossMode.ALL);
+        deathConfig.setItemsLossMode(DeathConfig.ItemsLossMode.NONE);
         worldConfig.setDeathConfigOverride(deathConfig);
 
         if (radius > 0) {

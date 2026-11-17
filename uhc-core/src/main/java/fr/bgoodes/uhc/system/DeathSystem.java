@@ -35,6 +35,8 @@ public class DeathSystem extends DeathSystems.OnDeathSystem {
         HytaleServer.get().getEventBus()
                 .dispatchFor(ParticipantDeathEvent.class)
                 .dispatch(new ParticipantDeathEvent(
+                        playerRef.getUuid(),
+                        playerRef.getUsername(),
                         playerRef,
                         store.getExternalData().getWorld(),
                         transform.getPosition(),
