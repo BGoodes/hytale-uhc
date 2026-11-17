@@ -1,9 +1,10 @@
-package fr.bgoodes.uhc.service.permission;
+package fr.bgoodes.uhc.service;
 
 import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import fr.bgoodes.uhc.ServerConfig;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class PermissionService {
     public static final String SPECTATOR_GROUP = "uhc:Spectator";
     public static final String HOST_PERMISSION = "uhc.game.host";
 
-    public synchronized void initialize(ServerConfig serverConfig) {
+    public synchronized void initialize(@NotNull ServerConfig serverConfig) {
         createGroup(HOST_GROUP, serverConfig.getHost().getPermissions());
         createGroup(SPECTATOR_GROUP, serverConfig.getSpectator().getPermissions());
     }
@@ -24,15 +25,15 @@ public class PermissionService {
         return host != null;
     }
 
-    public synchronized boolean isHost(UUID uuid) {
+    public synchronized boolean isHost(@NotNull UUID uuid) {
         return uuid.equals(host);
     }
 
-    public boolean canHost(UUID uuid) {
+    public boolean canHost(@NotNull UUID uuid) {
         return PermissionsModule.get().hasPermission(uuid, HOST_PERMISSION);
     }
 
-    public synchronized void setHost(UUID uuid) {
+    public synchronized void setHost(@NotNull UUID uuid) {
         removeHost();
 
         host = uuid;
@@ -46,11 +47,11 @@ public class PermissionService {
         }
     }
 
-    public synchronized void addSpectator(UUID uuid) {
+    public synchronized void addSpectator(@NotNull UUID uuid) {
         PermissionsModule.get().addUserToGroup(uuid, SPECTATOR_GROUP);
     }
 
-    public synchronized void removeSpectator(UUID uuid) {
+    public synchronized void removeSpectator(@NotNull UUID uuid) {
         PermissionsModule.get().removeUserFromGroup(uuid, SPECTATOR_GROUP);
     }
 

@@ -9,12 +9,12 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
-import fr.bgoodes.uhc.service.permission.PermissionService;
-import fr.bgoodes.uhc.service.player.PlayerService;
-import fr.bgoodes.uhc.utils.TeleportUtil;
-import fr.bgoodes.uhc.utils.LobbyUtil;
-import fr.bgoodes.uhc.utils.UHCMessageUtil;
-import fr.bgoodes.uhc.utils.UHCPlayerUtil;
+import fr.bgoodes.uhc.service.PermissionService;
+import fr.bgoodes.uhc.service.PlayerService;
+import fr.bgoodes.uhc.util.UHCTeleportUtil;
+import fr.bgoodes.uhc.util.UHCLobbyUtil;
+import fr.bgoodes.uhc.util.UHCMessageUtil;
+import fr.bgoodes.uhc.util.UHCPlayerUtil;
 
 import java.awt.*;
 
@@ -56,6 +56,6 @@ public class PlayerConnectionListener {
         }
 
         UHCPlayerUtil.reset(playerRef);
-        TeleportUtil.teleport(playerRef, UHC.get().getWorldService().getGameWorld(), LobbyUtil.LOBBY_SPAWN);
+        UHCTeleportUtil.teleport(playerRef, UHC.get().getWorldService().getGameWorld(), UHCLobbyUtil.LOBBY_SPAWN);
     }
 }

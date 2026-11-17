@@ -15,7 +15,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
-import fr.bgoodes.uhc.utils.UHCMessageUtil;
+import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

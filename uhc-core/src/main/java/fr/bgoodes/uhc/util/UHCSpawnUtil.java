@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.utils;
+package fr.bgoodes.uhc.util;
 
 import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.server.core.HytaleServer;
@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.ParticipantSpawnEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,7 +15,7 @@ public class UHCSpawnUtil {
 
     private UHCSpawnUtil() {}
 
-    public static CompletableFuture<Void> spawn(PlayerRef playerRef, World world) {
+    public static @NotNull CompletableFuture<Void> spawn(@NotNull PlayerRef playerRef, @NotNull World world) {
         int attempts = UHC.get().getServerConfig().getSpawnMaxAttempts();
 
         return findSpawnPoint(playerRef, world, attempts).thenAccept(location -> {
@@ -22,7 +23,7 @@ public class UHCSpawnUtil {
                     .dispatchFor(ParticipantSpawnEvent.class)
                     .dispatch(new ParticipantSpawnEvent(playerRef, location));
 
-            TeleportUtil.teleport(playerRef, world, event.getSpawnPoint());
+            UHCTeleportUtil.teleport(playerRef, world, event.getSpawnPoint());
         });
     }
 
@@ -31,8 +32,8 @@ public class UHCSpawnUtil {
         double x = ThreadLocalRandom.current().nextInt(-radius, radius) + 0.5;
         double z = ThreadLocalRandom.current().nextInt(-radius, radius) + 0.5;
 
-        return TeleportUtil.findSurface(world, playerRef, x, z).thenCompose(location ->
-                TeleportUtil.hasFluid(world, location).thenCompose(hasFluid -> {
+        return UHCTeleportUtil.findSurface(world, playerRef, x, z).thenCompose(location ->
+                UHCTeleportUtil.hasFluid(world, location).thenCompose(hasFluid -> {
                     if (!hasFluid) {
                         return CompletableFuture.completedFuture(location);
                     }

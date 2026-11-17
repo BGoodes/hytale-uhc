@@ -3,8 +3,8 @@ package fr.bgoodes.uhc.service.state.impl;
 import com.hypixel.hytale.server.core.Message;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.state.model.IGameState;
-import fr.bgoodes.uhc.utils.UHCMessageUtil;
-import fr.bgoodes.uhc.utils.UHCSoundUtil;
+import fr.bgoodes.uhc.util.UHCMessageUtil;
+import fr.bgoodes.uhc.util.UHCSoundUtil;
 
 public class StartingState implements IGameState {
 

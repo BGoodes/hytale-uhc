@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.utils;
+package fr.bgoodes.uhc.util;
 
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Transform;
@@ -10,12 +10,13 @@ import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import fr.bgoodes.uhc.UHC;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class LobbyUtil {
+public class UHCLobbyUtil {
 
     public static final Transform LOBBY_SPAWN = new Transform(0, 305, 0);
 
@@ -29,9 +30,9 @@ public class LobbyUtil {
     private static final int MIN = -SIZE / 2;
     private static final int MAX = SIZE / 2 - 1;
 
-    private LobbyUtil() {}
+    private UHCLobbyUtil() {}
 
-    public static void generate(World world) {
+    public static void generate(@NotNull World world) {
         int floorId = BlockType.getAssetMap().getIndex(FLOOR_BLOCK);
         int wallId = BlockType.getAssetMap().getIndex(WALL_BLOCK);
 
@@ -43,7 +44,7 @@ public class LobbyUtil {
                 });
     }
 
-    public static void remove(World world) {
+    public static void remove(@NotNull World world) {
         world.execute(() -> fill(world, BlockType.EMPTY_ID, BlockType.EMPTY_ID));
     }
 

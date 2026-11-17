@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.service.world;
+package fr.bgoodes.uhc.service;
 
 import com.hypixel.hytale.server.core.universe.world.World;
 import org.jetbrains.annotations.NotNull;

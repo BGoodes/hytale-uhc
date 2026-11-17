@@ -9,21 +9,22 @@ import fr.bgoodes.uhc.command.UHCCommand;
 import fr.bgoodes.uhc.listener.PlayerConnectionListener;
 import fr.bgoodes.uhc.listener.WorldListener;
 import fr.bgoodes.uhc.service.ServiceRegistry;
-import fr.bgoodes.uhc.service.clock.ClockEvent;
-import fr.bgoodes.uhc.service.clock.ClockService;
+import fr.bgoodes.uhc.event.ClockEvent;
+import fr.bgoodes.uhc.service.ClockService;
 import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.FlagService;
-import fr.bgoodes.uhc.service.permission.PermissionService;
-import fr.bgoodes.uhc.service.player.PlayerService;
+import fr.bgoodes.uhc.service.PermissionService;
+import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
-import fr.bgoodes.uhc.service.world.WorldService;
+import fr.bgoodes.uhc.service.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;
 
@@ -96,50 +97,49 @@ public class UHC extends JavaPlugin {
     }
 
     @Override
-    protected void shutdown() {
-    }
+    protected void shutdown() {}
 
-    public static UHC get() {
+    public static @NotNull UHC get() {
         return instance;
     }
 
-    public ServerConfig getServerConfig() {
+    public @NotNull ServerConfig getServerConfig() {
         return serverConfig.get();
     }
 
-    public GameConfig getGameConfig() {
+    public @NotNull GameConfig getGameConfig() {
         return gameConfig;
     }
 
-    public ServiceRegistry getServices() {
+    public @NotNull ServiceRegistry getServices() {
         return services;
     }
 
-    public ConfigService getConfigService() {
+    public @NotNull ConfigService getConfigService() {
         return services.get(ConfigService.class);
     }
 
-    public ClockService getClockService() {
+    public @NotNull ClockService getClockService() {
         return services.get(ClockService.class);
     }
 
-    public FlagService getFlagService() {
+    public @NotNull FlagService getFlagService() {
         return services.get(FlagService.class);
     }
 
-    public PermissionService getPermissionService() {
+    public @NotNull PermissionService getPermissionService() {
         return services.get(PermissionService.class);
     }
 
-    public PlayerService getPlayerService() {
+    public @NotNull PlayerService getPlayerService() {
         return services.get(PlayerService.class);
     }
 
-    public StateService getStateService() {
+    public @NotNull StateService getStateService() {
         return services.get(StateService.class);
     }
 
-    public WorldService getWorldService() {
+    public @NotNull WorldService getWorldService() {
         return services.get(WorldService.class);
     }
 }

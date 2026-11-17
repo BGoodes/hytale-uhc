@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.mode.example.states;
+package fr.bgoodes.uhc.mode.example.state;
 
 import fr.bgoodes.uhc.mode.example.ExampleUHC;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;

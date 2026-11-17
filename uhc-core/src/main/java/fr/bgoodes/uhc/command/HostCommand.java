@@ -10,9 +10,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.service.permission.PermissionService;
+import fr.bgoodes.uhc.service.PermissionService;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
-import fr.bgoodes.uhc.utils.UHCMessageUtil;
+import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

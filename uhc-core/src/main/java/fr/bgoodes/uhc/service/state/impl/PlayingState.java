@@ -6,9 +6,9 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.state.model.IGameState;
-import fr.bgoodes.uhc.utils.LobbyUtil;
-import fr.bgoodes.uhc.utils.UHCPlayerUtil;
-import fr.bgoodes.uhc.utils.UHCSpawnUtil;
+import fr.bgoodes.uhc.util.UHCLobbyUtil;
+import fr.bgoodes.uhc.util.UHCPlayerUtil;
+import fr.bgoodes.uhc.util.UHCSpawnUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class PlayingState implements IGameState {
                         UHC.LOGGER.atSevere().withCause(error).log("Failed to spawn participants");
                     }
 
-                    LobbyUtil.remove(world);
+                    UHCLobbyUtil.remove(world);
                     this.ready = true;
                 });
     }

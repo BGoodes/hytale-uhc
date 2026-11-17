@@ -6,6 +6,7 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import fr.bgoodes.uhc.service.config.model.IConfig;
 import org.bson.BsonDocument;
+import org.jetbrains.annotations.NotNull;
 
 public class GameConfig implements IConfig {
 
@@ -32,12 +33,12 @@ public class GameConfig implements IConfig {
     public int borderRadius = 500;
 
     @Override
-    public BsonDocument encode() {
+    public @NotNull BsonDocument encode() {
         return CODEC.encode(this, new ExtraInfo());
     }
 
     @Override
-    public void decode(BsonDocument document) {
+    public void decode(@NotNull BsonDocument document) {
         CODEC.decode(document, this, new ExtraInfo());
     }
 }

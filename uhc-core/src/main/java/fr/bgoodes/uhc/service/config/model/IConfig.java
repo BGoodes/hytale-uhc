@@ -1,10 +1,11 @@
 package fr.bgoodes.uhc.service.config.model;
 
 import org.bson.BsonDocument;
+import org.jetbrains.annotations.NotNull;
 
 public interface IConfig {
 
-    BsonDocument encode();
+    @NotNull BsonDocument encode();
 
-    void decode(BsonDocument document);
+    void decode(@NotNull BsonDocument document);
 }

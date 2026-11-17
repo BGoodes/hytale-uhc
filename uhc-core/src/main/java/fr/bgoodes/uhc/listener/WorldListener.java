@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.events.AddWorldEvent;
 import com.hypixel.hytale.server.core.universe.world.events.AllWorldsLoadedEvent;
 import com.hypixel.hytale.server.core.universe.world.events.RemoveWorldEvent;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.utils.LobbyUtil;
+import fr.bgoodes.uhc.util.UHCLobbyUtil;
 
 public class WorldListener {
 
@@ -57,7 +57,7 @@ public class WorldListener {
         }
 
         UHC.get().getWorldService().setGameWorld(world);
-        LobbyUtil.generate(world);
+        UHCLobbyUtil.generate(world);
     }
 
     private boolean isGameWorld(World world) {

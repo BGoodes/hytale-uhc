@@ -1,9 +1,10 @@
-package fr.bgoodes.uhc.utils;
+package fr.bgoodes.uhc.util;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -16,31 +17,31 @@ public class UHCMessageUtil {
 
     private UHCMessageUtil() {}
 
-    public static Message tr(String key) {
+    public static @NotNull Message tr(@NotNull String key) {
         return Message.translation(key);
     }
 
-    public static void send(PlayerRef playerRef, Message message) {
+    public static void send(@NotNull PlayerRef playerRef, @NotNull Message message) {
         send(playerRef, message, true);
     }
 
-    public static void send(PlayerRef playerRef, Message message, boolean prefix) {
+    public static void send(@NotNull PlayerRef playerRef, @NotNull Message message, boolean prefix) {
         playerRef.sendMessage(
                 prefix ? Message.join(PREFIX, message) : message
         );
     }
 
-    public static void reply(CommandContext context, Message message) {
+    public static void reply(@NotNull CommandContext context, @NotNull Message message) {
         context.sendMessage(
                 Message.join(PREFIX, message)
         );
     }
 
-    public static void broadcast(Message message) {
+    public static void broadcast(@NotNull Message message) {
         message(message, true);
     }
 
-    public static void message(Message message, boolean prefix) {
+    public static void message(@NotNull Message message, boolean prefix) {
         Universe.get().getPlayers().forEach(
                 playerRef -> UHCMessageUtil.send(playerRef, message, prefix)
         );

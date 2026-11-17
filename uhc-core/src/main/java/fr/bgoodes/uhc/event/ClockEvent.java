@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.service.clock;
+package fr.bgoodes.uhc.event;
 
 import com.hypixel.hytale.event.IEvent;
 
