@@ -4,7 +4,6 @@ import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import fr.bgoodes.uhc.ServerConfig;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 

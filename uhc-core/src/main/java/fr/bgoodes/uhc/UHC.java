@@ -7,6 +7,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
 import fr.bgoodes.uhc.listener.PlayerConnectionListener;
+import fr.bgoodes.uhc.listener.WorldListener;
 import fr.bgoodes.uhc.service.ServiceRegistry;
 import fr.bgoodes.uhc.service.clock.ClockEvent;
 import fr.bgoodes.uhc.service.clock.ClockService;
@@ -20,6 +21,7 @@ import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.service.world.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
 
@@ -56,6 +58,7 @@ public class UHC extends JavaPlugin {
         services.register(PermissionService.class, new PermissionService());
         services.register(PlayerService.class, new PlayerService());
         services.register(FlagService.class, new FlagService());
+        services.register(WorldService.class, new WorldService());
 
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
@@ -80,6 +83,7 @@ public class UHC extends JavaPlugin {
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new PlayerConnectionListener().register(getEventRegistry());
+        new WorldListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }
@@ -133,5 +137,9 @@ public class UHC extends JavaPlugin {
 
     public StateService getStateService() {
         return services.get(StateService.class);
+    }
+
+    public WorldService getWorldService() {
+        return services.get(WorldService.class);
     }
 }

@@ -20,11 +20,15 @@ public class ServerConfig {
             .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
                     (config, value) -> config.spawnMaxAttempts = value,
                     (config) -> config.spawnMaxAttempts).add()
+            .append(new KeyedCodec<>("PregenerateRadius", Codec.INTEGER),
+                    (config, value) -> config.pregenerateRadius = value,
+                    (config) -> config.pregenerateRadius).add()
             .build();
 
     private Host host = new Host();
     private Spectator spectator = new Spectator();
     private int spawnMaxAttempts = 20;
+    private int pregenerateRadius = 0;
 
     public Host getHost() {
         return host;
@@ -36,6 +40,10 @@ public class ServerConfig {
 
     public int getSpawnMaxAttempts() {
         return spawnMaxAttempts;
+    }
+
+    public int getPregenerateRadius() {
+        return pregenerateRadius;
     }
 
     public static class Host {
