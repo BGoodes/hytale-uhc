@@ -21,6 +21,7 @@ import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.service.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
@@ -54,11 +55,12 @@ public class UHC extends JavaPlugin {
 
         // services
         services.register(ConfigService.class, new ConfigService(getDataDirectory()));
-        services.register(ClockService.class, new ClockService());
         services.register(StateService.class, new StateService());
+        services.register(ClockService.class, new ClockService());
+        services.register(FlagService.class, new FlagService());
         services.register(PermissionService.class, new PermissionService());
         services.register(PlayerService.class, new PlayerService());
-        services.register(FlagService.class, new FlagService());
+        services.register(TeamService.class, new TeamService());
         services.register(WorldService.class, new WorldService());
 
         // game config
@@ -111,12 +113,17 @@ public class UHC extends JavaPlugin {
         return gameConfig;
     }
 
+    // services
     public @NotNull ServiceRegistry getServices() {
         return services;
     }
 
     public @NotNull ConfigService getConfigService() {
         return services.get(ConfigService.class);
+    }
+
+    public @NotNull StateService getStateService() {
+        return services.get(StateService.class);
     }
 
     public @NotNull ClockService getClockService() {
@@ -135,8 +142,8 @@ public class UHC extends JavaPlugin {
         return services.get(PlayerService.class);
     }
 
-    public @NotNull StateService getStateService() {
-        return services.get(StateService.class);
+    public @NotNull TeamService getTeamService() {
+        return services.get(TeamService.class);
     }
 
     public @NotNull WorldService getWorldService() {

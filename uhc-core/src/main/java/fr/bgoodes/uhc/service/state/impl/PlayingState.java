@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSpawnUtil;
@@ -31,6 +32,7 @@ public class PlayingState implements IGameState {
 
         for (PlayerRef playerRef : Universe.get().getPlayers()) {
             UHC.get().getPlayerService().addParticipant(playerRef.getUuid());
+            createSoloTeam(playerRef);
 
             UHCPlayerUtil.reset(playerRef);
             spawns.add(UHCSpawnUtil.spawn(playerRef, world));
@@ -54,5 +56,17 @@ public class PlayingState implements IGameState {
         }
 
         UHC.LOGGER.atInfo().log("PLAYYYINNNGGGG");
+    }
+
+    private void createSoloTeam(PlayerRef playerRef) {
+        TeamService teamService = UHC.get().getTeamService();
+        String teamId = playerRef.getUuid().toString();
+
+        if (teamService.getPlayerTeam(playerRef.getUuid()) != null) {
+            return;
+        }
+
+        teamService.createTeam(teamId, playerRef.getUsername(), null);
+        teamService.addPlayer(teamId, playerRef.getUuid());
     }
 }
