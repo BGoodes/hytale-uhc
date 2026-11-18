@@ -22,21 +22,21 @@ game.ended.draw = Fin de la partie : aucun vainqueur.
 
 game.invincibility.ended.chat = Vous n'êtes désormais plus invincible.
 game.invincibility.ended.title = Invincibilité terminée !
-game.invincibility.countdown.hud = Fin de l'invincibilité dans {time}
+game.invincibility.countdown.hud = Fin invincibilité : {time}
 
 # === pvp ===
 
 game.pvp.enabled.chat = Le PVP est désormais activé.
 game.pvp.enabled.title = PVP activé !
 game.pvp.denied.chat = Le PVP n'est pas encore activé.
-game.pvp.countdown.hud = Début du PVP dans {time}
+game.pvp.countdown.hud = Début PVP : {time}
 
 # === border ===
 
 game.border.shrinking.chat = La bordure se réduit jusqu'à {radius} blocs.
 game.border.shrunk.chat = La bordure a atteint {radius} blocs.
 game.border.shrinking.title = La bordure rétrécit !
-game.border.countdown.hud = Réduction de la bordure dans {time}
+game.border.countdown.hud = Réduction bordure : {time}
 
 # === death ===
 

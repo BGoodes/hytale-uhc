@@ -41,7 +41,7 @@ public class GameConfig implements IConfig {
     public float borderDamage = 10;
     public BorderPhase[] borderPhases = { new BorderPhase(2400, 100, 1) };
 
-    public int disconnectTimeout = 600;
+    public int disconnectTimeout = 300;
 
     @Override
     public @NotNull BsonDocument encode() {

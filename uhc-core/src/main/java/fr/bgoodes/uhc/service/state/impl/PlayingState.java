@@ -13,12 +13,17 @@ import fr.bgoodes.uhc.event.game.PvpEnabledEvent;
 import fr.bgoodes.uhc.service.config.impl.BorderPhase;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
+import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
+import fr.bgoodes.uhc.service.hud.model.StateHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSpawnUtil;
 import fr.bgoodes.uhc.util.UHCTimeUtil;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +34,7 @@ public class PlayingState implements IGameState {
     public static final String STATE_ID = "playing";
 
     private volatile boolean ready = false;
-    private int time;
+    private volatile int time;
 
     @Override
     public void start() {
@@ -42,7 +47,6 @@ public class PlayingState implements IGameState {
         UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius);
 
         World world = UHC.get().getWorldService().getGameWorld();
-
         List<CompletableFuture<Void>> spawns = new ArrayList<>();
 
         for (PlayerRef playerRef : Universe.get().getPlayers()) {
@@ -92,6 +96,15 @@ public class PlayingState implements IGameState {
         }
 
         time++;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    @Override
+    public @Nullable StateHud createHud(@NotNull PlayerRef playerRef) {
+        return new PlayingHud(playerRef, this);
     }
 
     private void createSoloTeam(PlayerRef playerRef) {

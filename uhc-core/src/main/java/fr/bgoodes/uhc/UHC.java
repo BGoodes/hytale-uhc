@@ -6,28 +6,25 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
+import fr.bgoodes.uhc.event.game.ClockEvent;
 import fr.bgoodes.uhc.listener.game.BorderClockListener;
 import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
 import fr.bgoodes.uhc.listener.game.GameListener;
+import fr.bgoodes.uhc.listener.game.HudListener;
 import fr.bgoodes.uhc.listener.game.ParticipantListener;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;
-import fr.bgoodes.uhc.service.ServiceRegistry;
-import fr.bgoodes.uhc.event.game.ClockEvent;
-import fr.bgoodes.uhc.service.ClockService;
+import fr.bgoodes.uhc.service.*;
 import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.FlagService;
-import fr.bgoodes.uhc.service.PermissionService;
-import fr.bgoodes.uhc.service.PlayerService;
+import fr.bgoodes.uhc.service.hud.HudService;
 import fr.bgoodes.uhc.service.state.StateService;
 import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.service.team.TeamService;
-import fr.bgoodes.uhc.service.WorldBorderService;
-import fr.bgoodes.uhc.service.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
 import fr.bgoodes.uhc.system.DeathSystem;
@@ -69,6 +66,7 @@ public class UHC extends JavaPlugin {
         services.register(TeamService.class, new TeamService());
         services.register(WorldService.class, new WorldService());
         services.register(WorldBorderService.class, new WorldBorderService());
+        services.register(HudService.class, new HudService());
 
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
@@ -97,6 +95,7 @@ public class UHC extends JavaPlugin {
         new WorldListener().register(getEventRegistry());
         new GameListener().register(getEventRegistry());
         new BorderClockListener().register(getEventRegistry());
+        new HudListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
 
@@ -164,5 +163,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull WorldBorderService getWorldBorderService() {
         return services.get(WorldBorderService.class);
+    }
+
+    public @NotNull HudService getHudService() {
+        return services.get(HudService.class);
     }
 }

@@ -49,6 +49,7 @@ public class ConnectionListener {
         }
 
         UHC.get().getPlayerService().removeDisconnected(playerRef.getUuid());
+        UHC.get().getHudService().show(playerRef);
 
         if (UHC.get().getPlayerService().isParticipant(playerRef.getUuid())) {
             return;
@@ -65,6 +66,7 @@ public class ConnectionListener {
 
     private void onPlayerDisconnect(PlayerDisconnectEvent event) {
         UUID uuid = event.getPlayerRef().getUuid();
+        UHC.get().getHudService().forget(uuid);
 
         if (UHC.get().getPlayerService().isParticipant(uuid)) {
             UHC.get().getPlayerService().setDisconnected(uuid);

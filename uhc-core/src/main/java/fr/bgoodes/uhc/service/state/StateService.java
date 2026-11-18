@@ -1,5 +1,7 @@
 package fr.bgoodes.uhc.service.state;
 
+import com.hypixel.hytale.server.core.HytaleServer;
+import fr.bgoodes.uhc.event.game.GameStateChangedEvent;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,6 +39,14 @@ public class StateService {
         currentState.end();
         currentState = newState;
         newState.start();
+
+        HytaleServer.get().getEventBus()
+                .dispatchFor(GameStateChangedEvent.class)
+                .dispatch(new GameStateChangedEvent(id));
+    }
+
+    public synchronized @NotNull IGameState getCurrentState() {
+        return currentState;
     }
 
     public synchronized void onClock() {
