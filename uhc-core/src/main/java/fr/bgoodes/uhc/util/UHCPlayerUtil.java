@@ -4,6 +4,8 @@ import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.math.util.ChunkUtil;
+import com.hypixel.hytale.math.util.MathUtil;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -27,6 +29,7 @@ import org.joml.Vector3d;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class UHCPlayerUtil {
 
@@ -122,8 +125,14 @@ public class UHCPlayerUtil {
             }
 
             Vector3d position = new Vector3d(transform.getPosition());
+            int x = MathUtil.floor(position.x);
+            int y = MathUtil.floor(position.y);
+            int z = MathUtil.floor(position.z);
 
-            world.execute(() -> spawnDrops(world.getEntityStore().getStore(), items, position, new Rotation3f()));
+            CompletableFuture.allOf(
+                    world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y, z),
+                    world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y - ChunkUtil.SIZE, z)
+            ).thenRunAsync(() -> spawnDrops(world.getEntityStore().getStore(), items, position, new Rotation3f()), world);
         });
     }
 

@@ -25,12 +25,17 @@ public class GameConfig implements IConfig {
             .append(new KeyedCodec<>("BorderRadius", Codec.INTEGER),
                     (config, value) -> config.borderRadius = value,
                     (config) -> config.borderRadius).add()
+            .append(new KeyedCodec<>("DisconnectTimeout", Codec.INTEGER),
+                    (config, value) -> config.disconnectTimeout = value,
+                    (config) -> config.disconnectTimeout).add()
             .build();
 
     public int invincibilityTime = 60;
     public int pvpTime = 600;
     public int borderShrinkTime = 2400;
     public int borderRadius = 500;
+
+    public int disconnectTimeout = 600;
 
     @Override
     public @NotNull BsonDocument encode() {

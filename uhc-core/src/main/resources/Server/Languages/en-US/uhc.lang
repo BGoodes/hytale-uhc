@@ -40,3 +40,4 @@ game.border.countdown.hud = Réduction de la bordure dans {time}
 
 death.player = {player} est mort.
 death.killed = {player} a été tué par {killer}.
+death.disconnected = {player} est mort (déconnexion).
