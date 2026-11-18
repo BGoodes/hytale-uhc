@@ -2,8 +2,10 @@ package fr.bgoodes.uhc.util;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.util.MessageUtil;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
+import fr.bgoodes.uhc.UHC;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -38,12 +40,13 @@ public class UHCMessageUtil {
     }
 
     public static void broadcast(@NotNull Message message) {
-        message(message, true);
+        broadcast(message, true);
     }
 
-    public static void message(@NotNull Message message, boolean prefix) {
+    public static void broadcast(@NotNull Message message, boolean prefix) {
         Universe.get().getPlayers().forEach(
                 playerRef -> UHCMessageUtil.send(playerRef, message, prefix)
         );
+        UHC.LOGGER.atInfo().log(MessageUtil.toAnsiString(message).toString());
     }
 }

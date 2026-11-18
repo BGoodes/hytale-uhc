@@ -23,7 +23,6 @@ public class StartingState implements IGameState {
             UHCMessageUtil.broadcast(Message.raw(String.valueOf(time)));
 //            hudService.showTitle(world, store, Message.raw(String.valueOf(time)), null, TITLE_DURATION);
             UHCSoundUtil.broadcast("SFX_Axe_Iron_Impact");
-            UHC.LOGGER.atInfo().log(String.valueOf(time));
         } else {
             UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.game.started.chat"));
             UHCSoundUtil.broadcast("SFX_Rex_Alerted");
