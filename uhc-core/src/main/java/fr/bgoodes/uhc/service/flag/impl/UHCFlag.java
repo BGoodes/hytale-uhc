@@ -6,5 +6,6 @@ public enum UHCFlag implements IFlag {
     NEW_PLAYERS,
     BUILD,
     DAMAGE,
-    PVP
+    PVP,
+    GAME_ENDED
 }

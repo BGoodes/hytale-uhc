@@ -34,10 +34,6 @@ public class ConnectionListener {
         PermissionService permissionService = UHC.get().getPermissionService();
         permissionService.removeSpectator(event.getUuid());
 
-        if (!permissionService.isHost(event.getUuid())) {
-            permissionService.removeSpectator(event.getUuid());
-        }
-
         if (!permissionService.hasHost() && !permissionService.canHost(event.getUuid())) {
             event.setReason(UHCMessageUtil.tr("uhc.connection.denied.host").color(Color.RED));
             event.setCancelled(true);

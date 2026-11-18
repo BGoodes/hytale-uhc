@@ -14,8 +14,9 @@ connection.denied.started = La partie a déjà commencé !
 game.started.chat = Début de la partie !!!
 game.ended.chat = Fin de la partie !
 game.ended.title = Fin de la partie !
-game.closing.chat = Fermeture du serveur dans 1 minute.
-game.winner.title = Vainqueur : {name}
+game.ended.closing.chat = Fermeture du serveur dans 1 minute.
+game.ended.winner.chat = {name} remporte la partie !
+game.ended.draw = Fin de la partie : aucun vainqueur.
 
 # === invincibility ===
 

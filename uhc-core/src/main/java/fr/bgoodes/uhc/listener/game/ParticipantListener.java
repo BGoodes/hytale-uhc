@@ -6,14 +6,17 @@ import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.event.game.GameEndedEvent;
 import fr.bgoodes.uhc.event.participant.ParticipantDeathEvent;
 import fr.bgoodes.uhc.event.participant.ParticipantEliminatedEvent;
 import fr.bgoodes.uhc.event.team.TeamEliminatedEvent;
+import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ParticipantListener {
@@ -55,12 +58,35 @@ public class ParticipantListener {
         UHC.get().getPermissionService().addSpectator(event.getUuid());
 
         Team team = UHC.get().getTeamService().getPlayerTeam(event.getUuid());
-        if (team == null || team.getMembers().stream().anyMatch(UHC.get().getPlayerService()::isParticipant)) {
+
+        if (team != null && !isAlive(team)) {
+            HytaleServer.get().getEventBus()
+                    .dispatchFor(TeamEliminatedEvent.class)
+                    .dispatch(new TeamEliminatedEvent(team));
+        }
+
+        checkVictory();
+    }
+
+    private void checkVictory() {
+        if (UHC.get().getFlagService().isEnabled(UHCFlag.GAME_ENDED)) {
+            return;
+        }
+
+        List<Team> aliveTeams = UHC.get().getTeamService().getTeams().stream()
+                .filter(this::isAlive)
+                .toList();
+
+        if (aliveTeams.size() > 1) {
             return;
         }
 
         HytaleServer.get().getEventBus()
-                .dispatchFor(TeamEliminatedEvent.class)
-                .dispatch(new TeamEliminatedEvent(team));
+                .dispatchFor(GameEndedEvent.class)
+                .dispatch(new GameEndedEvent(aliveTeams.isEmpty() ? null : aliveTeams.getFirst()));
+    }
+
+    private boolean isAlive(Team team) {
+        return team.getMembers().stream().anyMatch(UHC.get().getPlayerService()::isParticipant);
     }
 }

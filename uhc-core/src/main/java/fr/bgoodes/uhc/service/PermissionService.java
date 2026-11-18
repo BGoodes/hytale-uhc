@@ -55,6 +55,20 @@ public class PermissionService {
         PermissionsModule.get().removeUserFromGroup(uuid, SPECTATOR_GROUP);
     }
 
+    public synchronized void resetRoles(@NotNull UUID uuid) {
+        if (!uuid.equals(host)) {
+            removeFromGroup(uuid, HOST_GROUP);
+        }
+
+        removeFromGroup(uuid, SPECTATOR_GROUP);
+    }
+
+    private void removeFromGroup(UUID uuid, String group) {
+        if (PermissionsModule.get().getGroupsForUser(uuid).contains(group)) {
+            PermissionsModule.get().removeUserFromGroup(uuid, group);
+        }
+    }
+
     private void createGroup(String group, Set<String> permissions) {
         if (!PermissionsModule.get().getAllRegisteredGroups().contains(group)) {
             PermissionsModule.get().addGroupPermission(group, permissions);
