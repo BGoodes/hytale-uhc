@@ -17,6 +17,8 @@ public class ExampleUHC extends JavaPlugin {
 
     @Override
     protected void setup() {
+        // config
+        UHC.get().getConfigService().registerConfig(ExampleConfig.CONFIG_ID, new ExampleConfig());
 
         // state
         UHC.get().getStateService().replaceGameState(PlayingState.STATE_ID, new ExamplePlayingState());
