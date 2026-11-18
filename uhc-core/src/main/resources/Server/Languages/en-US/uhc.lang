@@ -33,7 +33,8 @@ game.pvp.countdown.hud = Début du PVP dans {time}
 
 # === border ===
 
-game.border.shrinking.chat = La bordure du monde va commencer à réduire.
+game.border.shrinking.chat = La bordure se réduit jusqu'à {radius} blocs.
+game.border.shrunk.chat = La bordure a atteint {radius} blocs.
 game.border.shrinking.title = La bordure rétrécit !
 game.border.countdown.hud = Réduction de la bordure dans {time}
 

@@ -7,8 +7,10 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.event.game.BorderShrinkEvent;
 import fr.bgoodes.uhc.event.game.InvincibilityEndedEvent;
 import fr.bgoodes.uhc.event.game.PvpEnabledEvent;
+import fr.bgoodes.uhc.service.config.impl.BorderPhase;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.state.model.IGameState;
@@ -36,6 +38,8 @@ public class PlayingState implements IGameState {
 
         this.ready = false;
         this.time = 0;
+
+        UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius);
 
         World world = UHC.get().getWorldService().getGameWorld();
 
@@ -79,6 +83,12 @@ public class PlayingState implements IGameState {
 
         if (time == config.pvpTime) {
             eventBus.dispatchFor(PvpEnabledEvent.class).dispatch(new PvpEnabledEvent());
+        }
+
+        for (BorderPhase phase : config.borderPhases) {
+            if (time == phase.time) {
+                eventBus.dispatchFor(BorderShrinkEvent.class).dispatch(new BorderShrinkEvent(phase.radius, phase.speed));
+            }
         }
 
         time++;

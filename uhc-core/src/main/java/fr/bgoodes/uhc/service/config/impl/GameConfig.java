@@ -4,6 +4,7 @@ import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import fr.bgoodes.uhc.service.config.model.IConfig;
 import org.bson.BsonDocument;
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +20,15 @@ public class GameConfig implements IConfig {
             .append(new KeyedCodec<>("PvpTime", Codec.INTEGER),
                     (config, value) -> config.pvpTime = value,
                     (config) -> config.pvpTime).add()
-            .append(new KeyedCodec<>("BorderShrinkTime", Codec.INTEGER),
-                    (config, value) -> config.borderShrinkTime = value,
-                    (config) -> config.borderShrinkTime).add()
-            .append(new KeyedCodec<>("BorderRadius", Codec.INTEGER),
-                    (config, value) -> config.borderRadius = value,
-                    (config) -> config.borderRadius).add()
+            .append(new KeyedCodec<>("BorderStartRadius", Codec.INTEGER),
+                    (config, value) -> config.borderStartRadius = value,
+                    (config) -> config.borderStartRadius).add()
+            .append(new KeyedCodec<>("BorderDamage", Codec.FLOAT),
+                    (config, value) -> config.borderDamage = value,
+                    (config) -> config.borderDamage).add()
+            .append(new KeyedCodec<>("BorderPhases", ArrayCodec.ofBuilderCodec(BorderPhase.CODEC, BorderPhase[]::new)),
+                    (config, value) -> config.borderPhases = value,
+                    (config) -> config.borderPhases).add()
             .append(new KeyedCodec<>("DisconnectTimeout", Codec.INTEGER),
                     (config, value) -> config.disconnectTimeout = value,
                     (config) -> config.disconnectTimeout).add()
@@ -32,8 +36,10 @@ public class GameConfig implements IConfig {
 
     public int invincibilityTime = 60;
     public int pvpTime = 600;
-    public int borderShrinkTime = 2400;
-    public int borderRadius = 500;
+
+    public int borderStartRadius = 1600;
+    public float borderDamage = 10;
+    public BorderPhase[] borderPhases = { new BorderPhase(2400, 100, 1) };
 
     public int disconnectTimeout = 600;
 

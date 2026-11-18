@@ -28,7 +28,7 @@ public class UHCSpawnUtil {
     }
 
     private static CompletableFuture<Transform> findSpawnPoint(PlayerRef playerRef, World world, int attempts) {
-        int radius = UHC.get().getGameConfig().borderRadius;
+        int radius = UHC.get().getGameConfig().borderStartRadius;
         double x = ThreadLocalRandom.current().nextInt(-radius, radius) + 0.5;
         double z = ThreadLocalRandom.current().nextInt(-radius, radius) + 0.5;
 

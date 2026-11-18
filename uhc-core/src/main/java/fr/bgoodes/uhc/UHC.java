@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
+import fr.bgoodes.uhc.listener.game.BorderClockListener;
 import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
 import fr.bgoodes.uhc.listener.game.GameListener;
 import fr.bgoodes.uhc.listener.game.ParticipantListener;
@@ -25,6 +26,7 @@ import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.service.team.TeamService;
+import fr.bgoodes.uhc.service.WorldBorderService;
 import fr.bgoodes.uhc.service.WorldService;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
@@ -66,6 +68,7 @@ public class UHC extends JavaPlugin {
         services.register(PlayerService.class, new PlayerService());
         services.register(TeamService.class, new TeamService());
         services.register(WorldService.class, new WorldService());
+        services.register(WorldBorderService.class, new WorldBorderService());
 
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
@@ -93,6 +96,7 @@ public class UHC extends JavaPlugin {
         new ConnectionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());
         new GameListener().register(getEventRegistry());
+        new BorderClockListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
 
@@ -156,5 +160,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull WorldService getWorldService() {
         return services.get(WorldService.class);
+    }
+
+    public @NotNull WorldBorderService getWorldBorderService() {
+        return services.get(WorldBorderService.class);
     }
 }
