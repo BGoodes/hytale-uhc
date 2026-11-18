@@ -5,7 +5,7 @@ import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.ParticipantSpawnEvent;
+import fr.bgoodes.uhc.event.participant.ParticipantSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;

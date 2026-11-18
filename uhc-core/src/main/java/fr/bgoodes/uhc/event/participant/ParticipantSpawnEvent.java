@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.event;
+package fr.bgoodes.uhc.event.participant;
 
 import com.hypixel.hytale.event.IEvent;
 import com.hypixel.hytale.math.vector.Transform;

@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.event;
+package fr.bgoodes.uhc.event.participant;
 
 import com.hypixel.hytale.event.ICancellable;
 import com.hypixel.hytale.event.IEvent;

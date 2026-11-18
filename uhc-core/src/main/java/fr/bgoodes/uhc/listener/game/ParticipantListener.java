@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.listener;
+package fr.bgoodes.uhc.listener.game;
 
 import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.event.EventRegistry;
@@ -6,8 +6,10 @@ import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.ParticipantDeathEvent;
-import fr.bgoodes.uhc.event.ParticipantEliminatedEvent;
+import fr.bgoodes.uhc.event.participant.ParticipantDeathEvent;
+import fr.bgoodes.uhc.event.participant.ParticipantEliminatedEvent;
+import fr.bgoodes.uhc.event.team.TeamEliminatedEvent;
+import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
@@ -51,5 +53,14 @@ public class ParticipantListener {
 
     private void onEliminated(ParticipantEliminatedEvent event) {
         UHC.get().getPermissionService().addSpectator(event.getUuid());
+
+        Team team = UHC.get().getTeamService().getPlayerTeam(event.getUuid());
+        if (team == null || team.getMembers().stream().anyMatch(UHC.get().getPlayerService()::isParticipant)) {
+            return;
+        }
+
+        HytaleServer.get().getEventBus()
+                .dispatchFor(TeamEliminatedEvent.class)
+                .dispatch(new TeamEliminatedEvent(team));
     }
 }

@@ -6,12 +6,13 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
-import fr.bgoodes.uhc.listener.DisconnectListener;
-import fr.bgoodes.uhc.listener.ParticipantListener;
-import fr.bgoodes.uhc.listener.ConnectionListener;
-import fr.bgoodes.uhc.listener.WorldListener;
+import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
+import fr.bgoodes.uhc.listener.game.GameListener;
+import fr.bgoodes.uhc.listener.game.ParticipantListener;
+import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
+import fr.bgoodes.uhc.listener.hytale.WorldListener;
 import fr.bgoodes.uhc.service.ServiceRegistry;
-import fr.bgoodes.uhc.event.ClockEvent;
+import fr.bgoodes.uhc.event.game.ClockEvent;
 import fr.bgoodes.uhc.service.ClockService;
 import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
@@ -91,8 +92,9 @@ public class UHC extends JavaPlugin {
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new ConnectionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());
+        new GameListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
-        new DisconnectListener().register(getEventRegistry());
+        new DisconnectTimeoutListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }

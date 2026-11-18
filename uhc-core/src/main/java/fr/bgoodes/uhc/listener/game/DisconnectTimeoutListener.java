@@ -1,51 +1,27 @@
-package fr.bgoodes.uhc.listener;
+package fr.bgoodes.uhc.listener.game;
 
-import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
-import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
-import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.ClockEvent;
-import fr.bgoodes.uhc.event.ParticipantDeathEvent;
+import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.participant.ParticipantDeathEvent;
 import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.joml.Vector3d;
 
-import java.awt.Color;
+import java.awt.*;
 import java.time.Instant;
 import java.util.UUID;
 
-public class DisconnectListener {
+public class DisconnectTimeoutListener {
 
     public void register(EventRegistry eventRegistry) {
-        eventRegistry.register(PlayerDisconnectEvent.class, this::onDisconnect);
-        eventRegistry.registerGlobal(PlayerReadyEvent.class, this::onReady);
         eventRegistry.register(ClockEvent.class, _ -> onClock());
-    }
-
-    private void onDisconnect(PlayerDisconnectEvent event) {
-        UUID uuid = event.getPlayerRef().getUuid();
-
-        if (UHC.get().getPlayerService().isParticipant(uuid)) {
-            UHC.get().getPlayerService().setDisconnected(uuid);
-        }
-    }
-
-    private void onReady(PlayerReadyEvent event) {
-        Ref<EntityStore> ref = event.getPlayerRef();
-        PlayerRef playerRef = ref.getStore().getComponent(ref, PlayerRef.getComponentType());
-
-        if (playerRef != null) {
-            UHC.get().getPlayerService().removeDisconnected(playerRef.getUuid());
-        }
     }
 
     private void onClock() {

@@ -1,7 +1,8 @@
-package fr.bgoodes.uhc.listener;
+package fr.bgoodes.uhc.listener.hytale;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.event.EventRegistry;
+import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -15,12 +16,14 @@ import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class ConnectionListener {
 
     public void register(EventRegistry eventRegistry) {
         eventRegistry.register(PlayerSetupConnectEvent.class, this::onPlayerSetupConnect);
         eventRegistry.registerGlobal(PlayerReadyEvent.class, this::onPlayerReady);
+        eventRegistry.register(PlayerDisconnectEvent.class, this::onPlayerDisconnect);
     }
 
     private void onPlayerSetupConnect(PlayerSetupConnectEvent event) {
@@ -45,7 +48,13 @@ public class ConnectionListener {
         Ref<EntityStore> ref = event.getPlayerRef();
         PlayerRef playerRef = ref.getStore().getComponent(ref, PlayerRef.getComponentType());
 
-        if (playerRef == null || UHC.get().getPlayerService().isParticipant(playerRef.getUuid())) {
+        if (playerRef == null) {
+            return;
+        }
+
+        UHC.get().getPlayerService().removeDisconnected(playerRef.getUuid());
+
+        if (UHC.get().getPlayerService().isParticipant(playerRef.getUuid())) {
             return;
         }
 
@@ -56,5 +65,13 @@ public class ConnectionListener {
 
         UHCPlayerUtil.reset(playerRef);
         UHCTeleportUtil.teleport(playerRef, UHC.get().getWorldService().getGameWorld(), UHCLobbyUtil.LOBBY_SPAWN);
+    }
+
+    private void onPlayerDisconnect(PlayerDisconnectEvent event) {
+        UUID uuid = event.getPlayerRef().getUuid();
+
+        if (UHC.get().getPlayerService().isParticipant(uuid)) {
+            UHC.get().getPlayerService().setDisconnected(uuid);
+        }
     }
 }

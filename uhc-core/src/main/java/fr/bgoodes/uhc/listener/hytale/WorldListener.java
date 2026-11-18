@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.listener;
+package fr.bgoodes.uhc.listener.hytale;
 
 import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.math.shape.Box2D;
