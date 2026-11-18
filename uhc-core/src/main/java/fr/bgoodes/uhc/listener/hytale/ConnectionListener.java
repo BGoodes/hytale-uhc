@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
@@ -37,6 +38,11 @@ public class ConnectionListener {
         if (!permissionService.hasHost() && !permissionService.canHost(event.getUuid())) {
             event.setReason(UHCMessageUtil.tr("uhc.connection.denied.host").color(Color.RED));
             event.setCancelled(true);
+            return;
+        }
+
+        if (!UHC.get().getPlayerService().isParticipant(event.getUuid())) {
+            Universe.get().getPlayerStorage().save(event.getUuid(), EntityStore.REGISTRY.newHolder(), true);
         }
     }
 

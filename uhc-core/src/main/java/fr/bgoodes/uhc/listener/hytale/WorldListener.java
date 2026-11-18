@@ -19,6 +19,8 @@ import fr.bgoodes.uhc.util.UHCPlayerUtil;
 
 public class WorldListener {
 
+    private static final String GAMEPLAY_CONFIG = "UHC";
+
     public void register(EventRegistry eventRegistry) {
         eventRegistry.registerGlobal(AddWorldEvent.class, this::onAddWorld);
         eventRegistry.registerGlobal(RemoveWorldEvent.class, this::onRemoveWorld);
@@ -34,6 +36,7 @@ public class WorldListener {
         int radius = UHC.get().getServerConfig().getPregenerateRadius();
 
         worldConfig.setDeleteOnUniverseStart(true);
+        worldConfig.setGameplayConfig(GAMEPLAY_CONFIG);
 
         MutableDeathConfig deathConfig = new MutableDeathConfig();
         deathConfig.setGameModeTypeOnDeath(UHCPlayerUtil.SPECTATOR_GAME_MODE_TYPE_ID);
