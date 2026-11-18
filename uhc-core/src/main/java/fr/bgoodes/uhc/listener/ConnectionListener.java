@@ -16,7 +16,7 @@ import fr.bgoodes.uhc.util.UHCPlayerUtil;
 
 import java.awt.*;
 
-public class PlayerConnectionListener {
+public class ConnectionListener {
 
     public void register(EventRegistry eventRegistry) {
         eventRegistry.register(PlayerSetupConnectEvent.class, this::onPlayerSetupConnect);
@@ -29,6 +29,11 @@ public class PlayerConnectionListener {
         }
 
         PermissionService permissionService = UHC.get().getPermissionService();
+        permissionService.removeSpectator(event.getUuid());
+
+        if (!permissionService.isHost(event.getUuid())) {
+            permissionService.removeSpectator(event.getUuid());
+        }
 
         if (!permissionService.hasHost() && !permissionService.canHost(event.getUuid())) {
             event.setReason(UHCMessageUtil.tr("uhc.connection.denied.host").color(Color.RED));
@@ -49,7 +54,6 @@ public class PlayerConnectionListener {
             return;
         }
 
-        UHC.get().getPermissionService().removeSpectator(playerRef.getUuid());
         UHCPlayerUtil.reset(playerRef);
         UHCTeleportUtil.teleport(playerRef, UHC.get().getWorldService().getGameWorld(), UHCLobbyUtil.LOBBY_SPAWN);
     }
