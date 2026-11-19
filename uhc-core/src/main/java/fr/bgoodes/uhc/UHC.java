@@ -22,9 +22,12 @@ import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.service.team.TeamService;
+import fr.bgoodes.uhc.system.BenchSystem;
 import fr.bgoodes.uhc.system.BlockSystems;
 import fr.bgoodes.uhc.system.DamageSystem;
 import fr.bgoodes.uhc.system.DeathSystem;
+import fr.bgoodes.uhc.system.HiddenMapMarkerSystem;
+import com.hypixel.hytale.server.core.modules.voice.VoiceModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;
@@ -85,6 +88,8 @@ public class UHC extends JavaPlugin {
         getEntityStoreRegistry().registerSystem(new BlockSystems.PlaceBlock());
         getEntityStoreRegistry().registerSystem(new DamageSystem());
         getEntityStoreRegistry().registerSystem(new DeathSystem());
+        getChunkStoreRegistry().registerSystem(new BenchSystem());
+        getChunkStoreRegistry().registerSystem(new HiddenMapMarkerSystem());
 
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
@@ -102,6 +107,9 @@ public class UHC extends JavaPlugin {
     @Override
     protected void start() {
         getPermissionService().initialize(getServerConfig());
+
+        VoiceModule.get().setVoiceEnabled(getServerConfig().isProximityChat());
+        VoiceModule.get().setMaxHearingDistance(getServerConfig().getProximityChatDistance());
 
         LOGGER.atInfo().log("UHC Core plugin start.");
     }

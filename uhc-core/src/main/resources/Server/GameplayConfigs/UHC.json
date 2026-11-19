@@ -4,6 +4,9 @@
     "ArmorVisibilityOption": "None"
   },
   "WorldMap": {
-    "DisplaySpawn": false
+    "DisplaySpawn": false,
+    "DisplayPlayers": false,
+    "CanTrackPlayersInCompass": false,
+    "CanTogglePlayersInMap": false
   }
 }

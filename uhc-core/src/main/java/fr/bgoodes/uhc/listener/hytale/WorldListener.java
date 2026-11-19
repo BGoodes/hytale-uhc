@@ -37,6 +37,7 @@ public class WorldListener {
 
         worldConfig.setDeleteOnUniverseStart(true);
         worldConfig.setGameplayConfig(GAMEPLAY_CONFIG);
+        worldConfig.setPvpEnabled(true);
 
         MutableDeathConfig deathConfig = new MutableDeathConfig();
         deathConfig.setGameModeTypeOnDeath(UHCPlayerUtil.SPECTATOR_GAME_MODE_TYPE_ID);
