@@ -8,7 +8,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.ClockEvent;
 import fr.bgoodes.uhc.event.participant.ParticipantDeathEvent;
 import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.util.UHCMessageUtil;

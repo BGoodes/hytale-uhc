@@ -3,7 +3,7 @@ package fr.bgoodes.uhc.service;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.task.TaskRegistration;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.ClockEvent;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;

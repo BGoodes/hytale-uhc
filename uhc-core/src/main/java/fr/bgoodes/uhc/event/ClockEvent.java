@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.event.game;
+package fr.bgoodes.uhc.event;
 
 import com.hypixel.hytale.event.IEvent;
 

@@ -3,7 +3,7 @@ package fr.bgoodes.uhc.listener.game;
 import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.event.EventRegistry;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.ClockEvent;
 import fr.bgoodes.uhc.event.game.GameStateChangedEvent;
 
 public class HudListener {

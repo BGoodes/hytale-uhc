@@ -6,7 +6,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
-import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.ClockEvent;
 import fr.bgoodes.uhc.listener.game.*;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;

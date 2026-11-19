@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.game.BorderShrunkEvent;
-import fr.bgoodes.uhc.event.game.ClockEvent;
+import fr.bgoodes.uhc.event.ClockEvent;
 import fr.bgoodes.uhc.service.WorldBorderService;
 import org.joml.Vector3d;
 
