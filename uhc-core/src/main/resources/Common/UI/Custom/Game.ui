@@ -1,0 +1,26 @@
+Group #PlayingRoot {
+    Anchor: (Top: 50, Width: 320, Height: 56);
+    LayoutMode: Top;
+
+    Label #TimeLabel {
+        Anchor: (Height: 34);
+        Style: (
+            FontSize: 24,
+            TextColor: #ffffff,
+            HorizontalAlignment: Center,
+            RenderBold: true
+        );
+        Text: "00:00";
+    }
+
+    Label #NextEventLabel {
+        Anchor: (Height: 18);
+        Style: (
+            FontSize: 13,
+            TextColor: #ffffff(0.7),
+            HorizontalAlignment: Center,
+            RenderBold: true
+        );
+        Text: "";
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "Parent": "Default",
+  "Player": {
+    "ArmorVisibilityOption": "None"
+  },
+  "WorldMap": {
+    "DisplaySpawn": false
+  }
+}
