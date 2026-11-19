@@ -15,7 +15,7 @@ import fr.bgoodes.uhc.service.config.impl.BorderPhase;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
-import fr.bgoodes.uhc.service.hud.model.StateHud;
+import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
@@ -108,7 +108,7 @@ public class PlayingState implements IGameState {
     }
 
     @Override
-    public @Nullable StateHud createHud(@NotNull PlayerRef playerRef) {
+    public @Nullable UHCHud createHud(@NotNull PlayerRef playerRef) {
         return new PlayingHud(playerRef, this);
     }
 

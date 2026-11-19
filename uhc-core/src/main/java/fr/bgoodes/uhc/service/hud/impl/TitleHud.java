@@ -1,13 +1,13 @@
 package fr.bgoodes.uhc.service.hud.impl;
 
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.service.hud.model.Title;
+import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import org.jetbrains.annotations.NotNull;
 
-public class TitleHud extends CustomUIHud {
+public class TitleHud extends UHCHud {
 
     public static final String HUD_ID = "uhc:title";
     private static final int Z_ORDER = 10;
@@ -41,6 +41,7 @@ public class TitleHud extends CustomUIHud {
         this.hideAt = System.currentTimeMillis() + title.duration() * 1000L;
     }
 
+    @Override
     public synchronized void refresh() {
         if (hideAt == 0 || System.currentTimeMillis() < hideAt) {
             return;

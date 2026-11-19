@@ -6,7 +6,8 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.config.impl.BorderPhase;
 import fr.bgoodes.uhc.service.config.impl.GameConfig;
-import fr.bgoodes.uhc.service.hud.model.StateHud;
+import fr.bgoodes.uhc.service.hud.model.UHCHud;
+import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCTimeUtil;
@@ -15,12 +16,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 
-public class PlayingHud extends StateHud {
+public class PlayingHud extends UHCHud {
 
     private final PlayingState state;
 
     public PlayingHud(@NotNull PlayerRef playerRef, @NotNull PlayingState state) {
-        super(playerRef);
+        super(playerRef, IGameState.HUD_KEY);
         this.state = state;
     }
 

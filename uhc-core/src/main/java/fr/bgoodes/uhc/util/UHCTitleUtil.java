@@ -14,9 +14,7 @@ public class UHCTitleUtil {
     private UHCTitleUtil() {}
 
     public static void send(@NotNull PlayerRef playerRef, @NotNull Title title) {
-        TitleHud hud = UHC.get().getHudService().getTitleHud(playerRef.getUuid());
-
-        if (hud != null) {
+        if (UHC.get().getHudService().get(playerRef.getUuid(), TitleHud.HUD_ID) instanceof TitleHud hud) {
             hud.show(title);
         }
     }
