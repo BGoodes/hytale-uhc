@@ -1,23 +1,22 @@
 package fr.bgoodes.uhc.event.game;
 
-import com.hypixel.hytale.event.IEvent;
-import com.hypixel.hytale.server.core.Message;
+import fr.bgoodes.uhc.event.AnnouncementEvent;
 import fr.bgoodes.uhc.service.hud.model.Title;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
-import org.jetbrains.annotations.Nullable;
 
-public class BorderShrinkEvent implements IEvent<Void> {
+public class BorderShrinkEvent extends AnnouncementEvent {
 
     private final double targetRadius;
     private final double speed;
 
-    private @Nullable Message message;
-
     public BorderShrinkEvent(double targetRadius, double speed) {
+        super(
+                UHCMessageUtil.tr("uhc.game.border.shrinking.chat").param("radius", Math.round(targetRadius)),
+                new Title(UHCMessageUtil.tr("uhc.game.border.shrinking.title"))
+        );
+
         this.targetRadius = targetRadius;
         this.speed = speed;
-        this.message = UHCMessageUtil.tr("uhc.game.border.shrinking.chat")
-                .param("radius", Math.round(targetRadius));
     }
 
     public double getTargetRadius() {
@@ -26,23 +25,5 @@ public class BorderShrinkEvent implements IEvent<Void> {
 
     public double getSpeed() {
         return speed;
-    }
-
-    public @Nullable Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(@Nullable Message message) {
-        this.message = message;
-    }
-
-    private @Nullable Title title = new Title(UHCMessageUtil.tr("uhc.game.border.shrinking.title"));
-
-    public @Nullable Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(@Nullable Title title) {
-        this.title = title;
     }
 }

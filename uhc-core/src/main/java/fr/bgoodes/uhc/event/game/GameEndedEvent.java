@@ -1,8 +1,8 @@
 package fr.bgoodes.uhc.event.game;
 
 import com.hypixel.hytale.event.ICancellable;
-import com.hypixel.hytale.event.IEvent;
 import com.hypixel.hytale.server.core.Message;
+import fr.bgoodes.uhc.event.AnnouncementEvent;
 import fr.bgoodes.uhc.service.hud.model.Title;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
@@ -10,40 +10,24 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 
-public class GameEndedEvent implements IEvent<Void>, ICancellable {
+public class GameEndedEvent extends AnnouncementEvent implements ICancellable {
 
     private final @Nullable Team winner;
-
-    private @Nullable Message message;
-    private @Nullable Title title;
 
     private boolean cancelled;
 
     public GameEndedEvent(@Nullable Team winner) {
+        super(
+                defaultMessage(winner),
+                new Title(UHCMessageUtil.tr("uhc.game.ended.title"), defaultMessage(winner), 6)
+        );
+
         this.winner = winner;
-        this.message = defaultMessage(winner);
-        this.title = new Title(UHCMessageUtil.tr("uhc.game.ended.title"), defaultMessage(winner), 6);
         this.cancelled = false;
     }
 
     public @Nullable Team getWinner() {
         return winner;
-    }
-
-    public @Nullable Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(@Nullable Message message) {
-        this.message = message;
-    }
-
-    public @Nullable Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(@Nullable Title title) {
-        this.title = title;
     }
 
     @Override

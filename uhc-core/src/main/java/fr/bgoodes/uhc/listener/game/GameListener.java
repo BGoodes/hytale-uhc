@@ -4,6 +4,7 @@ import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.Message;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.event.AnnouncementEvent;
 import fr.bgoodes.uhc.event.game.*;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.model.Title;
@@ -11,7 +12,6 @@ import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
 import fr.bgoodes.uhc.util.UHCTitleUtil;
-import org.jetbrains.annotations.Nullable;
 
 public class GameListener {
 
@@ -25,26 +25,26 @@ public class GameListener {
     }
 
     private void onGameStarted(GameStartedEvent event) {
-        announce(event.getMessage(), event.getTitle());
+        announce(event);
     }
 
     private void onInvincibilityEnded(InvincibilityEndedEvent event) {
         UHC.get().getFlagService().setEnabled(UHCFlag.DAMAGE, true);
-        announce(event.getMessage(), event.getTitle());
+        announce(event);
     }
 
     private void onPvpEnabled(PvpEnabledEvent event) {
         UHC.get().getFlagService().setEnabled(UHCFlag.PVP, true);
-        announce(event.getMessage(), event.getTitle());
+        announce(event);
     }
 
     private void onBorderShrink(BorderShrinkEvent event) {
         UHC.get().getWorldBorderService().shrinkTo(event.getTargetRadius(), event.getSpeed());
-        announce(event.getMessage(), event.getTitle());
+        announce(event);
     }
 
     private void onBorderShrunk(BorderShrunkEvent event) {
-        announce(event.getMessage(), null);
+        announce(event);
     }
 
     private void onGameEnded(GameEndedEvent event) {
@@ -52,16 +52,14 @@ public class GameListener {
             return;
         }
 
-        announce(event.getMessage(), event.getTitle());
         UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
+        announce(event);
     }
 
-    private void announce(@Nullable Message message, @Nullable Title title) {
-        if (message == null && title == null) {
-            return;
-        }
-
-        UHCSoundUtil.broadcast("SFX_Drum_Stinger");
+    private void announce(AnnouncementEvent event) {
+        Message message = event.getMessage();
+        Title title = event.getTitle();
+        String sound = event.getSound();
 
         if (message != null) {
             UHCMessageUtil.broadcast(message);
@@ -69,6 +67,10 @@ public class GameListener {
 
         if (title != null) {
             UHCTitleUtil.broadcast(title);
+        }
+
+        if (sound != null) {
+            UHCSoundUtil.broadcast(sound);
         }
     }
 }
