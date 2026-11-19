@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.service.hud.impl.TitleHud;
 import fr.bgoodes.uhc.service.hud.model.StateHud;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class HudService {
 
     private final Map<UUID, StateHud> huds = new HashMap<>();
+    private final Map<UUID, TitleHud> titleHuds = new HashMap<>();
 
     public void show(@NotNull PlayerRef playerRef) {
         Ref<EntityStore> ref = playerRef.getReference();
@@ -42,6 +44,13 @@ public class HudService {
             }
 
             HudManager hudManager = player.getHudManager();
+
+            if (!(hudManager.getCustomHud(TitleHud.HUD_ID) instanceof TitleHud)) {
+                TitleHud titleHud = new TitleHud(playerRef);
+                hudManager.addCustomHud(playerRef, titleHud);
+                setTitleHud(playerRef.getUuid(), titleHud);
+            }
+
             StateHud hud = UHC.get().getStateService().getCurrentState().createHud(playerRef);
 
             if (hud == null) {
@@ -60,16 +69,28 @@ public class HudService {
 
     public void refreshAll() {
         List<StateHud> active;
+        List<TitleHud> titles;
 
         synchronized (this) {
             active = List.copyOf(huds.values());
+            titles = List.copyOf(titleHuds.values());
         }
 
         active.forEach(StateHud::refresh);
+        titles.forEach(TitleHud::refresh);
+    }
+
+    public synchronized @Nullable TitleHud getTitleHud(@NotNull UUID uuid) {
+            return titleHuds.get(uuid);
     }
 
     public synchronized void forget(@NotNull UUID uuid) {
         huds.remove(uuid);
+        titleHuds.remove(uuid);
+    }
+
+    private synchronized void setTitleHud(UUID uuid, TitleHud hud) {
+        titleHuds.put(uuid, hud);
     }
 
     private synchronized void setHud(UUID uuid, @Nullable StateHud hud) {

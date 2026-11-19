@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.game.BorderShrinkEvent;
+import fr.bgoodes.uhc.event.game.GameStartedEvent;
 import fr.bgoodes.uhc.event.game.InvincibilityEndedEvent;
 import fr.bgoodes.uhc.event.game.PvpEnabledEvent;
 import fr.bgoodes.uhc.service.config.impl.BorderPhase;
@@ -69,6 +70,10 @@ public class PlayingState implements IGameState {
                     UHCLobbyUtil.remove(world);
 
                     this.ready = true;
+
+                    HytaleServer.get().getEventBus()
+                            .dispatchFor(GameStartedEvent.class)
+                            .dispatch(new GameStartedEvent());
                 });
     }
 

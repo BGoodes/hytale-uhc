@@ -3,8 +3,8 @@ package fr.bgoodes.uhc.service.state.impl;
 import com.hypixel.hytale.server.core.Message;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.state.model.IGameState;
-import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
+import fr.bgoodes.uhc.util.UHCTitleUtil;
 
 public class StartingState implements IGameState {
 
@@ -20,11 +20,9 @@ public class StartingState implements IGameState {
     @Override
     public void onClock() {
         if (time > 0) {
-            UHCMessageUtil.broadcast(Message.raw(String.valueOf(time)));
-//            hudService.showTitle(world, store, Message.raw(String.valueOf(time)), null, TITLE_DURATION);
+            UHCTitleUtil.broadcast(Message.raw(String.valueOf(time)), null, 1);
             UHCSoundUtil.broadcast("SFX_Axe_Iron_Impact");
         } else {
-            UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.game.started.chat"));
             UHCSoundUtil.broadcast("SFX_Rex_Alerted");
             UHC.get().getStateService().changeGameState(PlayingState.STATE_ID);
         }

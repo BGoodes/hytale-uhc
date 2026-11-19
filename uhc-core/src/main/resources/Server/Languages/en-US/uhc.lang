@@ -12,6 +12,7 @@ connection.denied.started = La partie a déjà commencé !
 # === game ===
 
 game.started.chat = Début de la partie !!!
+game.started.title = UHC
 game.ended.chat = Fin de la partie !
 game.ended.title = Fin de la partie !
 game.ended.closing.chat = Fermeture du serveur dans 1 minute.
