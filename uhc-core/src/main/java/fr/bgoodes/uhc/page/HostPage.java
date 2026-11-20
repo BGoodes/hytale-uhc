@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page.host;
+package fr.bgoodes.uhc.page;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -10,11 +10,11 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import fr.bgoodes.uhc.page.host.impl.core.CoreTab;
-import fr.bgoodes.uhc.page.host.impl.mode.ModeTab;
-import fr.bgoodes.uhc.page.host.impl.preset.PresetTab;
-import fr.bgoodes.uhc.page.host.impl.scenario.ScenarioTab;
-import fr.bgoodes.uhc.page.host.model.IHostTab;
+import fr.bgoodes.uhc.page.impl.page.core.CoreTab;
+import fr.bgoodes.uhc.page.impl.page.mode.ModeTab;
+import fr.bgoodes.uhc.page.impl.page.preset.PresetTab;
+import fr.bgoodes.uhc.page.impl.page.scenario.ScenarioTab;
+import fr.bgoodes.uhc.page.model.IHostTab;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page.host.impl.core;
+package fr.bgoodes.uhc.page.impl.page.core;
 
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.HytaleServer;
@@ -10,10 +10,10 @@ import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
-import fr.bgoodes.uhc.page.host.HostPageData;
-import fr.bgoodes.uhc.page.host.model.IHostTab;
-import fr.bgoodes.uhc.page.host.option.OptionRows;
-import fr.bgoodes.uhc.page.host.option.model.IOptionRow;
+import fr.bgoodes.uhc.page.HostPageData;
+import fr.bgoodes.uhc.page.model.IHostTab;
+import fr.bgoodes.uhc.page.impl.option.OptionRows;
+import fr.bgoodes.uhc.page.model.IOptionRow;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.jetbrains.annotations.NotNull;
@@ -92,13 +92,13 @@ public class CoreTab implements IHostTab {
 
     private void buildRows(UICommandBuilder ui, UIEventBuilder events) {
         CoreCategory category = categories.get(selectedCategory);
-        rows = category.options().stream().map(OptionRows::create).filter(Objects::nonNull).toList();
+        this.rows = category.options().stream().map(OptionRows::create).filter(Objects::nonNull).toList();
 
         ui.set("#CategoryTitle.TextSpans", category.name());
         ui.clear("#OptionList");
 
-        for (int i = 0; i < rows.size(); i++) {
-            IOptionRow row = rows.get(i);
+        for (int i = 0; i < this.rows.size(); i++) {
+            IOptionRow row = this.rows.get(i);
 
             ui.append("#OptionList", row.getDocument());
             row.build("#OptionList[" + i + "]", ui, events);
@@ -106,8 +106,8 @@ public class CoreTab implements IHostTab {
     }
 
     private void changeOption(HostPageData data, UICommandBuilder ui) {
-        for (int i = 0; i < rows.size(); i++) {
-            IOptionRow row = rows.get(i);
+        for (int i = 0; i < this.rows.size(); i++) {
+            IOptionRow row = this.rows.get(i);
 
             if (!row.getOption().getKey().equals(data.getId())) {
                 continue;

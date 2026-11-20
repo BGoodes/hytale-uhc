@@ -1,9 +1,6 @@
-package fr.bgoodes.uhc.page.host.option;
+package fr.bgoodes.uhc.page.impl.option;
 
-import fr.bgoodes.uhc.page.host.option.impl.BooleanOptionRow;
-import fr.bgoodes.uhc.page.host.option.impl.FloatOptionRow;
-import fr.bgoodes.uhc.page.host.option.impl.IntOptionRow;
-import fr.bgoodes.uhc.page.host.option.model.IOptionRow;
+import fr.bgoodes.uhc.page.model.IOptionRow;
 import fr.bgoodes.uhc.service.config.impl.option.BooleanOption;
 import fr.bgoodes.uhc.service.config.impl.option.FloatOption;
 import fr.bgoodes.uhc.service.config.impl.option.IntOption;
@@ -15,6 +12,7 @@ public class OptionRows {
 
     private OptionRows() {}
 
+    //TODO: refacto this ugly thing
     public static @Nullable IOptionRow create(@NotNull Option<?> option) {
         if (option instanceof IntOption intOption) {
             return new IntOptionRow(intOption);

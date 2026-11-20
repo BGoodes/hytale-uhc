@@ -1,9 +1,9 @@
-package fr.bgoodes.uhc.page.host.model;
+package fr.bgoodes.uhc.page.model;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
-import fr.bgoodes.uhc.page.host.HostPageData;
+import fr.bgoodes.uhc.page.HostPageData;
 import org.jetbrains.annotations.NotNull;
 
 public interface IHostTab {

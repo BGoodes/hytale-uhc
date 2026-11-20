@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page.host.impl.core;
+package fr.bgoodes.uhc.page.impl.page.core;
 
 import com.hypixel.hytale.server.core.Message;
 import fr.bgoodes.uhc.service.config.model.Option;

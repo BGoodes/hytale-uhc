@@ -27,7 +27,7 @@ public class PlayingHud extends UHCHud {
 
     @Override
     protected void build(@NotNull UICommandBuilder ui) {
-        ui.append("Game.ui");
+        ui.append("UHC/Hud/Game.ui");
         ui.set("#NextEventLabel.Visible", false);
     }
 

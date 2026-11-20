@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page.host.option.impl;
+package fr.bgoodes.uhc.page.impl.option;
 
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
@@ -6,25 +6,25 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
-import fr.bgoodes.uhc.page.host.HostPageData;
-import fr.bgoodes.uhc.page.host.option.model.IOptionRow;
-import fr.bgoodes.uhc.service.config.impl.option.IntOption;
+import fr.bgoodes.uhc.page.HostPageData;
+import fr.bgoodes.uhc.page.model.IOptionRow;
+import fr.bgoodes.uhc.service.config.impl.option.FloatOption;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class IntOptionRow implements IOptionRow {
+public class FloatOptionRow implements IOptionRow {
 
-    private static final String DOCUMENT = "Pages/Fields/IntRow.ui";
+    private static final String DOCUMENT = "Pages/Fields/NumberRow.ui";
 
-    private final IntOption option;
+    private final FloatOption option;
 
-    public IntOptionRow(@NotNull IntOption option) {
+    public FloatOptionRow(@NotNull FloatOption option) {
         this.option = option;
     }
 
     @Override
-    public @NotNull IntOption getOption() {
+    public @NotNull FloatOption getOption() {
         return option;
     }
 
@@ -55,6 +55,6 @@ public class IntOptionRow implements IOptionRow {
     @Override
     public @Nullable OptionChangeEvent request(@NotNull HostPageData data, @NotNull PlayerRef source) {
         Double number = data.getNumber();
-        return number == null ? null : new OptionChangeEvent(source, option, (int) Math.round(number));
+        return number == null ? null : new OptionChangeEvent(source, option, number.floatValue());
     }
 }
