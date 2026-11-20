@@ -11,5 +11,11 @@ public class LobbyState implements IGameState {
     @Override
     public void start() {
         UHC.get().getFlagService().setEnabled(UHCFlag.NEW_PLAYERS, true);
+        UHC.get().getFlagService().setEnabled(UHCFlag.CONFIG, true);
+    }
+
+    @Override
+    public void end() {
+        UHC.get().getFlagService().setEnabled(UHCFlag.CONFIG, false);
     }
 }

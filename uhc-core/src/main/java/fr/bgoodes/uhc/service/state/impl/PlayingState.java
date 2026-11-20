@@ -11,8 +11,8 @@ import fr.bgoodes.uhc.event.game.BorderShrinkEvent;
 import fr.bgoodes.uhc.event.game.GameStartedEvent;
 import fr.bgoodes.uhc.event.game.InvincibilityEndedEvent;
 import fr.bgoodes.uhc.event.game.PvpEnabledEvent;
-import fr.bgoodes.uhc.service.config.impl.BorderPhase;
-import fr.bgoodes.uhc.service.config.impl.GameConfig;
+import fr.bgoodes.uhc.service.config.impl.game.BorderPhase;
+import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
@@ -45,7 +45,7 @@ public class PlayingState implements IGameState {
         this.ready = false;
         this.time = 0;
 
-        UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius);
+        UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius.get());
 
         World world = UHC.get().getWorldService().getGameWorld();
         List<CompletableFuture<Void>> spawns = new ArrayList<>();
@@ -86,17 +86,17 @@ public class PlayingState implements IGameState {
         GameConfig config = UHC.get().getGameConfig();
         IEventBus eventBus = HytaleServer.get().getEventBus();
 
-        if (time == config.invincibilityTime) {
+        if (time == config.invincibilityTime.get()) {
             eventBus.dispatchFor(InvincibilityEndedEvent.class).dispatch(new InvincibilityEndedEvent());
         }
 
-        if (time == config.pvpTime) {
+        if (time == config.pvpTime.get()) {
             eventBus.dispatchFor(PvpEnabledEvent.class).dispatch(new PvpEnabledEvent());
         }
 
-        for (BorderPhase phase : config.borderPhases) {
-            if (time == phase.time) {
-                eventBus.dispatchFor(BorderShrinkEvent.class).dispatch(new BorderShrinkEvent(phase.radius, phase.speed));
+        for (BorderPhase phase : config.borderPhases.get()) {
+            if (time == phase.time()) {
+                eventBus.dispatchFor(BorderShrinkEvent.class).dispatch(new BorderShrinkEvent(phase.radius(), phase.speed()));
             }
         }
 
