@@ -6,10 +6,12 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.page.host.HostPage;
 import fr.bgoodes.uhc.service.PermissionService;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
@@ -26,6 +28,7 @@ public class HostCommand extends AbstractCommandCollection {
         this.requirePermission("uhc.game.host");
 
         this.addSubCommand(new ClaimCommand("claim", "Claim the UHC as host"));
+        this.addSubCommand(new ConfigCommand("config", "Configure the UHC"));
         this.addSubCommand(new StartCommand("start", "Start the UHC"));
     }
 
@@ -52,6 +55,30 @@ public class HostCommand extends AbstractCommandCollection {
                 UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.host.claim.success").color(Color.magenta));
             } else {
                 UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.host.claim.failure").color(Color.red));
+            }
+        }
+    }
+
+    private static class ConfigCommand extends AbstractPlayerCommand {
+
+        public ConfigCommand(@NotNull String name, @NotNull String description) {
+            super(name, description);
+
+            this.requirePermission("uhc.host.config");
+        }
+
+        @Override
+        protected void execute(
+                @NotNull CommandContext commandContext,
+                @NotNull Store<EntityStore> store,
+                @NotNull Ref<EntityStore> ref,
+                @NotNull PlayerRef playerRef,
+                @NotNull World world
+        ) {
+            Player player = store.getComponent(ref, Player.getComponentType());
+
+            if (player != null) {
+                player.getPageManager().openCustomPage(ref, store, new HostPage(playerRef));
             }
         }
     }

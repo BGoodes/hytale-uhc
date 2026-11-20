@@ -1,0 +1,34 @@
+$C = "../../Common.ui";
+
+$C.@PageOverlay {}
+
+$C.@DecoratedContainer {
+  Anchor: (Width: 1100, Height: 720);
+
+  #Title {
+    Group {
+      LayoutMode: Center;
+      Anchor: (Full: 0);
+
+      $C.@Title {
+        @Text = %uhc.host.title;
+      }
+    }
+  }
+
+  #Content {
+    LayoutMode: Top;
+
+    Group #TabButtons {
+      LayoutMode: Left;
+      Anchor: (Height: 32, Bottom: 14);
+    }
+
+    Group #TabContent {
+      FlexWeight: 1;
+      LayoutMode: Top;
+    }
+  }
+}
+
+$C.@BackButton {}
