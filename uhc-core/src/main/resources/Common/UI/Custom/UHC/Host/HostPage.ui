@@ -17,16 +17,31 @@ $C.@DecoratedContainer {
   }
 
   #Content {
-    LayoutMode: Top;
+    LayoutMode: Left;
 
-    Group #TabButtons {
-      LayoutMode: Left;
-      Anchor: (Height: 32, Bottom: 14);
+    Group #CategoryList {
+      Anchor: (Width: 200);
+      LayoutMode: TopScrolling;
+      ScrollbarStyle: $C.@DefaultScrollbarStyle;
+      Padding: (Right: 10);
     }
 
-    Group #TabContent {
+    Group {
       FlexWeight: 1;
       LayoutMode: Top;
+      Padding: (Left: 15, Right: 5);
+
+      Label #CategoryTitle {
+        Anchor: (Height: 28, Bottom: 12);
+        Style: (RenderUppercase: true, RenderBold: true, FontSize: 20, TextColor: $C.@ColorDefault);
+        MaskTexturePath: $C.@TextHighlightGradientMask;
+      }
+
+      Group #OptionList {
+        FlexWeight: 1;
+        LayoutMode: TopScrolling;
+        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+      }
     }
   }
 }

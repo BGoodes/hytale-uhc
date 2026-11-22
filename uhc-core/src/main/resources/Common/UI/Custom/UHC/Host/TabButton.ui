@@ -1,5 +1,0 @@
-$C = "../../Common.ui";
-
-$C.@SmallSecondaryTextButton #TabButton {
-  Anchor: (Width: 180, Height: 32, Right: 6);
-}

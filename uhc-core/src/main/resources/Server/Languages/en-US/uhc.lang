@@ -53,23 +53,15 @@ team.eliminated = L'équipe {team} est éliminée !
 # === host page ===
 
 host.title = Configuration de la partie
-host.tab.core = UHC
-host.tab.mode = Mode de jeu
-host.tab.scenarios = Scénarios
-host.tab.presets = Presets
 
-host.core.category.time = Temps
-host.core.category.border = Bordure
-host.core.category.other = Autre
-
-host.mode.wip = Bientôt disponible.
-host.scenarios.wip = Bientôt disponible.
-host.presets.wip = Bientôt disponible.
+host.category.time = Temps
+host.category.border = Bordure
+host.category.other = Autre
 
 # === options ===
 
-option.InvincibilityTime = Invincibilité (secondes)
-option.PvpTime = Activation du PvP (secondes)
-option.BorderStartRadius = Rayon de départ de la bordure
-option.BorderDamage = Dégâts de la bordure
-option.DisconnectTimeout = Élimination après déconnexion (secondes)
+option.InvincibilityTime = Invincibilité [s]
+option.PvpTime = Activation PvP [s]
+option.BorderStartRadius = Rayon départ bordure
+option.BorderDamage = Dégâts bordure
+option.DisconnectTimeout = Élimination déconnexion [s]
