@@ -1,4 +1,4 @@
-$C = "../../Common.ui";
+$C = "../Common.ui";
 
 @LabelStyle = (
   Default: (
@@ -7,7 +7,8 @@ $C = "../../Common.ui";
   Hovered: (
     LabelStyle: (FontSize: 14, TextColor: $C.@ColorButtonText, RenderUppercase: true, VerticalAlignment: Center, ShrinkTextToFit: true, MinShrinkTextToFitFontSize: 12),
     Background: $C.@ColorSimpleButtonBackground
-  )
+  ),
+  Sounds: $C.@ButtonSounds
 );
 
 @SelectedLabelStyle = (
@@ -19,7 +20,8 @@ $C = "../../Common.ui";
     LabelStyle: (FontSize: 14, TextColor: $C.@ColorDefault, RenderBold: true, RenderUppercase: true, VerticalAlignment: Center),
     Background: $C.@ColorSimpleButtonBackground,
     LabelMaskTexturePath: $C.@TextHighlightGradientMask
-  )
+  ),
+  Sounds: $C.@ButtonSounds
 );
 
 TextButton #CategoryButton {

@@ -35,7 +35,7 @@ public class PlayingState implements IGameState {
     public static final String STATE_ID = "playing";
 
     private volatile boolean ready = false;
-    private volatile int time;
+    private int time;
 
     @Override
     public void start() {
@@ -69,11 +69,12 @@ public class PlayingState implements IGameState {
 
                     UHCLobbyUtil.remove(world);
 
-                    this.ready = true;
-
                     HytaleServer.get().getEventBus()
                             .dispatchFor(GameStartedEvent.class)
                             .dispatch(new GameStartedEvent());
+
+                    dispatchTimedEvents();
+                    this.ready = true;
                 });
     }
 
@@ -83,6 +84,11 @@ public class PlayingState implements IGameState {
             return;
         }
 
+        time++;
+        dispatchTimedEvents();
+    }
+
+    private void dispatchTimedEvents() {
         GameConfig config = UHC.get().getGameConfig();
         IEventBus eventBus = HytaleServer.get().getEventBus();
 
@@ -99,8 +105,6 @@ public class PlayingState implements IGameState {
                 eventBus.dispatchFor(BorderShrinkEvent.class).dispatch(new BorderShrinkEvent(phase.radius(), phase.speed()));
             }
         }
-
-        time++;
     }
 
     public int getTime() {

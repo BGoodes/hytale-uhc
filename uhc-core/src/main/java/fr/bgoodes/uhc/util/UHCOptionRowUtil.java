@@ -29,14 +29,14 @@ public class UHCOptionRowUtil {
 
         switch (option) {
             case IntOption intOption -> {
-                ui.append(list, "Pages/Fields/IntRow.ui");
-                ui.set(input + ".Value", intOption.get());
-                data.append("@Number", input + ".Value");
+                ui.append(list, "Host/NumberRow.ui");
+                ui.set(input + ".Value", String.valueOf(intOption.get()));
+                data.append("@Text", input + ".Value");
             }
             case FloatOption floatOption -> {
-                ui.append(list, "Pages/Fields/NumberRow.ui");
-                ui.set(input + ".Value", floatOption.get());
-                data.append("@Number", input + ".Value");
+                ui.append(list, "Host/NumberRow.ui");
+                ui.set(input + ".Value", String.valueOf(floatOption.get()));
+                data.append("@Text", input + ".Value");
             }
             case BooleanOption booleanOption -> {
                 ui.append(list, "Pages/Fields/CheckboxRow.ui");
@@ -62,15 +62,19 @@ public class UHCOptionRowUtil {
 
     public static @Nullable OptionChangeEvent request(
             @NotNull Option<?> option,
-            @Nullable Double number,
+            @Nullable String text,
             @Nullable Boolean bool,
             @NotNull PlayerRef source
     ) {
-        return switch (option) {
-            case IntOption intOption when number != null -> new OptionChangeEvent(source, intOption, (int) Math.round(number));
-            case FloatOption floatOption when number != null -> new OptionChangeEvent(source, floatOption, number.floatValue());
-            case BooleanOption booleanOption when bool != null -> new OptionChangeEvent(source, booleanOption, bool);
-            default -> null;
-        };
+        try {
+            return switch (option) {
+                case IntOption intOption when text != null -> new OptionChangeEvent(source, intOption, Integer.parseInt(text.trim()));
+                case FloatOption floatOption when text != null -> new OptionChangeEvent(source, floatOption, Float.parseFloat(text.trim().replace(',', '.')));
+                case BooleanOption booleanOption when bool != null -> new OptionChangeEvent(source, booleanOption, bool);
+                default -> null;
+            };
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

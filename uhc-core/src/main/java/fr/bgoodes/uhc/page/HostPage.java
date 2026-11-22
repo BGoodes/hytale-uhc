@@ -22,18 +22,22 @@ import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.config.model.Option;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCOptionRowUtil;
+import fr.bgoodes.uhc.util.UHCSoundUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
-    private static final String DOCUMENT = "UHC/Host/HostPage.ui";
+    private static final String DOCUMENT = "Host/HostPage.ui";
 
-    private static final String CATEGORY_BUTTON = "UHC/Host/CategoryButton.ui";
+    private static final String CATEGORY_BUTTON = "Host/CategoryButton.ui";
     private static final Value<String> CATEGORY_STYLE = Value.ref(CATEGORY_BUTTON, "LabelStyle");
     private static final Value<String> CATEGORY_SELECTED_STYLE = Value.ref(CATEGORY_BUTTON, "SelectedLabelStyle");
+
+    private static final String REFUSED_SOUND = "SFX_Bow_No_Ammo";
 
     private record Category(Message name, List<Option<?>> options) {}
     private final List<Category> categories;
@@ -114,13 +118,25 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 continue;
             }
 
-            OptionChangeEvent event = UHCOptionRowUtil.request(option, data.number, data.bool, playerRef);
+            OptionChangeEvent event = UHCOptionRowUtil.request(option, data.text, data.bool, playerRef);
 
-            if (event != null) {
-                HytaleServer.get().getEventBus().dispatchFor(OptionChangeEvent.class).dispatch(event);
+            if (event == null) {
+                UHCSoundUtil.send(playerRef, REFUSED_SOUND);
+                buildOptions(ui, events);
+                return;
             }
 
-            buildOptions(ui, events);
+            if (Objects.equals(event.getNewValue(), option.get())) {
+                return;
+            }
+
+            HytaleServer.get().getEventBus().dispatchFor(OptionChangeEvent.class).dispatch(event);
+
+            if (event.isCancelled()) {
+                UHCSoundUtil.send(playerRef, REFUSED_SOUND);
+                buildOptions(ui, events);
+            }
+
             return;
         }
     }
@@ -150,9 +166,9 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 .append(new KeyedCodec<>("Id", Codec.STRING, false),
                         (data, value) -> data.id = value,
                         (data) -> data.id).add()
-                .append(new KeyedCodec<>("@Number", Codec.DOUBLE, false),
-                        (data, value) -> data.number = value,
-                        (data) -> data.number).add()
+                .append(new KeyedCodec<>("@Text", Codec.STRING, false),
+                        (data, value) -> data.text = value,
+                        (data) -> data.text).add()
                 .append(new KeyedCodec<>("@Bool", Codec.BOOLEAN, false),
                         (data, value) -> data.bool = value,
                         (data) -> data.bool).add()
@@ -160,7 +176,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
         private @Nullable String action;
         private @Nullable String id;
-        private @Nullable Double number;
+        private @Nullable String text;
         private @Nullable Boolean bool;
     }
 }
