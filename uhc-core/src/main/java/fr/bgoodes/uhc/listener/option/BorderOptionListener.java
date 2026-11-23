@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc.listener.option;
 
+import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.event.EventRegistry;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
@@ -9,7 +10,7 @@ import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 public class BorderOptionListener {
 
     public void register(EventRegistry eventRegistry) {
-        eventRegistry.register(OptionChangeEvent.class, this::onChange);
+        eventRegistry.register(EventPriority.LATE, OptionChangeEvent.class, this::onChange);
     }
 
     private void onChange(OptionChangeEvent event) {

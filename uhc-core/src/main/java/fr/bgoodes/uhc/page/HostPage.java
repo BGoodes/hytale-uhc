@@ -151,6 +151,10 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                         config.borderStartRadius, config.borderDamage, config.borderPhases
                 )),
 
+                new Category(UHCMessageUtil.tr("uhc.host.category.proximity.chat"), List.of(
+                        config.proximityChat, config.proximityChatDistance
+                )),
+
                 new Category(UHCMessageUtil.tr("uhc.host.category.other"), List.of(
                         config.disconnectTimeout
                 ))

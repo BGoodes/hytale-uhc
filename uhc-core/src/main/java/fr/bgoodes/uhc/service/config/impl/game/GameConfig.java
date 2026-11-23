@@ -1,6 +1,7 @@
 package fr.bgoodes.uhc.service.config.impl.game;
 
 import fr.bgoodes.uhc.service.config.model.UHCConfig;
+import fr.bgoodes.uhc.service.config.impl.option.BooleanOption;
 import fr.bgoodes.uhc.service.config.impl.option.FloatOption;
 import fr.bgoodes.uhc.service.config.impl.option.IntOption;
 
@@ -17,4 +18,7 @@ public class GameConfig extends UHCConfig {
     public final BorderPhasesOption borderPhases = add(new BorderPhasesOption("BorderPhases", new BorderPhase(2400, 100, 1)));
 
     public final IntOption disconnectTimeout = add(new IntOption("DisconnectTimeout", 300, 0, 3600));
+
+    public final BooleanOption proximityChat = add(new BooleanOption("ProximityChat", true));
+    public final IntOption proximityChatDistance = add(new IntOption("ProximityChatDistance", 50, 5, 200));
 }
