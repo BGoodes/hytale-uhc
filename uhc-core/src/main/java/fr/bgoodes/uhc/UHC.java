@@ -11,6 +11,8 @@ import fr.bgoodes.uhc.listener.game.*;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.HudListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;
+import fr.bgoodes.uhc.listener.option.BorderOptionListener;
+import fr.bgoodes.uhc.listener.option.OptionListener;
 import fr.bgoodes.uhc.service.*;
 import fr.bgoodes.uhc.service.config.ConfigService;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
@@ -95,6 +97,7 @@ public class UHC extends JavaPlugin {
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new ConnectionListener().register(getEventRegistry());
         new OptionListener().register(getEventRegistry());
+        new BorderOptionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());
         new GameListener().register(getEventRegistry());
         new BorderClockListener().register(getEventRegistry());

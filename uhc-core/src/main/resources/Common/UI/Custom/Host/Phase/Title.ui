@@ -1,0 +1,6 @@
+$C = "../../Common.ui";
+
+$C.@PanelTitle {
+  @Text = %uhc.host.phase.title;
+  Anchor: (Top: 16, Bottom: 8);
+}

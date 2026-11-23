@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 final class PhaseRows {
@@ -28,10 +27,13 @@ final class PhaseRows {
     ) {
         BorderPhase[] phases = option.get();
 
+        ui.append(list, "Host/Phase/Title.ui");
+        index++;
+
         for (int i = 0; i < phases.length; i++) {
             String row = list + "[" + (index + i) + "]";
 
-            ui.append(list, "Host/PhaseRow.ui");
+            ui.append(list, "Host/Phase/Row.ui");
             ui.set(row + " #Label.TextSpans", UHCMessageUtil.tr("uhc.host.phase.name").param("index", i + 1));
             ui.set(row + " #Time.Value", String.valueOf(phases[i].time()));
             ui.set(row + " #Radius.Value", String.valueOf(phases[i].radius()));
@@ -44,11 +46,11 @@ final class PhaseRows {
             events.addEventBinding(CustomUIEventBindingType.Activating, row + " #RemoveButton", data(option, i, "Remove"), false);
         }
 
-        ui.append(list, "Host/AddPhaseButton.ui");
+        ui.append(list, "Host/Phase/AddButton.ui");
         events.addEventBinding(CustomUIEventBindingType.Activating, list + "[" + (index + phases.length) + "]",
                 data(option, phases.length, "Add"), false);
 
-        return phases.length + 1;
+        return phases.length + 2;
     }
 
     static @Nullable OptionChangeEvent request(
@@ -80,7 +82,6 @@ final class PhaseRows {
             return null;
         }
 
-        phases.sort(Comparator.comparingInt(BorderPhase::time));
         return new OptionChangeEvent(source, option, phases.toArray(BorderPhase[]::new));
     }
 

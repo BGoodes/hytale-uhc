@@ -58,6 +58,7 @@ host.category.time = Temps
 host.category.border = Bordure
 host.category.other = Autre
 
+host.phase.title = Phases de la bordure
 host.phase.name = Phase {index}
 host.phase.time = Temps [s]
 host.phase.radius = Rayon

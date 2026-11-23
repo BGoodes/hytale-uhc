@@ -13,13 +13,15 @@ public class BorderPhasesOption extends Option<BorderPhase[]> {
     @Override
     public boolean isValid(BorderPhase @NotNull [] phases) {
         int previousTime = -1;
+        int previousRadius = Integer.MAX_VALUE;
 
         for (BorderPhase phase : phases) {
-            if (phase.time() <= previousTime || phase.radius() < 1 || phase.speed() <= 0) {
+            if (phase.time() <= previousTime || phase.radius() >= previousRadius || phase.radius() < 1 || phase.speed() <= 0) {
                 return false;
             }
 
             previousTime = phase.time();
+            previousRadius = phase.radius();
         }
 
         return true;

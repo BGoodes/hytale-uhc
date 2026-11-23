@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.listener.game;
+package fr.bgoodes.uhc.listener.option;
 
 import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.event.EventRegistry;
