@@ -58,6 +58,13 @@ host.category.time = Temps
 host.category.border = Bordure
 host.category.other = Autre
 
+host.phase.name = Phase {index}
+host.phase.time = Temps [s]
+host.phase.radius = Rayon
+host.phase.speed = Vitesse [b/s]
+host.phase.remove = Retirer
+host.phase.add = Ajouter une phase
+
 # === options ===
 
 option.InvincibilityTime = Invincibilité [s]

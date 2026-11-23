@@ -1,0 +1,6 @@
+$C = "../Common.ui";
+
+$C.@SmallSecondaryTextButton #AddButton {
+  @Text = %uhc.host.phase.add;
+  @Anchor = (Left: 6, Top: 4, Width: 220);
+}

@@ -18,10 +18,10 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
+import fr.bgoodes.uhc.service.config.impl.game.BorderPhasesOption;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.config.model.Option;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
-import fr.bgoodes.uhc.util.UHCOptionRowUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -94,9 +94,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
         int row = 0;
 
         for (Option<?> option : category.options()) {
-            if (UHCOptionRowUtil.append(option, "#OptionList", row, ui, events)) {
-                row++;
-            }
+            row += OptionRows.append(option, "#OptionList", row, ui, events);
         }
     }
 
@@ -118,7 +116,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 continue;
             }
 
-            OptionChangeEvent event = UHCOptionRowUtil.request(option, data.text, data.bool, playerRef);
+            OptionChangeEvent event = OptionRows.request(option, data.text, data.bool, data.phase, data.field, playerRef);
 
             if (event == null) {
                 UHCSoundUtil.send(playerRef, REFUSED_SOUND);
@@ -126,7 +124,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 return;
             }
 
-            if (Objects.equals(event.getNewValue(), option.get())) {
+            if (Objects.deepEquals(event.getNewValue(), option.get())) {
                 return;
             }
 
@@ -134,6 +132,8 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
             if (event.isCancelled()) {
                 UHCSoundUtil.send(playerRef, REFUSED_SOUND);
+                buildOptions(ui, events);
+            } else if (option instanceof BorderPhasesOption) {
                 buildOptions(ui, events);
             }
 
@@ -148,7 +148,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 )),
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.border"), List.of(
-                        config.borderStartRadius, config.borderDamage
+                        config.borderStartRadius, config.borderDamage, config.borderPhases
                 )),
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.other"), List.of(
@@ -172,11 +172,19 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 .append(new KeyedCodec<>("@Bool", Codec.BOOLEAN, false),
                         (data, value) -> data.bool = value,
                         (data) -> data.bool).add()
+                .append(new KeyedCodec<>("Phase", Codec.STRING, false),
+                        (data, value) -> data.phase = value,
+                        (data) -> data.phase).add()
+                .append(new KeyedCodec<>("Field", Codec.STRING, false),
+                        (data, value) -> data.field = value,
+                        (data) -> data.field).add()
                 .build();
 
         private @Nullable String action;
         private @Nullable String id;
         private @Nullable String text;
         private @Nullable Boolean bool;
+        private @Nullable String phase;
+        private @Nullable String field;
     }
 }
