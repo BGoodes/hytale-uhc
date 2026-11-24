@@ -12,15 +12,17 @@ import java.util.UUID;
 public class TeamChangeEvent implements IEvent<Void>, ICancellable {
 
     private final UUID uuid;
-    private final @Nullable Team from;
-    private final @Nullable Team to;
+    private final @Nullable String fromId;
+    private final @Nullable String toId;
 
     private boolean cancelled;
 
-    public TeamChangeEvent(@NotNull UUID uuid, @Nullable Team to) {
+    public TeamChangeEvent(@NotNull UUID uuid, @Nullable String toId) {
+        Team from = UHC.get().getTeamService().getPlayerTeam(uuid);
+
         this.uuid = uuid;
-        this.from = UHC.get().getTeamService().getPlayerTeam(uuid);
-        this.to = to;
+        this.fromId = from != null ? from.getId() : null;
+        this.toId = toId;
         this.cancelled = false;
     }
 
@@ -28,12 +30,12 @@ public class TeamChangeEvent implements IEvent<Void>, ICancellable {
         return uuid;
     }
 
-    public @Nullable Team getFrom() {
-        return from;
+    public @Nullable String getFromId() {
+        return fromId;
     }
 
-    public @Nullable Team getTo() {
-        return to;
+    public @Nullable String getToId() {
+        return toId;
     }
 
     @Override

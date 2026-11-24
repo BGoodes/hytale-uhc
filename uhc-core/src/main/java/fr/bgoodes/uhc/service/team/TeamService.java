@@ -1,5 +1,6 @@
 package fr.bgoodes.uhc.service.team;
 
+import com.hypixel.hytale.server.core.Message;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +15,7 @@ public class TeamService {
     private final Map<String, Team> teams = new HashMap<>();
     private final Map<UUID, Team> playerTeams = new HashMap<>();
 
-    public synchronized @NotNull Team createTeam(@NotNull String id, @NotNull String name, @Nullable Color color) {
+    public synchronized @NotNull Team createTeam(@NotNull String id, @NotNull Message name, @Nullable Color color) {
         if (teams.containsKey(id)) {
             throw new IllegalArgumentException("Team already exists: %s".formatted(id));
         }

@@ -7,6 +7,8 @@ import fr.bgoodes.uhc.event.team.TeamChangeEvent;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.service.team.TeamService;
 
+import java.util.Objects;
+
 public class TeamListener {
 
     public void register(EventRegistry eventRegistry) {
@@ -15,9 +17,20 @@ public class TeamListener {
     }
 
     private void onCheck(TeamChangeEvent event) {
-        Team to = event.getTo();
+        String toId = event.getToId();
 
-        if (to == event.getFrom() || (to != null && UHC.get().getTeamService().getTeam(to.getId()) != to)) {
+        if (Objects.equals(toId, event.getFromId())) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (toId == null) {
+            return;
+        }
+
+        Team to = UHC.get().getTeamService().getTeam(toId);
+
+        if (to == null || to.getMembers().size() >= UHC.get().getGameConfig().teamSize.get()) {
             event.setCancelled(true);
         }
     }
@@ -28,12 +41,12 @@ public class TeamListener {
         }
 
         TeamService teamService = UHC.get().getTeamService();
-        Team to = event.getTo();
+        String toId = event.getToId();
 
-        if (to == null) {
+        if (toId == null) {
             teamService.removePlayer(event.getUuid());
         } else {
-            teamService.addPlayer(to.getId(), event.getUuid());
+            teamService.addPlayer(toId, event.getUuid());
         }
     }
 }

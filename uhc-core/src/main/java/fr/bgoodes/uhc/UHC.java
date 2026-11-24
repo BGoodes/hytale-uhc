@@ -18,6 +18,7 @@ import fr.bgoodes.uhc.listener.hytale.HudListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;
 import fr.bgoodes.uhc.listener.option.BorderOptionListener;
 import fr.bgoodes.uhc.listener.option.OptionListener;
+import fr.bgoodes.uhc.listener.option.TeamOptionListener;
 import fr.bgoodes.uhc.listener.option.VoiceOptionListener;
 import fr.bgoodes.uhc.service.*;
 import fr.bgoodes.uhc.service.config.ConfigService;
@@ -106,6 +107,7 @@ public class UHC extends JavaPlugin {
         new HudListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
         new TeamListener().register(getEventRegistry());
+        new TeamOptionListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
         new VoiceOptionListener().register(getEventRegistry());
 

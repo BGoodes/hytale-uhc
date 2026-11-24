@@ -17,16 +17,15 @@ import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
-import fr.bgoodes.uhc.service.team.Team;
-import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
+import fr.bgoodes.uhc.util.UHCTeamUtil;
 import fr.bgoodes.uhc.util.UHCTimeUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class PlayingState implements IGameState {
 
@@ -37,47 +36,26 @@ public class PlayingState implements IGameState {
 
     @Override
     public void start() {
-        UHC.get().getFlagService().setEnabled(UHCFlag.NEW_PLAYERS, false);
-
         this.ready = false;
         this.time = 0;
 
-        UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius.get());
+        prepareGame();
+        assignTeams();
+        setupParticipants();
 
         World world = UHC.get().getWorldService().getGameWorld();
-        GameConfig config = UHC.get().getGameConfig();
 
-        for (PlayerRef playerRef : Universe.get().getPlayers()) {
-            UHC.get().getPlayerService().addParticipant(playerRef.getUuid());
-            createSoloTeam(playerRef);
+        spawnParticipants(world).whenCompleteAsync((_, error) -> {
+            if (error != null) {
+                UHC.LOGGER.atSevere().withCause(error).log("Failed to spawn participants");
+            }
 
-            UHCPlayerUtil.reset(playerRef);
-        }
+            onSpawned(world);
+            dispatchTimedEvents();
 
-        removeOfflineMembers();
+            this.ready = true;
 
-        int radius = config.spawnCenter.get() ? 0 : config.borderStartRadius.get();
-
-        UHC.get().getSpawnService().spawnTeams(world, UHC.get().getTeamService().getTeams(), radius, config.teamSpawnTogether.get())
-                .whenCompleteAsync((_, error) -> {
-                    if (error != null) {
-                        UHC.LOGGER.atSevere().withCause(error).log("Failed to spawn participants");
-                    }
-
-                    WorldTimeResource worldTimeResource = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
-                    worldTimeResource.setDayTime(UHCTimeUtil.SUNRISE, world, world.getEntityStore().getStore());
-
-                    UHCLobbyUtil.remove(world);
-
-                    UHC.get().getFlagService().setEnabled(UHCFlag.BUILD, true);
-
-                    HytaleServer.get().getEventBus()
-                            .dispatchFor(GameStartedEvent.class)
-                            .dispatch(new GameStartedEvent());
-
-                    dispatchTimedEvents();
-                    this.ready = true;
-                }, world);
+        }, world);
     }
 
     @Override
@@ -88,6 +66,64 @@ public class PlayingState implements IGameState {
 
         time++;
         dispatchTimedEvents();
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    @Override
+    public @Nullable UHCHud createHud(@NotNull PlayerRef playerRef) {
+        return new PlayingHud(playerRef, this);
+    }
+
+    protected void prepareGame() {
+        UHC.get().getFlagService().setEnabled(UHCFlag.NEW_PLAYERS, false);
+        UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius.get());
+    }
+
+    protected void assignTeams() {
+        UHCTeamUtil.removeOfflineMembers();
+
+        if (UHCTeamUtil.isSolo()) {
+            Universe.get().getPlayers().forEach(UHCTeamUtil::createSoloTeam);
+        } else {
+            UHCTeamUtil.fillTeams();
+        }
+
+        UHCTeamUtil.removeEmptyTeams();
+    }
+
+    protected void setupParticipants() {
+        for (PlayerRef playerRef : Universe.get().getPlayers()) {
+            if (UHC.get().getTeamService().getPlayerTeam(playerRef.getUuid()) == null) {
+                UHCPlayerUtil.setSpectator(playerRef);
+                continue;
+            }
+
+            UHC.get().getPlayerService().addParticipant(playerRef.getUuid());
+            UHCPlayerUtil.reset(playerRef);
+        }
+    }
+
+    protected @NotNull CompletableFuture<Void> spawnParticipants(@NotNull World world) {
+        GameConfig config = UHC.get().getGameConfig();
+        int radius = config.spawnCenter.get() ? 0 : config.borderStartRadius.get();
+
+        return UHC.get().getSpawnService().spawnTeams(world, UHC.get().getTeamService().getTeams(), radius, config.teamSpawnTogether.get());
+    }
+
+    protected void onSpawned(@NotNull World world) {
+        WorldTimeResource worldTimeResource = world.getEntityStore().getStore().getResource(WorldTimeResource.getResourceType());
+        worldTimeResource.setDayTime(UHCTimeUtil.SUNRISE, world, world.getEntityStore().getStore());
+
+        UHCLobbyUtil.remove(world);
+
+        UHC.get().getFlagService().setEnabled(UHCFlag.BUILD, true);
+
+        HytaleServer.get().getEventBus()
+                .dispatchFor(GameStartedEvent.class)
+                .dispatch(new GameStartedEvent());
     }
 
     private void dispatchTimedEvents() {
@@ -107,42 +143,5 @@ public class PlayingState implements IGameState {
                 eventBus.dispatchFor(BorderShrinkEvent.class).dispatch(new BorderShrinkEvent(phase.radius(), phase.speed()));
             }
         }
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    @Override
-    public @Nullable UHCHud createHud(@NotNull PlayerRef playerRef) {
-        return new PlayingHud(playerRef, this);
-    }
-
-    private void removeOfflineMembers() {
-        TeamService teamService = UHC.get().getTeamService();
-
-        for (Team team : teamService.getTeams()) {
-            for (UUID uuid : team.getMembers()) {
-                if (Universe.get().getPlayer(uuid) == null) {
-                    teamService.removePlayer(uuid);
-                }
-            }
-
-            if (team.getMembers().isEmpty()) {
-                teamService.removeTeam(team.getId());
-            }
-        }
-    }
-
-    private void createSoloTeam(PlayerRef playerRef) {
-        TeamService teamService = UHC.get().getTeamService();
-        String teamId = playerRef.getUuid().toString();
-
-        if (teamService.getPlayerTeam(playerRef.getUuid()) != null) {
-            return;
-        }
-
-        teamService.createTeam(teamId, playerRef.getUsername(), null);
-        teamService.addPlayer(teamId, playerRef.getUuid());
     }
 }

@@ -50,6 +50,15 @@ death.disconnected = {player} est mort (déconnexion).
 
 team.eliminated = L'équipe {team} est éliminée !
 
+team.color.red = Rouge
+team.color.blue = Bleu
+team.color.green = Vert
+team.color.yellow = Jaune
+team.color.purple = Violet
+team.color.orange = Orange
+team.color.cyan = Cyan
+team.color.pink = Rose
+
 # === host page ===
 
 host.title = Configuration de la partie
