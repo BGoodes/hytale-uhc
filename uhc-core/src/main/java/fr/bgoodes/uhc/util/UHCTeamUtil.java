@@ -4,6 +4,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import fr.bgoodes.uhc.UHC;
+import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.service.team.TeamColor;
@@ -42,6 +43,23 @@ public class UHCTeamUtil {
 
     public static boolean isSolo() {
         return UHC.get().getGameConfig().teamSize.get() <= 1;
+    }
+
+    public static boolean isVisibleOnMap(@NotNull UUID viewer, @NotNull UUID other) {
+        PlayerService playerService = UHC.get().getPlayerService();
+
+        if (!playerService.isParticipant(other)) {
+            return false;
+        }
+
+        if (!playerService.isParticipant(viewer)) {
+            return true;
+        }
+
+        TeamService teamService = UHC.get().getTeamService();
+        Team viewerTeam = teamService.getPlayerTeam(viewer);
+
+        return UHC.get().getGameConfig().teammatesOnMap.get() && viewerTeam == teamService.getPlayerTeam(other);
     }
 
     public static void createSoloTeam(@NotNull PlayerRef playerRef) {

@@ -13,6 +13,7 @@ public class GameConfig extends UHCConfig {
     public final IntOption teamSize = add(new IntOption("TeamSize", 1, 1, 100));
     public final IntOption teamCount = add(new IntOption("TeamCount", 4, 2, TeamColor.values().length));
     public final BooleanOption teamChoice = add(new BooleanOption("TeamChoice", false));
+    public final BooleanOption teammatesOnMap = add(new BooleanOption("TeammatesOnMap", true));
 
     public final BooleanOption teamSpawnTogether = add(new BooleanOption("TeamSpawnTogether", true));
     public final BooleanOption spawnCenter = add(new BooleanOption("SpawnCenter", false));

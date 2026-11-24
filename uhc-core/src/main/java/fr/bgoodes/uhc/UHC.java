@@ -13,8 +13,10 @@ import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
 import fr.bgoodes.uhc.listener.game.GameListener;
 import fr.bgoodes.uhc.listener.game.ParticipantListener;
 import fr.bgoodes.uhc.listener.game.TeamListener;
+import fr.bgoodes.uhc.listener.hytale.ChatListener;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.HudListener;
+import fr.bgoodes.uhc.listener.hytale.MapListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;
 import fr.bgoodes.uhc.listener.option.BorderOptionListener;
 import fr.bgoodes.uhc.listener.option.OptionListener;
@@ -99,6 +101,8 @@ public class UHC extends JavaPlugin {
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new ConnectionListener().register(getEventRegistry());
+        new ChatListener().register(getEventRegistry());
+        new MapListener().register(getEventRegistry());
         new OptionListener().register(getEventRegistry());
         new BorderOptionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());

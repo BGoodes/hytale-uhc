@@ -17,12 +17,12 @@ public class ServerConfig {
             .append(new KeyedCodec<>("Spectator", Spectator.CODEC),
                     (config, value) -> config.spectator = value,
                     (config) -> config.spectator).add()
-            .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
-                    (config, value) -> config.spawnMaxAttempts = value,
-                    (config) -> config.spawnMaxAttempts).add()
             .append(new KeyedCodec<>("PregenerateRadius", Codec.INTEGER),
                     (config, value) -> config.pregenerateRadius = value,
                     (config) -> config.pregenerateRadius).add()
+            .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
+                    (config, value) -> config.spawnMaxAttempts = value,
+                    (config) -> config.spawnMaxAttempts).add()
             .build();
 
     private Host host = new Host();

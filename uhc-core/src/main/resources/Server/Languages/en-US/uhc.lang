@@ -63,6 +63,7 @@ team.color.pink = Rose
 
 host.title = Configuration de la partie
 
+host.category.teams = Équipes
 host.category.players = Joueurs
 host.category.time = Temps
 host.category.border = Bordure
@@ -71,8 +72,12 @@ host.category.other = Autre
 
 # === options ===
 
-option.SpawnCenter = Spawn au 0 0
+option.TeamSize = Taille des équipes
+option.TeamCount = Nombre d'équipes
+option.TeamChoice = Choix de l'équipe
+option.TeammatesOnMap = Affichage alliés sur carte
 option.TeamSpawnTogether = Spawn par équipe
+option.SpawnCenter = Spawn au 0 0
 option.InvincibilityTime = Invincibilité [s]
 option.PvpTime = Activation PvP [s]
 option.BorderStartRadius = Rayon départ bordure

@@ -143,8 +143,9 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
     private static List<Category> categories(GameConfig config) {
         return List.of(
-                new Category(UHCMessageUtil.tr("uhc.host.category.players"), List.of(
-                        config.spawnCenter, config.teamSpawnTogether
+                new Category(UHCMessageUtil.tr("uhc.host.category.teams"), List.of(
+                        config.teamSize, config.teamCount, config.teamChoice, config.teammatesOnMap,
+                        config.teamSpawnTogether
                 )),
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.time"), List.of(
@@ -160,7 +161,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
                 )),
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.other"), List.of(
-                        config.disconnectTimeout
+                        config.spawnCenter, config.disconnectTimeout
                 ))
         );
     }
