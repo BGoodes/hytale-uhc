@@ -17,18 +17,16 @@ import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
-import fr.bgoodes.uhc.util.UHCSpawnUtil;
 import fr.bgoodes.uhc.util.UHCTimeUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.UUID;
 
 public class PlayingState implements IGameState {
 
@@ -39,7 +37,6 @@ public class PlayingState implements IGameState {
 
     @Override
     public void start() {
-        UHC.get().getFlagService().setEnabled(UHCFlag.BUILD, true);
         UHC.get().getFlagService().setEnabled(UHCFlag.NEW_PLAYERS, false);
 
         this.ready = false;
@@ -48,18 +45,21 @@ public class PlayingState implements IGameState {
         UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius.get());
 
         World world = UHC.get().getWorldService().getGameWorld();
-        List<CompletableFuture<Void>> spawns = new ArrayList<>();
+        GameConfig config = UHC.get().getGameConfig();
 
         for (PlayerRef playerRef : Universe.get().getPlayers()) {
             UHC.get().getPlayerService().addParticipant(playerRef.getUuid());
             createSoloTeam(playerRef);
 
             UHCPlayerUtil.reset(playerRef);
-            spawns.add(UHCSpawnUtil.spawn(playerRef, world));
         }
 
-        CompletableFuture.allOf(spawns.toArray(CompletableFuture[]::new))
-                .whenComplete((_, error) -> {
+        removeOfflineMembers();
+
+        int radius = config.spawnCenter.get() ? 0 : config.borderStartRadius.get();
+
+        UHC.get().getSpawnService().spawnTeams(world, UHC.get().getTeamService().getTeams(), radius, config.teamSpawnTogether.get())
+                .whenCompleteAsync((_, error) -> {
                     if (error != null) {
                         UHC.LOGGER.atSevere().withCause(error).log("Failed to spawn participants");
                     }
@@ -69,13 +69,15 @@ public class PlayingState implements IGameState {
 
                     UHCLobbyUtil.remove(world);
 
+                    UHC.get().getFlagService().setEnabled(UHCFlag.BUILD, true);
+
                     HytaleServer.get().getEventBus()
                             .dispatchFor(GameStartedEvent.class)
                             .dispatch(new GameStartedEvent());
 
                     dispatchTimedEvents();
                     this.ready = true;
-                });
+                }, world);
     }
 
     @Override
@@ -114,6 +116,22 @@ public class PlayingState implements IGameState {
     @Override
     public @Nullable UHCHud createHud(@NotNull PlayerRef playerRef) {
         return new PlayingHud(playerRef, this);
+    }
+
+    private void removeOfflineMembers() {
+        TeamService teamService = UHC.get().getTeamService();
+
+        for (Team team : teamService.getTeams()) {
+            for (UUID uuid : team.getMembers()) {
+                if (Universe.get().getPlayer(uuid) == null) {
+                    teamService.removePlayer(uuid);
+                }
+            }
+
+            if (team.getMembers().isEmpty()) {
+                teamService.removeTeam(team.getId());
+            }
+        }
     }
 
     private void createSoloTeam(PlayerRef playerRef) {

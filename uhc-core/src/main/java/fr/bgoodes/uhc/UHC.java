@@ -69,6 +69,7 @@ public class UHC extends JavaPlugin {
         services.register(WorldService.class, new WorldService());
         services.register(WorldBorderService.class, new WorldBorderService());
         services.register(HudService.class, new HudService());
+        services.register(SpawnService.class, new SpawnService());
 
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
@@ -177,5 +178,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull HudService getHudService() {
         return services.get(HudService.class);
+    }
+
+    public @NotNull SpawnService getSpawnService() {
+        return services.get(SpawnService.class);
     }
 }

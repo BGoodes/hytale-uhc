@@ -54,10 +54,25 @@ team.eliminated = L'équipe {team} est éliminée !
 
 host.title = Configuration de la partie
 
+host.category.players = Joueurs
 host.category.time = Temps
 host.category.border = Bordure
 host.category.proximity.chat = Chat proximité
 host.category.other = Autre
+
+# === options ===
+
+option.SpawnCenter = Spawn au 0 0
+option.TeamSpawnTogether = Spawn par équipe
+option.InvincibilityTime = Invincibilité [s]
+option.PvpTime = Activation PvP [s]
+option.BorderStartRadius = Rayon départ bordure
+option.BorderDamage = Dégâts bordure
+option.DisconnectTimeout = Élimination déconnexion [s]
+option.ProximityChat = Chat de proximité
+option.ProximityChatDistance = Distance chat proximité [b]
+
+# === world border phase ===
 
 host.phase.title = Phases de la bordure
 host.phase.name = Phase {index}
@@ -66,13 +81,3 @@ host.phase.radius = Rayon
 host.phase.speed = Vitesse [b/s]
 host.phase.remove = Retirer
 host.phase.add = Ajouter une phase
-
-# === options ===
-
-option.InvincibilityTime = Invincibilité [s]
-option.PvpTime = Activation PvP [s]
-option.BorderStartRadius = Rayon départ bordure
-option.BorderDamage = Dégâts bordure
-option.DisconnectTimeout = Élimination déconnexion [s]
-option.ProximityChat = Chat de proximité
-option.ProximityChatDistance = Distance chat proximité [b]
