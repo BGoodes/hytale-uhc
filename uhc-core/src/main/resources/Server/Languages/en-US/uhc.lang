@@ -59,6 +59,16 @@ team.color.orange = Orange
 team.color.cyan = Cyan
 team.color.pink = Rose
 
+# === team page ===
+
+team.page.title = Choix de l'équipe
+team.page.join = Rejoindre
+team.page.leave = Quitter
+team.page.full = Pleine
+team.choice.closed = Le choix des équipes n'est pas disponible.
+team.hud.choose = Choisis ton équipe : /uhc team
+team.hud.current = Équipe {team} ({count}/{size})
+
 # === host page ===
 
 host.title = Configuration de la partie

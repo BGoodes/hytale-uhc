@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
+import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.service.team.TeamColor;
 import fr.bgoodes.uhc.service.team.TeamService;
@@ -43,6 +44,10 @@ public class UHCTeamUtil {
 
     public static boolean isSolo() {
         return UHC.get().getGameConfig().teamSize.get() <= 1;
+    }
+
+    public static boolean isChoiceOpen() {
+        return !isSolo() && UHC.get().getGameConfig().teamChoice.get() && UHC.get().getStateService().getCurrentState() instanceof LobbyState;
     }
 
     public static boolean isVisibleOnMap(@NotNull UUID viewer, @NotNull UUID other) {

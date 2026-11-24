@@ -22,7 +22,7 @@ public class ChatListener {
 
     private Message format(PlayerRef sender, String content) {
         Team team = UHC.get().getTeamService().getPlayerTeam(sender.getUuid());
-        Message name = Message.raw(sender.getUsername());
+        Message name = Message.raw(sender.getUsername()).bold(true);
 
         if (team != null && team.getColor() != null) {
             name.color(team.getColor());

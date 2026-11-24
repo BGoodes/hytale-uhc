@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page;
+package fr.bgoodes.uhc.page.host;
 
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.ui.builder.EventData;

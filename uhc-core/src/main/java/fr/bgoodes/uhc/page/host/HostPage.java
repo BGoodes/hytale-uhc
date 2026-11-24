@@ -1,4 +1,4 @@
-package fr.bgoodes.uhc.page;
+package fr.bgoodes.uhc.page.host;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;

@@ -1,0 +1,35 @@
+$C = "../Common.ui";
+
+$C.@PageOverlay {}
+
+$C.@DecoratedContainer {
+  Anchor: (Width: 1100, Height: 720);
+
+  #Title {
+    Group {
+      LayoutMode: Center;
+      Anchor: (Full: 0);
+
+      $C.@Title {
+        @Text = %uhc.team.page.title;
+      }
+    }
+  }
+
+  #Content {
+    LayoutMode: Top;
+
+    Group {
+      FlexWeight: 1;
+      LayoutMode: TopScrolling;
+      ScrollbarStyle: $C.@DefaultScrollbarStyle;
+      Padding: (Horizontal: 10);
+
+      Group #TeamGrid {
+        LayoutMode: LeftCenterWrap;
+      }
+    }
+  }
+}
+
+$C.@BackButton {}

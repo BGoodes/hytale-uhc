@@ -1,0 +1,29 @@
+$C = "../Common.ui";
+
+Group {
+  LayoutMode: Top;
+  Anchor: (Width: 240, Horizontal: 6, Bottom: 12);
+  Padding: (Full: 10);
+  Background: (Color: #000000(0.3));
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 28, Bottom: 6);
+
+    Label #Name {
+      FlexWeight: 1;
+      Style: (FontSize: 16, RenderBold: true, RenderUppercase: true, VerticalAlignment: Center);
+    }
+
+    Label #Count {
+      Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center);
+    }
+  }
+
+  Group #Slots {
+    LayoutMode: Top;
+    Anchor: (Bottom: 8);
+  }
+
+  $C.@SmallSecondaryTextButton #JoinButton {}
+}

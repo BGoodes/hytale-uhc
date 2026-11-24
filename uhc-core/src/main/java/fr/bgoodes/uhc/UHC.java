@@ -13,6 +13,7 @@ import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
 import fr.bgoodes.uhc.listener.game.GameListener;
 import fr.bgoodes.uhc.listener.game.ParticipantListener;
 import fr.bgoodes.uhc.listener.game.TeamListener;
+import fr.bgoodes.uhc.listener.game.TeamPageListener;
 import fr.bgoodes.uhc.listener.hytale.ChatListener;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.HudListener;
@@ -111,6 +112,7 @@ public class UHC extends JavaPlugin {
         new HudListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
         new TeamListener().register(getEventRegistry());
+        new TeamPageListener().register(getEventRegistry());
         new TeamOptionListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
         new VoiceOptionListener().register(getEventRegistry());
