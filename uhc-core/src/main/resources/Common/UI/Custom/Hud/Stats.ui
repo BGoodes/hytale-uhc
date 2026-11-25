@@ -1,0 +1,57 @@
+@CountStyle = (
+    FontSize: 18,
+    TextColor: #ffffff,
+    VerticalAlignment: Center,
+    RenderBold: true
+);
+
+Group #StatsRoot {
+    Anchor: (Top: 20, Right: 60, Height: 28);
+    LayoutMode: Right;
+    Visible: false;
+
+    Group #KillsStat {
+        LayoutMode: Left;
+        Anchor: (Left: 10);
+
+        AssetImage #KillsIcon {
+            Anchor: (Width: 24, Height: 24, Top: 2);
+        }
+
+        Label #KillsCount {
+            Anchor: (Left: 4, Width: 30);
+            Style: @CountStyle;
+            Text: "0";
+        }
+    }
+
+    Group #PlayersStat {
+        LayoutMode: Left;
+        Anchor: (Left: 10);
+
+        AssetImage #PlayersIcon {
+            Anchor: (Width: 24, Height: 24, Top: 2);
+        }
+
+        Label #PlayersCount {
+            Anchor: (Left: 4, Width: 30);
+            Style: @CountStyle;
+            Text: "0";
+        }
+    }
+
+    Group #TeamsStat {
+        LayoutMode: Left;
+        Anchor: (Left: 10);
+
+        AssetImage #TeamsIcon {
+            Anchor: (Width: 24, Height: 24, Top: 2);
+        }
+
+        Label #TeamsCount {
+            Anchor: (Left: 4, Width: 30);
+            Style: @CountStyle;
+            Text: "0";
+        }
+    }
+}

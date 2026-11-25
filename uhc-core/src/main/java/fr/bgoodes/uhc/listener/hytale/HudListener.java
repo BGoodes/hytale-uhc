@@ -12,6 +12,7 @@ import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.ClockEvent;
 import fr.bgoodes.uhc.event.game.GameStateChangedEvent;
 import fr.bgoodes.uhc.service.hud.HudService;
+import fr.bgoodes.uhc.service.hud.impl.StatsHud;
 import fr.bgoodes.uhc.service.hud.impl.TitleHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
@@ -34,6 +35,7 @@ public class HudListener {
         }
 
         UHC.get().getHudService().show(playerRef, new TitleHud(playerRef));
+        UHC.get().getHudService().show(playerRef, new StatsHud(playerRef));
         showStateHud(playerRef);
     }
 

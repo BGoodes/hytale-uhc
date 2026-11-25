@@ -13,6 +13,7 @@ import fr.bgoodes.uhc.event.game.InvincibilityEndedEvent;
 import fr.bgoodes.uhc.event.game.PvpEnabledEvent;
 import fr.bgoodes.uhc.service.config.impl.game.BorderPhase;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
+import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
@@ -78,7 +79,11 @@ public class PlayingState implements IGameState {
     }
 
     protected void prepareGame() {
-        UHC.get().getFlagService().setEnabled(UHCFlag.NEW_PLAYERS, false);
+        FlagService flagService = UHC.get().getFlagService();
+
+        flagService.setEnabled(UHCFlag.NEW_PLAYERS, false);
+        flagService.setEnabled(UHCFlag.HUD_STATS, true);
+
         UHC.get().getWorldBorderService().setRadius(UHC.get().getGameConfig().borderStartRadius.get());
     }
 

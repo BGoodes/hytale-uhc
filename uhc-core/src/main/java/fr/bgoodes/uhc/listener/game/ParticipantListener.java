@@ -59,7 +59,7 @@ public class ParticipantListener {
 
         Team team = UHC.get().getTeamService().getPlayerTeam(event.getUuid());
 
-        if (team != null && !isAlive(team)) {
+        if (team != null && !team.isAlive()) {
             HytaleServer.get().getEventBus()
                     .dispatchFor(TeamEliminatedEvent.class)
                     .dispatch(new TeamEliminatedEvent(team));
@@ -73,9 +73,7 @@ public class ParticipantListener {
             return;
         }
 
-        List<Team> aliveTeams = UHC.get().getTeamService().getTeams().stream()
-                .filter(this::isAlive)
-                .toList();
+        List<Team> aliveTeams = UHC.get().getTeamService().getAliveTeams();
 
         if (aliveTeams.size() > 1) {
             return;
@@ -84,9 +82,5 @@ public class ParticipantListener {
         HytaleServer.get().getEventBus()
                 .dispatchFor(GameEndedEvent.class)
                 .dispatch(new GameEndedEvent(aliveTeams.isEmpty() ? null : aliveTeams.getFirst()));
-    }
-
-    private boolean isAlive(Team team) {
-        return team.getMembers().stream().anyMatch(UHC.get().getPlayerService()::isParticipant);
     }
 }

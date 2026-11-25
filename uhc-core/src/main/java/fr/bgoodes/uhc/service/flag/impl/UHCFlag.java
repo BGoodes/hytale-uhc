@@ -8,5 +8,6 @@ public enum UHCFlag implements IFlag {
     BUILD,
     DAMAGE,
     PVP,
-    GAME_ENDED
+    GAME_ENDED,
+    HUD_STATS
 }

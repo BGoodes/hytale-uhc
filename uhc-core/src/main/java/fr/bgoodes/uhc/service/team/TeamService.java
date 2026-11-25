@@ -43,6 +43,12 @@ public class TeamService {
         return List.copyOf(teams.values());
     }
 
+    public @NotNull List<Team> getAliveTeams() {
+        return getTeams().stream()
+                .filter(Team::isAlive)
+                .toList();
+    }
+
     public synchronized @Nullable Team getPlayerTeam(@NotNull UUID uuid) {
         return playerTeams.get(uuid);
     }
