@@ -4,8 +4,8 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.UHC;
-import fr.bgoodes.uhc.service.config.impl.BorderPhase;
-import fr.bgoodes.uhc.service.config.impl.GameConfig;
+import fr.bgoodes.uhc.service.config.impl.game.BorderPhase;
+import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
@@ -27,7 +27,7 @@ public class PlayingHud extends UHCHud {
 
     @Override
     protected void build(@NotNull UICommandBuilder ui) {
-        ui.append("Game.ui");
+        ui.append("Hud/Game.ui");
         ui.set("#NextEventLabel.Visible", false);
     }
 
@@ -52,11 +52,11 @@ public class PlayingHud extends UHCHud {
         GameConfig config = UHC.get().getGameConfig();
         NextEvent next = null;
 
-        next = earliest(next, time, config.invincibilityTime, "uhc.game.invincibility.countdown.hud");
-        next = earliest(next, time, config.pvpTime, "uhc.game.pvp.countdown.hud");
+        next = earliest(next, time, config.invincibilityTime.get(), "uhc.game.invincibility.countdown.hud");
+        next = earliest(next, time, config.pvpTime.get(), "uhc.game.pvp.countdown.hud");
 
-        for (BorderPhase phase : config.borderPhases) {
-            next = earliest(next, time, phase.time, "uhc.game.border.countdown.hud");
+        for (BorderPhase phase : config.borderPhases.get()) {
+            next = earliest(next, time, phase.time(), "uhc.game.border.countdown.hud");
         }
 
         return next;

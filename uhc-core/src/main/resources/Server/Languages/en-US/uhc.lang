@@ -3,6 +3,7 @@
 host.claim.success = Vous êtes désormais l'hôte de la partie.
 host.claim.failure = Il y a déjà un host dans la partie.
 host.start.failure = La partie est déjà lancée.
+host.config.denied = Seul l'host peut configurer la partie.
 
 # === connection ===
 
@@ -48,3 +49,67 @@ death.disconnected = {player} est mort (déconnexion).
 # === team ===
 
 team.eliminated = L'équipe {team} est éliminée !
+
+team.color.red = Rouge
+team.color.blue = Bleu
+team.color.green = Vert
+team.color.yellow = Jaune
+team.color.purple = Violet
+team.color.orange = Orange
+team.color.cyan = Cyan
+team.color.pink = Rose
+team.color.white = Blanc
+team.color.gray = Gris
+team.color.dark_red = Rouge foncé
+team.color.dark_green = Vert foncé
+team.color.dark_blue = Bleu foncé
+team.color.teal = Turquoise
+team.color.magenta = Magenta
+team.color.brown = Marron
+
+# === team page ===
+
+team.page.title = Choix de l'équipe
+team.page.join = Rejoindre
+team.page.leave = Quitter
+team.page.full = Pleine
+team.choice.closed = Le choix des équipes n'est pas disponible.
+team.hud.choose = Choisis ton équipe : /uhc team
+team.hud.current = Équipe {team} ({count}/{size})
+
+# === host page ===
+
+host.title = Configuration de la partie
+
+host.category.teams = Équipes
+host.category.players = Joueurs
+host.category.time = Temps
+host.category.border = Bordure
+host.category.proximity.chat = Chat proximité
+host.category.other = Autre
+
+# === options ===
+
+option.TeamSize = Taille des équipes
+option.TeamCount = Nombre d'équipes
+option.TeamChoice = Choix de l'équipe
+option.TeammatesOnMap = Affichage alliés sur carte
+option.TeamSpawnTogether = Spawn par équipe
+option.SpawnCenter = Spawn au 0 0
+option.InvincibilityTime = Invincibilité [s]
+option.PvpTime = Activation PvP [s]
+option.BorderStartRadius = Rayon départ bordure
+option.BorderDamage = Dégâts bordure
+option.DisconnectTimeout = Élimination déconnexion [s]
+option.ProximityChat = Chat de proximité
+option.ProximityChatDistance = Distance chat proximité [b]
+
+# === world border phase ===
+
+host.phase.title = Phases de la bordure
+host.phase.name = Phase {index}
+host.phase.time = Temps [s]
+host.phase.radius = Rayon
+host.phase.speed = Vitesse [b/s]
+host.phase.remove = Retirer
+host.phase.add = Ajouter une phase

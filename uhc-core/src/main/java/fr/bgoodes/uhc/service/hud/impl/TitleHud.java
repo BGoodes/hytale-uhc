@@ -20,7 +20,7 @@ public class TitleHud extends UHCHud {
 
     @Override
     protected void build(@NotNull UICommandBuilder ui) {
-        ui.append("Title.ui");
+        ui.append("Hud/Title.ui");
         ui.set("#TitleRoot.Visible", false);
     }
 

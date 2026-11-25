@@ -2,18 +2,30 @@ package fr.bgoodes.uhc;
 
 import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.modules.voice.VoiceModule;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.util.Config;
 import fr.bgoodes.uhc.command.UHCCommand;
 import fr.bgoodes.uhc.event.ClockEvent;
-import fr.bgoodes.uhc.listener.game.*;
+import fr.bgoodes.uhc.listener.game.BorderClockListener;
+import fr.bgoodes.uhc.listener.game.DisconnectTimeoutListener;
+import fr.bgoodes.uhc.listener.game.GameListener;
+import fr.bgoodes.uhc.listener.game.ParticipantListener;
+import fr.bgoodes.uhc.listener.game.TeamListener;
+import fr.bgoodes.uhc.listener.game.TeamPageListener;
+import fr.bgoodes.uhc.listener.hytale.ChatListener;
 import fr.bgoodes.uhc.listener.hytale.ConnectionListener;
 import fr.bgoodes.uhc.listener.hytale.HudListener;
+import fr.bgoodes.uhc.listener.hytale.MapListener;
 import fr.bgoodes.uhc.listener.hytale.WorldListener;
+import fr.bgoodes.uhc.listener.option.BorderOptionListener;
+import fr.bgoodes.uhc.listener.option.OptionListener;
+import fr.bgoodes.uhc.listener.option.TeamOptionListener;
+import fr.bgoodes.uhc.listener.option.VoiceOptionListener;
 import fr.bgoodes.uhc.service.*;
 import fr.bgoodes.uhc.service.config.ConfigService;
-import fr.bgoodes.uhc.service.config.impl.GameConfig;
+import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
 import fr.bgoodes.uhc.service.flag.FlagService;
 import fr.bgoodes.uhc.service.hud.HudService;
 import fr.bgoodes.uhc.service.state.StateService;
@@ -22,12 +34,7 @@ import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.service.team.TeamService;
-import fr.bgoodes.uhc.system.BenchSystem;
-import fr.bgoodes.uhc.system.BlockSystems;
-import fr.bgoodes.uhc.system.DamageSystem;
-import fr.bgoodes.uhc.system.DeathSystem;
-import fr.bgoodes.uhc.system.HiddenMapMarkerSystem;
-import com.hypixel.hytale.server.core.modules.voice.VoiceModule;
+import fr.bgoodes.uhc.system.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;
@@ -67,6 +74,7 @@ public class UHC extends JavaPlugin {
         services.register(WorldService.class, new WorldService());
         services.register(WorldBorderService.class, new WorldBorderService());
         services.register(HudService.class, new HudService());
+        services.register(SpawnService.class, new SpawnService());
 
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
@@ -94,12 +102,20 @@ public class UHC extends JavaPlugin {
         // listeners
         getEventRegistry().register(EventPriority.FIRST, ClockEvent.class, _ -> getStateService().onClock());
         new ConnectionListener().register(getEventRegistry());
+        new ChatListener().register(getEventRegistry());
+        new MapListener().register(getEventRegistry());
+        new OptionListener().register(getEventRegistry());
+        new BorderOptionListener().register(getEventRegistry());
         new WorldListener().register(getEventRegistry());
         new GameListener().register(getEventRegistry());
         new BorderClockListener().register(getEventRegistry());
         new HudListener().register(getEventRegistry());
         new ParticipantListener().register(getEventRegistry());
+        new TeamListener().register(getEventRegistry());
+        new TeamPageListener().register(getEventRegistry());
+        new TeamOptionListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
+        new VoiceOptionListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }
@@ -108,8 +124,8 @@ public class UHC extends JavaPlugin {
     protected void start() {
         getPermissionService().initialize(getServerConfig());
 
-        VoiceModule.get().setVoiceEnabled(getServerConfig().isProximityChat());
-        VoiceModule.get().setMaxHearingDistance(getServerConfig().getProximityChatDistance());
+        VoiceModule.get().setVoiceEnabled(gameConfig.proximityChat.get());
+        VoiceModule.get().setMaxHearingDistance(gameConfig.proximityChatDistance.get());
 
         LOGGER.atInfo().log("UHC Core plugin start.");
     }
@@ -172,5 +188,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull HudService getHudService() {
         return services.get(HudService.class);
+    }
+
+    public @NotNull SpawnService getSpawnService() {
+        return services.get(SpawnService.class);
     }
 }

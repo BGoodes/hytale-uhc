@@ -17,26 +17,18 @@ public class ServerConfig {
             .append(new KeyedCodec<>("Spectator", Spectator.CODEC),
                     (config, value) -> config.spectator = value,
                     (config) -> config.spectator).add()
-            .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
-                    (config, value) -> config.spawnMaxAttempts = value,
-                    (config) -> config.spawnMaxAttempts).add()
             .append(new KeyedCodec<>("PregenerateRadius", Codec.INTEGER),
                     (config, value) -> config.pregenerateRadius = value,
                     (config) -> config.pregenerateRadius).add()
-            .append(new KeyedCodec<>("ProximityChat", Codec.BOOLEAN),
-                    (config, value) -> config.proximityChat = value,
-                    (config) -> config.proximityChat).add()
-            .append(new KeyedCodec<>("ProximityChatDistance", Codec.FLOAT),
-                    (config, value) -> config.proximityChatDistance = value,
-                    (config) -> config.proximityChatDistance).add()
+            .append(new KeyedCodec<>("SpawnMaxAttempts", Codec.INTEGER),
+                    (config, value) -> config.spawnMaxAttempts = value,
+                    (config) -> config.spawnMaxAttempts).add()
             .build();
 
     private Host host = new Host();
     private Spectator spectator = new Spectator();
     private int spawnMaxAttempts = 20;
     private int pregenerateRadius = 0;
-    private boolean proximityChat = true;
-    private float proximityChatDistance = 50;
 
     public Host getHost() {
         return host;
@@ -52,14 +44,6 @@ public class ServerConfig {
 
     public int getPregenerateRadius() {
         return pregenerateRadius;
-    }
-
-    public boolean isProximityChat() {
-        return proximityChat;
-    }
-
-    public float getProximityChatDistance() {
-        return proximityChatDistance;
     }
 
     public static class Host {

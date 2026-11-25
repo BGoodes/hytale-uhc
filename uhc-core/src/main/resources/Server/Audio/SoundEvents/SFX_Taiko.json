@@ -3,7 +3,7 @@
   "Layers": [
     {
       "Files": [
-        "Sounds/UI/Taiko.ogg"
+        "Sounds/Taiko.ogg"
       ],
       "RandomSettings": {
         "MinPitch": 0,

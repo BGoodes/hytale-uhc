@@ -14,7 +14,7 @@ public class UHCMessageUtil {
 
     private static final Message PREFIX = Message.join(
             Message.raw("UHC").color(Color.MAGENTA).bold(true),
-            Message.raw(" » ").color(Color.DARK_GRAY).bold(true)
+            Message.raw(" » ").color(Color.GRAY).bold(true)
     );
 
     private UHCMessageUtil() {}

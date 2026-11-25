@@ -76,7 +76,7 @@ public class BorderClockListener {
                 Damage damage = new Damage(
                         new Damage.EnvironmentSource(DAMAGE_SOURCE),
                         DamageCause.getAssetMap().getIndex(DAMAGE_CAUSE),
-                        UHC.get().getGameConfig().borderDamage
+                        UHC.get().getGameConfig().borderDamage.get()
                 );
 
                 DamageSystems.executeDamage(ref, store, damage);

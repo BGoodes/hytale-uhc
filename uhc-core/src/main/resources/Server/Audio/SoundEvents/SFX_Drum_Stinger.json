@@ -3,7 +3,7 @@
   "Layers": [
     {
       "Files": [
-        "Sounds/UI/Drum_Stinger.ogg"
+        "Sounds/Drum_Stinger.ogg"
       ],
       "RandomSettings": {
         "MinPitch": 0,

@@ -25,7 +25,7 @@ public class DisconnectTimeoutListener {
     }
 
     private void onClock() {
-        int timeout = UHC.get().getGameConfig().disconnectTimeout;
+        int timeout = UHC.get().getGameConfig().disconnectTimeout.get();
 
         if (timeout <= 0) {
             return;

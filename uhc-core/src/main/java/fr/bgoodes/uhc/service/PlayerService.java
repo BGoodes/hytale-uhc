@@ -12,7 +12,9 @@ import java.util.UUID;
 public class PlayerService {
 
     private final Set<UUID> participants = new HashSet<>();
+
     private final Map<UUID, Instant> disconnections = new HashMap<>();
+    private final Map<UUID, Integer> kills = new HashMap<>();
 
     public synchronized @NotNull Set<UUID> getParticipants() {
         return Set.copyOf(participants);
@@ -41,5 +43,13 @@ public class PlayerService {
 
     public synchronized void removeDisconnected(@NotNull UUID uuid) {
         disconnections.remove(uuid);
+    }
+
+    public synchronized int getKills(@NotNull UUID uuid) {
+        return kills.getOrDefault(uuid, 0);
+    }
+
+    public synchronized void addKill(@NotNull UUID uuid) {
+        kills.merge(uuid, 1, Integer::sum);
     }
 }

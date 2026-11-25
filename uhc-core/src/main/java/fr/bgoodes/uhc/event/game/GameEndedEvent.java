@@ -48,7 +48,7 @@ public class GameEndedEvent extends AnnouncementEvent implements ICancellable {
         Color color = winner.getColor();
 
         return UHCMessageUtil.tr("uhc.game.ended.winner.chat")
-                .param("name", Message.raw(winner.getName()))
+                .param("name", winner.getName())
                 .color(color != null ? color : Color.YELLOW);
     }
 }

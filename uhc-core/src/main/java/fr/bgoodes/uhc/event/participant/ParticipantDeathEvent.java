@@ -22,7 +22,7 @@ public class ParticipantDeathEvent implements IEvent<Void>, ICancellable {
     private final World world;
     private final Vector3d position;
     private final @Nullable DamageCause cause;
-    private final @Nullable PlayerRef killer;
+    private @Nullable PlayerRef killer;
 
     private @Nullable Message message;
     private boolean cancelled;
@@ -74,6 +74,10 @@ public class ParticipantDeathEvent implements IEvent<Void>, ICancellable {
 
     public @Nullable PlayerRef getKiller() {
         return killer;
+    }
+
+    public void setKiller(@Nullable PlayerRef killer) {
+        this.killer = killer;
     }
 
     public @Nullable Message getMessage() {

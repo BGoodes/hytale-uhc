@@ -1,0 +1,47 @@
+$C = "../../Common.ui";
+
+@FieldLabelStyle = (...$C.@DefaultLabelStyle, VerticalAlignment: Center);
+
+Group {
+  LayoutMode: Left;
+  Anchor: (Bottom: 8);
+
+  Label #Label {
+    Anchor: (Left: 6, Width: 90);
+    Style: (...@FieldLabelStyle, RenderBold: true);
+  }
+
+  Label {
+    Anchor: (Width: 80);
+    Style: @FieldLabelStyle;
+    Text: %uhc.host.phase.time;
+  }
+
+  $C.@TextField #Time {
+    @Anchor = (Width: 90, Right: 16);
+  }
+
+  Label {
+    Anchor: (Width: 60);
+    Style: @FieldLabelStyle;
+    Text: %uhc.host.phase.radius;
+  }
+
+  $C.@TextField #Radius {
+    @Anchor = (Width: 90, Right: 16);
+  }
+
+  Label {
+    Anchor: (Width: 80);
+    Style: @FieldLabelStyle;
+    Text: %uhc.host.phase.speed;
+  }
+
+  $C.@TextField #Speed {
+    @Anchor = (Width: 90, Right: 16);
+  }
+
+  $C.@SmallSecondaryTextButton #RemoveButton {
+    @Text = %uhc.host.phase.remove;
+  }
+}

@@ -1,0 +1,17 @@
+$C = "../Common.ui";
+
+Group {
+  LayoutMode: Left;
+  Anchor: (Height: 22);
+
+  Label #Dot {
+    Anchor: (Width: 18);
+    Style: (FontSize: 14, TextColor: #3d4a5c, VerticalAlignment: Center);
+    Text: "•";
+  }
+
+  Label #Name {
+    FlexWeight: 1;
+    Style: (FontSize: 14, VerticalAlignment: Center);
+  }
+}

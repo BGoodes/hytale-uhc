@@ -1,5 +1,7 @@
 package fr.bgoodes.uhc.service.team;
 
+import com.hypixel.hytale.server.core.Message;
+import fr.bgoodes.uhc.UHC;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,11 +13,11 @@ import java.util.UUID;
 public class Team {
 
     private final String id;
-    private final String name;
+    private final Message name;
     private final @Nullable Color color;
     private final Set<UUID> members = new HashSet<>();
 
-    Team(String id, String name, @Nullable Color color) {
+    Team(String id, Message name, @Nullable Color color) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -25,7 +27,7 @@ public class Team {
         return id;
     }
 
-    public @NotNull String getName() {
+    public @NotNull Message getName() {
         return name;
     }
 
@@ -35,6 +37,10 @@ public class Team {
 
     public synchronized @NotNull Set<UUID> getMembers() {
         return Set.copyOf(members);
+    }
+
+    public boolean isAlive() {
+        return getMembers().stream().anyMatch(UHC.get().getPlayerService()::isParticipant);
     }
 
     synchronized void addMember(@NotNull UUID uuid) {

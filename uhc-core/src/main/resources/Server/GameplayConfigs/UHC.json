@@ -5,7 +5,7 @@
   },
   "WorldMap": {
     "DisplaySpawn": false,
-    "DisplayPlayers": false,
+    "DisplayPlayers": true,
     "CanTrackPlayersInCompass": false,
     "CanTogglePlayersInMap": false
   }

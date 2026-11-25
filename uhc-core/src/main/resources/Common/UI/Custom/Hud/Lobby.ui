@@ -1,0 +1,16 @@
+Group #LobbyRoot {
+    Anchor: (Top: 50, Width: 500, Height: 30);
+    Visible: false;
+
+    Label #TeamLabel {
+        Anchor: (Height: 30);
+        Style: (
+            FontSize: 18,
+            TextColor: #ffffff,
+            HorizontalAlignment: Center,
+            VerticalAlignment: Center,
+            RenderBold: true
+        );
+        Text: "";
+    }
+}
