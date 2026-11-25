@@ -40,6 +40,12 @@ public class ParticipantListener {
             UHCPlayerUtil.dropStoredInventory(uuid, event.getWorld());
         }
 
+        PlayerRef killer = event.getKiller();
+
+        if (killer != null) {
+            UHC.get().getPlayerService().addKill(killer.getUuid());
+        }
+
         Message message = event.getMessage();
 
         if (message != null) {

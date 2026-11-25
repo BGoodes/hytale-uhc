@@ -43,7 +43,7 @@ public class StatsHud extends UHCHud {
             ui.set("#TeamsStat.Visible", !UHCTeamUtil.isSolo());
             ui.set("#TeamsCount.Text", String.valueOf(UHC.get().getTeamService().getAliveTeams().size()));
 
-            ui.set("#KillsCount.Text", "0");
+            ui.set("#KillsCount.Text", String.valueOf(UHC.get().getPlayerService().getKills(getPlayerRef().getUuid())));
         }
 
         update(false, ui);
