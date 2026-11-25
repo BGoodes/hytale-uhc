@@ -58,6 +58,14 @@ team.color.purple = Violet
 team.color.orange = Orange
 team.color.cyan = Cyan
 team.color.pink = Rose
+team.color.white = Blanc
+team.color.gray = Gris
+team.color.dark_red = Rouge foncé
+team.color.dark_green = Vert foncé
+team.color.dark_blue = Bleu foncé
+team.color.teal = Turquoise
+team.color.magenta = Magenta
+team.color.brown = Marron
 
 # === team page ===
 

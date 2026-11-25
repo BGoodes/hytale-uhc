@@ -22,14 +22,14 @@ public class ChatListener {
 
     private Message format(PlayerRef sender, String content) {
         Team team = UHC.get().getTeamService().getPlayerTeam(sender.getUuid());
-        Message name = Message.raw(sender.getUsername()).bold(true);
+        Message message = Message.empty();
 
         if (team != null && team.getColor() != null) {
-            name.color(team.getColor());
+            message.insert(Message.raw("• ").color(team.getColor()));
         }
 
-        return Message.empty()
-                .insert(name)
+        return message
+                .insert(Message.raw(sender.getUsername()))
                 .insert(Message.raw(" » ").color(Color.GRAY))
                 .insert(content);
     }

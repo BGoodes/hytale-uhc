@@ -6,13 +6,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class TeamService {
 
-    private final Map<String, Team> teams = new HashMap<>();
+    private final Map<String, Team> teams = new LinkedHashMap<>();
     private final Map<UUID, Team> playerTeams = new HashMap<>();
 
     public synchronized @NotNull Team createTeam(@NotNull String id, @NotNull Message name, @Nullable Color color) {

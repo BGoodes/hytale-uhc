@@ -10,8 +10,6 @@ import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
-import com.hypixel.hytale.server.core.ui.PatchStyle;
-import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
@@ -21,7 +19,6 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.team.TeamChangeEvent;
 import fr.bgoodes.uhc.service.team.Team;
-import fr.bgoodes.uhc.service.team.TeamColor;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
@@ -41,6 +38,7 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
     private static final String DOCUMENT = "Team/TeamPage.ui";
     private static final String CARD = "Team/TeamCard.ui";
     private static final String SLOT = "Team/TeamSlot.ui";
+    private static final Color NO_COLOR = new Color(0xC8D2DC);
 
     private static final String REFUSED_SOUND = "SFX_Bow_No_Ammo";
 
@@ -127,20 +125,15 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
 
         ui.clear("#TeamGrid");
 
-        for (TeamColor color : TeamColor.values()) {
-            Team team = teamService.getTeam(color.getId());
-
-            if (team == null) {
-                continue;
-            }
-
+        for (Team team : teamService.getTeams()) {
+            Color color = team.getColor() != null ? team.getColor() : NO_COLOR;
             String card = "#TeamGrid[" + index++ + "]";
             List<String> members = memberNames(team);
             boolean own = team == ownTeam;
             boolean full = members.size() >= teamSize;
 
             ui.append("#TeamGrid", CARD);
-            ui.set(card + " #Name.TextSpans", color.getName().color(color.getColor()));
+            ui.set(card + " #Name.TextSpans", Message.empty().insert(team.getName()).color(color));
             ui.set(card + " #Count.Text", members.size() + "/" + teamSize);
 
             for (int slot = 0; slot < teamSize; slot++) {
@@ -149,8 +142,8 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
                 if (slot < members.size()) {
                     String slotSelector = card + " #Slots[" + slot + "]";
 
-                    ui.setObject(slotSelector + " #Dot.Background", new PatchStyle().setColor(Value.of(hex(color.getColor()))));
-                    ui.set(slotSelector + " #Name.TextSpans", Message.raw(members.get(slot)).color(color.getColor()));
+                    ui.set(slotSelector + " #Dot.TextSpans", Message.raw("•").color(color));
+                    ui.set(slotSelector + " #Name.TextSpans", Message.raw(members.get(slot)).color(color));
                 }
             }
 
@@ -160,10 +153,6 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
             events.addEventBinding(CustomUIEventBindingType.Activating, card + " #JoinButton",
                     new EventData().append("Action", own ? "Leave" : "Join").append("Id", team.getId()), false);
         }
-    }
-
-    private static String hex(Color color) {
-        return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 
     private static List<String> memberNames(Team team) {

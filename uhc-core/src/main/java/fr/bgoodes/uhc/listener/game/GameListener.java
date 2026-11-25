@@ -52,8 +52,8 @@ public class GameListener {
             return;
         }
 
-        UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
         announce(event);
+        UHC.get().getStateService().changeGameState(EndingState.STATE_ID);
     }
 
     private void announce(AnnouncementEvent event) {

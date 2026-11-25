@@ -16,7 +16,15 @@ public enum TeamColor {
     PURPLE(new Color(0xAA55FF)),
     ORANGE(new Color(0xFFAA00)),
     CYAN(new Color(0x55FFFF)),
-    PINK(new Color(0xFF55FF));
+    PINK(new Color(0xFF55FF)),
+    WHITE(new Color(0xFFFFFF)),
+    GRAY(new Color(0xAAAAAA)),
+    DARK_RED(new Color(0xAA0000)),
+    DARK_GREEN(new Color(0x00AA00)),
+    DARK_BLUE(new Color(0x2E4FD6)),
+    TEAL(new Color(0x00AAAA)),
+    MAGENTA(new Color(0xAA00AA)),
+    BROWN(new Color(0xA0522D));
 
     private final Color color;
 

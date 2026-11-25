@@ -144,7 +144,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
     private static List<Category> categories(GameConfig config) {
         return List.of(
                 new Category(UHCMessageUtil.tr("uhc.host.category.teams"), List.of(
-                        config.teamSize, config.teamCount, config.teamChoice, config.teammatesOnMap,
+                        config.teamCount, config.teamSize, config.teamChoice, config.teammatesOnMap,
                         config.teamSpawnTogether
                 )),
 
