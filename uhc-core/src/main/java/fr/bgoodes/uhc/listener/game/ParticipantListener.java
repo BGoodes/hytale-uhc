@@ -11,11 +11,13 @@ import fr.bgoodes.uhc.event.participant.ParticipantDeathEvent;
 import fr.bgoodes.uhc.event.participant.ParticipantEliminatedEvent;
 import fr.bgoodes.uhc.event.team.TeamEliminatedEvent;
 import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
+import fr.bgoodes.uhc.service.config.impl.game.KitSlot;
 import fr.bgoodes.uhc.service.team.Team;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +41,8 @@ public class ParticipantListener {
         } else {
             UHCPlayerUtil.dropStoredInventory(uuid, event.getWorld());
         }
+
+        UHCPlayerUtil.dropItems(event.getWorld(), Arrays.stream(UHC.get().getGameConfig().deathItems.get()).map(KitSlot::item).toList(), event.getPosition());
 
         PlayerRef killer = event.getKiller();
 

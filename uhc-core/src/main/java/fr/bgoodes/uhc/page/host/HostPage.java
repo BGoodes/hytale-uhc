@@ -20,6 +20,7 @@ import fr.bgoodes.uhc.UHC;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
 import fr.bgoodes.uhc.service.config.impl.game.BorderPhasesOption;
 import fr.bgoodes.uhc.service.config.impl.game.GameConfig;
+import fr.bgoodes.uhc.service.config.impl.game.KitOption;
 import fr.bgoodes.uhc.service.config.model.Option;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCSoundUtil;
@@ -80,6 +81,8 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
             selectCategory(Integer.parseInt(data.id), ui, events);
         } else if ("Option".equals(data.action)) {
             changeOption(data, ui, events);
+        } else if ("EditItems".equals(data.action) && editItems(data, ref, store)) {
+            return;
         }
 
         sendUpdate(ui, events, false);
@@ -141,6 +144,16 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
         }
     }
 
+    private boolean editItems(Data data, Ref<EntityStore> ref, Store<EntityStore> store) {
+        for (Option<?> option : categories.get(selectedCategory).options()) {
+            if (option.getKey().equals(data.id) && option instanceof KitOption kit) {
+                return InventoryRows.edit(kit, playerRef, ref, store);
+            }
+        }
+
+        return false;
+    }
+
     private static List<Category> categories(GameConfig config) {
         return List.of(
                 new Category(UHCMessageUtil.tr("uhc.host.category.teams"), List.of(
@@ -154,6 +167,10 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.border"), List.of(
                         config.borderStartRadius, config.borderDamage, config.borderPhases
+                )),
+
+                new Category(UHCMessageUtil.tr("uhc.host.category.inventory"), List.of(
+                        config.startInventory, config.deathItems
                 )),
 
                 new Category(UHCMessageUtil.tr("uhc.host.category.proximity.chat"), List.of(

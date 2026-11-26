@@ -18,6 +18,7 @@ import fr.bgoodes.uhc.service.flag.impl.UHCFlag;
 import fr.bgoodes.uhc.service.hud.impl.PlayingHud;
 import fr.bgoodes.uhc.service.hud.model.UHCHud;
 import fr.bgoodes.uhc.service.state.model.IGameState;
+import fr.bgoodes.uhc.util.UHCKitUtil;
 import fr.bgoodes.uhc.util.UHCLobbyUtil;
 import fr.bgoodes.uhc.util.UHCPlayerUtil;
 import fr.bgoodes.uhc.util.UHCTeamUtil;
@@ -108,6 +109,7 @@ public class PlayingState implements IGameState {
 
             UHC.get().getPlayerService().addParticipant(playerRef.getUuid());
             UHCPlayerUtil.reset(playerRef);
+            UHCKitUtil.give(playerRef, UHC.get().getGameConfig().startInventory.get());
         }
     }
 

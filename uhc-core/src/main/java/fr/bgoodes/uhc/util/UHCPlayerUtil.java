@@ -63,6 +63,25 @@ public class UHCPlayerUtil {
         });
     }
 
+    public static void closeInterfaces(@NotNull PlayerRef playerRef) {
+        Ref<EntityStore> ref = playerRef.getReference();
+
+        if (ref == null || !ref.isValid()) {
+            return;
+        }
+
+        Store<EntityStore> store = ref.getStore();
+
+        store.getExternalData().getWorld().execute(() -> {
+            Player player = ref.isValid() ? store.getComponent(ref, Player.getComponentType()) : null;
+
+            if (player != null) {
+                player.getWindowManager().closeAllWindows(ref, store);
+                player.getPageManager().closePage(ref, store);
+            }
+        });
+    }
+
     public static void setSpectator(@NotNull PlayerRef playerRef) {
         Ref<EntityStore> ref = playerRef.getReference();
 
@@ -124,16 +143,23 @@ public class UHCPlayerUtil {
                 }
             }
 
-            Vector3d position = new Vector3d(transform.getPosition());
-            int x = MathUtil.floor(position.x);
-            int y = MathUtil.floor(position.y);
-            int z = MathUtil.floor(position.z);
-
-            CompletableFuture.allOf(
-                    world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y, z),
-                    world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y - ChunkUtil.SIZE, z)
-            ).thenRunAsync(() -> spawnDrops(world.getEntityStore().getStore(), items, position, new Rotation3f()), world);
+            dropItems(world, items, new Vector3d(transform.getPosition()));
         });
+    }
+
+    public static void dropItems(@NotNull World world, @NotNull List<ItemStack> items, @NotNull Vector3d position) {
+        if (items.isEmpty()) {
+            return;
+        }
+
+        int x = MathUtil.floor(position.x);
+        int y = MathUtil.floor(position.y);
+        int z = MathUtil.floor(position.z);
+
+        CompletableFuture.allOf(
+                world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y, z),
+                world.getChunkStore().getChunkSectionReferenceAtBlockAsync(x, y - ChunkUtil.SIZE, z)
+        ).thenRunAsync(() -> spawnDrops(world.getEntityStore().getStore(), items, position, new Rotation3f()), world);
     }
 
     private static void spawnDrops(

@@ -18,6 +18,9 @@ public class GameConfig extends UHCConfig {
     public final BooleanOption teamSpawnTogether = add(new BooleanOption("TeamSpawnTogether", true));
     public final BooleanOption spawnCenter = add(new BooleanOption("SpawnCenter", false));
 
+    public final KitOption startInventory = add(new KitOption("StartInventory"));
+    public final KitOption deathItems = add(new KitOption("DeathItems"));
+
     public final IntOption invincibilityTime = add(new IntOption("InvincibilityTime", 60, 0, 3600));
     public final IntOption pvpTime = add(new IntOption("PvpTime", 600, 0, 7200));
 

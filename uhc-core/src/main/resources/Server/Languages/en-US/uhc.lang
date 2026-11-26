@@ -85,6 +85,7 @@ host.category.teams = Équipes
 host.category.players = Joueurs
 host.category.time = Temps
 host.category.border = Bordure
+host.category.inventory = Inventaires
 host.category.proximity.chat = Chat proximité
 host.category.other = Autre
 
@@ -103,6 +104,8 @@ option.BorderDamage = Dégâts bordure
 option.DisconnectTimeout = Élimination déconnexion [s]
 option.ProximityChat = Chat de proximité
 option.ProximityChatDistance = Distance chat proximité [b]
+option.StartInventory = Inventaire de départ
+option.DeathItems = Objets à la mort
 
 # === world border phase ===
 
@@ -113,3 +116,5 @@ host.phase.radius = Rayon
 host.phase.speed = Vitesse [b/s]
 host.phase.remove = Retirer
 host.phase.add = Ajouter une phase
+
+host.edit = Modifier

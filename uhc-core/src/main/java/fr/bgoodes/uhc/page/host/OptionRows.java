@@ -7,6 +7,7 @@ import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import fr.bgoodes.uhc.event.option.OptionChangeEvent;
 import fr.bgoodes.uhc.service.config.impl.game.BorderPhasesOption;
+import fr.bgoodes.uhc.service.config.impl.game.KitOption;
 import fr.bgoodes.uhc.service.config.impl.option.BooleanOption;
 import fr.bgoodes.uhc.service.config.impl.option.FloatOption;
 import fr.bgoodes.uhc.service.config.impl.option.IntOption;
@@ -48,6 +49,10 @@ final class OptionRows {
 
             case BorderPhasesOption phasesOption -> {
                 return PhaseRows.append(phasesOption, list, index, ui, events);
+            }
+
+            case KitOption kitOption -> {
+                return InventoryRows.append(kitOption, list, index, ui, events);
             }
             
             default -> {
