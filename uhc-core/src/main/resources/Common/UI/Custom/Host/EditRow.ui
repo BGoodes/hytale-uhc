@@ -10,6 +10,6 @@ Group {
   }
 
   $C.@SmallSecondaryTextButton #EditButton {
-    @Text = %uhc.host.edit;
+    @Text = %uhc.page.host.edit;
   }
 }

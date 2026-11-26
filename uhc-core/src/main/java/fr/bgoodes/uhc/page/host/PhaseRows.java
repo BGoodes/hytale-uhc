@@ -34,7 +34,7 @@ final class PhaseRows {
             String row = list + "[" + (index + i) + "]";
 
             ui.append(list, "Host/Phase/Row.ui");
-            ui.set(row + " #Label.TextSpans", UHCMessageUtil.tr("uhc.host.phase.name").param("index", i + 1));
+            ui.set(row + " #Label.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.name").param("index", i + 1));
             ui.set(row + " #Time.Value", String.valueOf(phases[i].time()));
             ui.set(row + " #Radius.Value", String.valueOf(phases[i].radius()));
             ui.set(row + " #Speed.Value", String.valueOf(phases[i].speed()));

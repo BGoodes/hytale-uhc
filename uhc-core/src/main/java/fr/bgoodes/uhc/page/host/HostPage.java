@@ -156,28 +156,28 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
 
     private static List<Category> categories(GameConfig config) {
         return List.of(
-                new Category(UHCMessageUtil.tr("uhc.host.category.teams"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.teams"), List.of(
                         config.teamCount, config.teamSize, config.teamChoice, config.teammatesOnMap,
                         config.teamSpawnTogether
                 )),
 
-                new Category(UHCMessageUtil.tr("uhc.host.category.time"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.time"), List.of(
                         config.invincibilityTime, config.pvpTime
                 )),
 
-                new Category(UHCMessageUtil.tr("uhc.host.category.border"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.border"), List.of(
                         config.borderStartRadius, config.borderDamage, config.borderPhases
                 )),
 
-                new Category(UHCMessageUtil.tr("uhc.host.category.inventory"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.inventory"), List.of(
                         config.startInventory, config.deathItems
                 )),
 
-                new Category(UHCMessageUtil.tr("uhc.host.category.proximity.chat"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.proximity.chat"), List.of(
                         config.proximityChat, config.proximityChatDistance
                 )),
 
-                new Category(UHCMessageUtil.tr("uhc.host.category.other"), List.of(
+                new Category(UHCMessageUtil.tr("uhc.page.host.category.other"), List.of(
                         config.spawnCenter, config.disconnectTimeout
                 ))
         );

@@ -8,8 +8,8 @@ public class GameStartedEvent extends AnnouncementEvent {
 
     public GameStartedEvent() {
         super(
-                UHCMessageUtil.tr("uhc.game.started.chat"),
-                new Title(UHCMessageUtil.tr("uhc.game.started.title"))
+                UHCMessageUtil.tr("uhc.game.start.chat"),
+                new Title(UHCMessageUtil.tr("uhc.game.start.title"))
         );
     }
 }

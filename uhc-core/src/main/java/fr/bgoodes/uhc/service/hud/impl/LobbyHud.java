@@ -40,7 +40,7 @@ public class LobbyHud extends UHCHud {
         Team team = UHC.get().getTeamService().getPlayerTeam(getPlayerRef().getUuid());
 
         if (team == null) {
-            return UHCMessageUtil.tr("uhc.team.hud.choose");
+            return UHCMessageUtil.tr("uhc.hud.lobby.choose");
         }
 
         Message name = Message.empty().insert(team.getName());
@@ -49,7 +49,7 @@ public class LobbyHud extends UHCHud {
             name.color(team.getColor());
         }
 
-        return UHCMessageUtil.tr("uhc.team.hud.current")
+        return UHCMessageUtil.tr("uhc.hud.lobby.team")
                 .param("team", name)
                 .param("count", team.getMembers().size())
                 .param("size", UHC.get().getGameConfig().teamSize.get());

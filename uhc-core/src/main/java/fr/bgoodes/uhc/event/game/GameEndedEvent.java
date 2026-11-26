@@ -19,7 +19,7 @@ public class GameEndedEvent extends AnnouncementEvent implements ICancellable {
     public GameEndedEvent(@Nullable Team winner) {
         super(
                 defaultMessage(winner),
-                new Title(UHCMessageUtil.tr("uhc.game.ended.title"), defaultMessage(winner), 6)
+                new Title(UHCMessageUtil.tr("uhc.game.end.title"), defaultMessage(winner), 6)
         );
 
         this.winner = winner;
@@ -42,12 +42,12 @@ public class GameEndedEvent extends AnnouncementEvent implements ICancellable {
 
     private static Message defaultMessage(@Nullable Team winner) {
         if (winner == null) {
-            return UHCMessageUtil.tr("uhc.game.ended.draw");
+            return UHCMessageUtil.tr("uhc.game.end.draw");
         }
 
         Color color = winner.getColor();
 
-        return UHCMessageUtil.tr("uhc.game.ended.winner.chat")
+        return UHCMessageUtil.tr("uhc.game.end.winner")
                 .param("name", winner.getName())
                 .color(color != null ? color : Color.YELLOW);
     }

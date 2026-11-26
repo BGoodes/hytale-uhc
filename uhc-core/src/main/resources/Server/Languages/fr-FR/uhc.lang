@@ -1,0 +1,108 @@
+# === command ===
+
+command.host.claim.success = Vous êtes désormais l'hôte de la partie.
+command.host.claim.failure = Il y a déjà un host dans la partie.
+command.host.start.failure = La partie est déjà lancée.
+command.team.closed = Le choix des équipes n'est pas disponible.
+
+# === connection ===
+
+connection.denied.host = Cette partie n'a pas encore d'host.
+
+# === game ===
+
+game.start.chat = Début de la partie !!!
+game.start.title = UHC
+
+game.end.title = Fin de la partie !
+game.end.winner = {name} remporte la partie !
+game.end.draw = Fin de la partie : aucun vainqueur.
+game.end.closing = Fermeture du serveur dans 1 minute.
+
+game.invincibility.chat = Vous n'êtes désormais plus invincible.
+game.invincibility.title = Invincibilité terminée !
+
+game.pvp.chat = Le PVP est désormais activé.
+game.pvp.title = PVP activé !
+game.pvp.denied = Le PVP n'est pas encore activé.
+
+game.border.chat = La bordure se réduit jusqu'à {radius} blocs.
+game.border.title = La bordure rétrécit !
+game.border.reached = La bordure a atteint {radius} blocs.
+
+game.death.player = {player} est mort.
+game.death.killed = {player} a été tué par {killer}.
+game.death.disconnected = {player} est mort (déconnexion).
+
+# === hud ===
+
+hud.countdown.invincibility = Fin invincibilité : {time}
+hud.countdown.pvp = Début PVP : {time}
+hud.countdown.border = Réduction bordure : {time}
+
+hud.lobby.choose = Choisis ton équipe : /uhc team
+hud.lobby.team = Équipe {team} ({count}/{size})
+
+# === host page ===
+
+page.host.title = Configuration de la partie
+page.host.edit = Modifier
+
+page.host.category.teams = Équipes
+page.host.category.time = Temps
+page.host.category.border = Bordure
+page.host.category.inventory = Inventaires
+page.host.category.proximity.chat = Chat proximité
+page.host.category.other = Autre
+
+page.host.phase.title = Phases de la bordure
+page.host.phase.name = Phase {index}
+page.host.phase.time = Temps [s]
+page.host.phase.radius = Rayon
+page.host.phase.speed = Vitesse [b/s]
+page.host.phase.remove = Retirer
+page.host.phase.add = Ajouter une phase
+
+# === team page ===
+
+page.team.title = Choix de l'équipe
+page.team.join = Rejoindre
+page.team.leave = Quitter
+page.team.full = Pleine
+
+# === options ===
+
+option.TeamSize = Taille des équipes
+option.TeamCount = Nombre d'équipes
+option.TeamChoice = Choix de l'équipe
+option.TeammatesOnMap = Affichage alliés sur carte
+option.TeamSpawnTogether = Spawn par équipe
+option.SpawnCenter = Spawn au 0 0
+option.InvincibilityTime = Invincibilité [s]
+option.PvpTime = Activation PvP [s]
+option.BorderStartRadius = Rayon départ bordure
+option.BorderDamage = Dégâts bordure
+option.DisconnectTimeout = Élimination déconnexion [s]
+option.ProximityChat = Chat de proximité
+option.ProximityChatDistance = Distance chat proximité [b]
+option.StartInventory = Inventaire de départ
+option.DeathItems = Objets à la mort
+
+# === team colors ===
+
+team.color.red = Rouge
+team.color.blue = Bleu
+team.color.green = Vert
+team.color.yellow = Jaune
+team.color.purple = Violet
+team.color.orange = Orange
+team.color.cyan = Cyan
+team.color.pink = Rose
+team.color.white = Blanc
+team.color.gray = Gris
+team.color.dark_red = Rouge foncé
+team.color.dark_green = Vert foncé
+team.color.dark_blue = Bleu foncé
+team.color.teal = Turquoise
+team.color.magenta = Magenta
+team.color.brown = Marron

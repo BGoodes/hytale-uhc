@@ -52,11 +52,11 @@ public class PlayingHud extends UHCHud {
         GameConfig config = UHC.get().getGameConfig();
         NextEvent next = null;
 
-        next = earliest(next, time, config.invincibilityTime.get(), "uhc.game.invincibility.countdown.hud");
-        next = earliest(next, time, config.pvpTime.get(), "uhc.game.pvp.countdown.hud");
+        next = earliest(next, time, config.invincibilityTime.get(), "uhc.hud.countdown.invincibility");
+        next = earliest(next, time, config.pvpTime.get(), "uhc.hud.countdown.pvp");
 
         for (BorderPhase phase : config.borderPhases.get()) {
-            next = earliest(next, time, phase.time(), "uhc.game.border.countdown.hud");
+            next = earliest(next, time, phase.time(), "uhc.hud.countdown.border");
         }
 
         return next;

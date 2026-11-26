@@ -8,8 +8,8 @@ public class InvincibilityEndedEvent extends AnnouncementEvent {
 
     public InvincibilityEndedEvent() {
         super(
-                UHCMessageUtil.tr("uhc.game.invincibility.ended.chat"),
-                new Title(UHCMessageUtil.tr("uhc.game.invincibility.ended.title"))
+                UHCMessageUtil.tr("uhc.game.invincibility.chat"),
+                new Title(UHCMessageUtil.tr("uhc.game.invincibility.title"))
         );
     }
 }

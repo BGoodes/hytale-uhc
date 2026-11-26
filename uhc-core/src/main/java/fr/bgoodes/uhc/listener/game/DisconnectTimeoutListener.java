@@ -57,7 +57,7 @@ public class DisconnectTimeoutListener {
 
             ParticipantDeathEvent event = new ParticipantDeathEvent(uuid, username, null, world, position, null, null);
 
-            event.setMessage(UHCMessageUtil.tr("uhc.death.disconnected")
+            event.setMessage(UHCMessageUtil.tr("uhc.game.death.disconnected")
                     .param("player", Message.raw(username))
                     .color(Color.ORANGE));
 

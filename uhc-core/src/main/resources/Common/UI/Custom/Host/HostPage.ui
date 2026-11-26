@@ -11,7 +11,7 @@ $C.@DecoratedContainer {
       Anchor: (Full: 0);
 
       $C.@Title {
-        @Text = %uhc.host.title;
+        @Text = %uhc.page.host.title;
       }
     }
   }

@@ -14,7 +14,7 @@ Group {
   Label {
     Anchor: (Width: 80);
     Style: @FieldLabelStyle;
-    Text: %uhc.host.phase.time;
+    Text: %uhc.page.host.phase.time;
   }
 
   $C.@TextField #Time {
@@ -24,7 +24,7 @@ Group {
   Label {
     Anchor: (Width: 60);
     Style: @FieldLabelStyle;
-    Text: %uhc.host.phase.radius;
+    Text: %uhc.page.host.phase.radius;
   }
 
   $C.@TextField #Radius {
@@ -34,7 +34,7 @@ Group {
   Label {
     Anchor: (Width: 80);
     Style: @FieldLabelStyle;
-    Text: %uhc.host.phase.speed;
+    Text: %uhc.page.host.phase.speed;
   }
 
   $C.@TextField #Speed {
@@ -42,6 +42,6 @@ Group {
   }
 
   $C.@SmallSecondaryTextButton #RemoveButton {
-    @Text = %uhc.host.phase.remove;
+    @Text = %uhc.page.host.phase.remove;
   }
 }

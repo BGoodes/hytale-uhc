@@ -11,8 +11,8 @@ public class BorderShrinkEvent extends AnnouncementEvent {
 
     public BorderShrinkEvent(double targetRadius, double speed) {
         super(
-                UHCMessageUtil.tr("uhc.game.border.shrinking.chat").param("radius", Math.round(targetRadius)),
-                new Title(UHCMessageUtil.tr("uhc.game.border.shrinking.title"))
+                UHCMessageUtil.tr("uhc.game.border.chat").param("radius", Math.round(targetRadius)),
+                new Title(UHCMessageUtil.tr("uhc.game.border.title"))
         );
 
         this.targetRadius = targetRadius;

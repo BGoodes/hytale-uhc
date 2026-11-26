@@ -45,7 +45,7 @@ public class UHCCommand extends AbstractCommandCollection {
                 @NotNull World world
         ) {
             if (!UHCTeamUtil.isChoiceOpen()) {
-                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.team.choice.closed").color(Color.RED));
+                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.team.closed").color(Color.RED));
                 return;
             }
 

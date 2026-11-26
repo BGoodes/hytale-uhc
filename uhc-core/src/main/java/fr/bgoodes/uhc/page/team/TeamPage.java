@@ -147,7 +147,7 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
                 }
             }
 
-            ui.set(card + " #JoinButton.TextSpans", UHCMessageUtil.tr(own ? "uhc.team.page.leave" : full ? "uhc.team.page.full" : "uhc.team.page.join"));
+            ui.set(card + " #JoinButton.TextSpans", UHCMessageUtil.tr(own ? "uhc.page.team.leave" : full ? "uhc.page.team.full" : "uhc.page.team.join"));
             ui.set(card + " #JoinButton.Disabled", full && !own);
 
             events.addEventBinding(CustomUIEventBindingType.Activating, card + " #JoinButton",

@@ -9,7 +9,7 @@ public class BorderShrunkEvent extends AnnouncementEvent {
 
     public BorderShrunkEvent(double radius) {
         super(
-                UHCMessageUtil.tr("uhc.game.border.shrunk.chat").param("radius", Math.round(radius)),
+                UHCMessageUtil.tr("uhc.game.border.reached").param("radius", Math.round(radius)),
                 null
         );
 

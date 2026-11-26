@@ -8,8 +8,8 @@ public class PvpEnabledEvent extends AnnouncementEvent {
 
     public PvpEnabledEvent() {
         super(
-                UHCMessageUtil.tr("uhc.game.pvp.enabled.chat"),
-                new Title(UHCMessageUtil.tr("uhc.game.pvp.enabled.title"))
+                UHCMessageUtil.tr("uhc.game.pvp.chat"),
+                new Title(UHCMessageUtil.tr("uhc.game.pvp.title"))
         );
     }
 }

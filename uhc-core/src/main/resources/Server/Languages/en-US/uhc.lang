@@ -1,120 +1,108 @@
-# === host ===
+# === command ===
 
-host.claim.success = Vous êtes désormais l'hôte de la partie.
-host.claim.failure = Il y a déjà un host dans la partie.
-host.start.failure = La partie est déjà lancée.
-host.config.denied = Seul l'host peut configurer la partie.
+command.host.claim.success = You are now the host of the game.
+command.host.claim.failure = This game already has a host.
+command.host.start.failure = The game has already started.
+command.team.closed = Team selection is not available.
 
 # === connection ===
 
-connection.denied.host = Cette partie n'a pas encore d'host.
-connection.denied.started = La partie a déjà commencé !
+connection.denied.host = This game does not have a host yet.
 
 # === game ===
 
-game.started.chat = Début de la partie !!!
-game.started.title = UHC
-game.ended.chat = Fin de la partie !
-game.ended.title = Fin de la partie !
-game.ended.closing.chat = Fermeture du serveur dans 1 minute.
-game.ended.winner.chat = {name} remporte la partie !
-game.ended.draw = Fin de la partie : aucun vainqueur.
+game.start.chat = The game has started!!!
+game.start.title = UHC
 
-# === invincibility ===
+game.end.title = Game over!
+game.end.winner = {name} wins the game!
+game.end.draw = Game over: no winner.
+game.end.closing = The server will close in 1 minute.
 
-game.invincibility.ended.chat = Vous n'êtes désormais plus invincible.
-game.invincibility.ended.title = Invincibilité terminée !
-game.invincibility.countdown.hud = Fin invincibilité : {time}
+game.invincibility.chat = You are no longer invincible.
+game.invincibility.title = Invincibility over!
 
-# === pvp ===
+game.pvp.chat = PVP is now enabled.
+game.pvp.title = PVP enabled!
+game.pvp.denied = PVP is not enabled yet.
 
-game.pvp.enabled.chat = Le PVP est désormais activé.
-game.pvp.enabled.title = PVP activé !
-game.pvp.denied.chat = Le PVP n'est pas encore activé.
-game.pvp.countdown.hud = Début PVP : {time}
+game.border.chat = The border is shrinking to {radius} blocks.
+game.border.title = The border is shrinking!
+game.border.reached = The border has reached {radius} blocks.
 
-# === border ===
+game.death.player = {player} died.
+game.death.killed = {player} was killed by {killer}.
+game.death.disconnected = {player} died (disconnected).
 
-game.border.shrinking.chat = La bordure se réduit jusqu'à {radius} blocs.
-game.border.shrunk.chat = La bordure a atteint {radius} blocs.
-game.border.shrinking.title = La bordure rétrécit !
-game.border.countdown.hud = Réduction bordure : {time}
+# === hud ===
 
-# === death ===
+hud.countdown.invincibility = Invincibility ends: {time}
+hud.countdown.pvp = PVP starts: {time}
+hud.countdown.border = Border shrinks: {time}
 
-death.player = {player} est mort.
-death.killed = {player} a été tué par {killer}.
-death.disconnected = {player} est mort (déconnexion).
-
-# === team ===
-
-team.eliminated = L'équipe {team} est éliminée !
-
-team.color.red = Rouge
-team.color.blue = Bleu
-team.color.green = Vert
-team.color.yellow = Jaune
-team.color.purple = Violet
-team.color.orange = Orange
-team.color.cyan = Cyan
-team.color.pink = Rose
-team.color.white = Blanc
-team.color.gray = Gris
-team.color.dark_red = Rouge foncé
-team.color.dark_green = Vert foncé
-team.color.dark_blue = Bleu foncé
-team.color.teal = Turquoise
-team.color.magenta = Magenta
-team.color.brown = Marron
-
-# === team page ===
-
-team.page.title = Choix de l'équipe
-team.page.join = Rejoindre
-team.page.leave = Quitter
-team.page.full = Pleine
-team.choice.closed = Le choix des équipes n'est pas disponible.
-team.hud.choose = Choisis ton équipe : /uhc team
-team.hud.current = Équipe {team} ({count}/{size})
+hud.lobby.choose = Choose your team: /uhc team
+hud.lobby.team = Team {team} ({count}/{size})
 
 # === host page ===
 
-host.title = Configuration de la partie
+page.host.title = Game configuration
+page.host.edit = Edit
 
-host.category.teams = Équipes
-host.category.players = Joueurs
-host.category.time = Temps
-host.category.border = Bordure
-host.category.inventory = Inventaires
-host.category.proximity.chat = Chat proximité
-host.category.other = Autre
+page.host.category.teams = Teams
+page.host.category.time = Time
+page.host.category.border = Border
+page.host.category.inventory = Inventories
+page.host.category.proximity.chat = Proximity chat
+page.host.category.other = Other
+
+page.host.phase.title = Border phases
+page.host.phase.name = Phase {index}
+page.host.phase.time = Time [s]
+page.host.phase.radius = Radius
+page.host.phase.speed = Speed [b/s]
+page.host.phase.remove = Remove
+page.host.phase.add = Add a phase
+
+# === team page ===
+
+page.team.title = Team selection
+page.team.join = Join
+page.team.leave = Leave
+page.team.full = Full
 
 # === options ===
 
-option.TeamSize = Taille des équipes
-option.TeamCount = Nombre d'équipes
-option.TeamChoice = Choix de l'équipe
-option.TeammatesOnMap = Affichage alliés sur carte
-option.TeamSpawnTogether = Spawn par équipe
-option.SpawnCenter = Spawn au 0 0
-option.InvincibilityTime = Invincibilité [s]
-option.PvpTime = Activation PvP [s]
-option.BorderStartRadius = Rayon départ bordure
-option.BorderDamage = Dégâts bordure
-option.DisconnectTimeout = Élimination déconnexion [s]
-option.ProximityChat = Chat de proximité
-option.ProximityChatDistance = Distance chat proximité [b]
-option.StartInventory = Inventaire de départ
-option.DeathItems = Objets à la mort
+option.TeamSize = Team size
+option.TeamCount = Number of teams
+option.TeamChoice = Team selection
+option.TeammatesOnMap = Teammates on map
+option.TeamSpawnTogether = Spawn by team
+option.SpawnCenter = Spawn at 0 0
+option.InvincibilityTime = Invincibility [s]
+option.PvpTime = PvP start [s]
+option.BorderStartRadius = Border start radius
+option.BorderDamage = Border damage
+option.DisconnectTimeout = Disconnect elimination [s]
+option.ProximityChat = Proximity chat
+option.ProximityChatDistance = Proximity chat distance [b]
+option.StartInventory = Starting inventory
+option.DeathItems = Death items
 
-# === world border phase ===
+# === team colors ===
 
-host.phase.title = Phases de la bordure
-host.phase.name = Phase {index}
-host.phase.time = Temps [s]
-host.phase.radius = Rayon
-host.phase.speed = Vitesse [b/s]
-host.phase.remove = Retirer
-host.phase.add = Ajouter une phase
-
-host.edit = Modifier
+team.color.red = Red
+team.color.blue = Blue
+team.color.green = Green
+team.color.yellow = Yellow
+team.color.purple = Purple
+team.color.orange = Orange
+team.color.cyan = Cyan
+team.color.pink = Pink
+team.color.white = White
+team.color.gray = Gray
+team.color.dark_red = Dark red
+team.color.dark_green = Dark green
+team.color.dark_blue = Dark blue
+team.color.teal = Teal
+team.color.magenta = Magenta
+team.color.brown = Brown

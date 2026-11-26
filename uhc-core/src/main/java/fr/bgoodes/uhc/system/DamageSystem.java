@@ -59,7 +59,7 @@ public class DamageSystem extends DamageEventSystem {
         PlayerRef damagerRef = commandBuffer.getComponent(sourceRef, PlayerRef.getComponentType());
 
         if (damagerRef != null) {
-            UHCMessageUtil.send(damagerRef, UHCMessageUtil.tr("uhc.game.pvp.denied.chat").color(Color.RED));
+            UHCMessageUtil.send(damagerRef, UHCMessageUtil.tr("uhc.game.pvp.denied").color(Color.RED));
             damage.setCancelled(true);
         }
     }

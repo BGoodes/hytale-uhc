@@ -18,7 +18,7 @@ public class EndingState implements IGameState {
         UHC.get().getFlagService().setEnabled(UHCFlag.BUILD, true);
         UHC.get().getFlagService().setEnabled(UHCFlag.GAME_ENDED, true);
 
-        UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.game.ended.closing.chat"));
+        UHCMessageUtil.broadcast(UHCMessageUtil.tr("uhc.game.end.closing"));
 
         this.time = 60;
     }
