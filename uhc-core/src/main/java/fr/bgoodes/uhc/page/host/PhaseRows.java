@@ -28,6 +28,7 @@ final class PhaseRows {
         BorderPhase[] phases = option.get();
 
         ui.append(list, "Host/Phase/Title.ui");
+        ui.set(list + "[" + index + "] #PanelTitle.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.title"));
         index++;
 
         for (int i = 0; i < phases.length; i++) {
@@ -35,6 +36,10 @@ final class PhaseRows {
 
             ui.append(list, "Host/Phase/Row.ui");
             ui.set(row + " #Label.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.name").param("index", i + 1));
+            ui.set(row + " #TimeLabel.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.time"));
+            ui.set(row + " #RadiusLabel.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.radius"));
+            ui.set(row + " #SpeedLabel.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.speed"));
+            ui.set(row + " #RemoveButton.TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.remove"));
             ui.set(row + " #Time.Value", String.valueOf(phases[i].time()));
             ui.set(row + " #Radius.Value", String.valueOf(phases[i].radius()));
             ui.set(row + " #Speed.Value", String.valueOf(phases[i].speed()));
@@ -47,6 +52,7 @@ final class PhaseRows {
         }
 
         ui.append(list, "Host/Phase/AddButton.ui");
+        ui.set(list + "[" + (index + phases.length) + "].TextSpans", UHCMessageUtil.tr("uhc.page.host.phase.add"));
         events.addEventBinding(CustomUIEventBindingType.Activating, list + "[" + (index + phases.length) + "]",
                 data(option, phases.length, "Add"), false);
 

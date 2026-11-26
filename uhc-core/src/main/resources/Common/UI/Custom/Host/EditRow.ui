@@ -5,11 +5,9 @@ Group {
   Anchor: (Bottom: 8);
 
   Label #Label {
-    Anchor: (Left: 6, Right: 16, Width: 200);
+    Anchor: (Left: 6, Right: 16, Width: 320);
     Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center, Wrap: true);
   }
 
-  $C.@SmallSecondaryTextButton #EditButton {
-    @Text = %uhc.page.host.edit;
-  }
+  $C.@SmallSecondaryTextButton #EditButton {}
 }

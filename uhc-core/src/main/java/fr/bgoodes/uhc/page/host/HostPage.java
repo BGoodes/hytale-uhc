@@ -57,6 +57,7 @@ public class HostPage extends InteractiveCustomUIPage<HostPage.Data> {
             @NotNull Store<EntityStore> store
     ) {
         ui.append(DOCUMENT);
+        ui.set("#PageTitle.TextSpans", UHCMessageUtil.tr("uhc.page.host.title"));
 
         for (int i = 0; i < categories.size(); i++) {
             String button = "#CategoryList[" + i + "]";

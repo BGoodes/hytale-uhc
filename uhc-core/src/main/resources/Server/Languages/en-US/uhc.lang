@@ -74,7 +74,7 @@ page.team.full = Full
 
 option.TeamSize = Team size
 option.TeamCount = Number of teams
-option.TeamChoice = Team selection
+option.TeamChoice = Players choose team
 option.TeammatesOnMap = Teammates on map
 option.TeamSpawnTogether = Spawn by team
 option.SpawnCenter = Spawn at 0 0
@@ -82,7 +82,7 @@ option.InvincibilityTime = Invincibility [s]
 option.PvpTime = PvP start [s]
 option.BorderStartRadius = Border start radius
 option.BorderDamage = Border damage
-option.DisconnectTimeout = Disconnect elimination [s]
+option.DisconnectTimeout = Offline elimination delay [s]
 option.ProximityChat = Proximity chat
 option.ProximityChatDistance = Proximity chat distance [b]
 option.StartInventory = Starting inventory

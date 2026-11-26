@@ -38,6 +38,7 @@ final class InventoryRows {
 
         ui.append(list, "Host/EditRow.ui");
         ui.set(row + " #Label.TextSpans", UHCMessageUtil.tr("uhc.option." + option.getKey()));
+        ui.set(row + " #EditButton.TextSpans", UHCMessageUtil.tr("uhc.page.host.edit"));
 
         events.addEventBinding(CustomUIEventBindingType.Activating, row + " #EditButton",
                 new EventData().append("Action", "EditItems").append("Id", option.getKey()), false);

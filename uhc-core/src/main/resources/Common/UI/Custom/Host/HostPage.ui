@@ -10,9 +10,7 @@ $C.@DecoratedContainer {
       LayoutMode: Center;
       Anchor: (Full: 0);
 
-      $C.@Title {
-        @Text = %uhc.page.host.title;
-      }
+      $C.@Title #PageTitle {}
     }
   }
 

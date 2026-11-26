@@ -62,6 +62,7 @@ public class TeamPage extends InteractiveCustomUIPage<TeamPage.Data> {
         OPEN_PAGES.add(this);
 
         ui.append(DOCUMENT);
+        ui.set("#PageTitle.TextSpans", UHCMessageUtil.tr("uhc.page.team.title"));
         buildTeams(ui, events);
     }
 

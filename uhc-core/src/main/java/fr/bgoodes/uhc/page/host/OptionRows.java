@@ -42,7 +42,7 @@ final class OptionRows {
                 data.append("@Text", input + ".Value");
             }
             case BooleanOption booleanOption -> {
-                ui.append(list, "Pages/Fields/CheckboxRow.ui");
+                ui.append(list, "Host/CheckboxRow.ui");
                 ui.set(input + ".Value", booleanOption.get());
                 data.append("@Bool", input + ".Value");
             }

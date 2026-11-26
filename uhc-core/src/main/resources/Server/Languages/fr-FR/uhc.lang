@@ -1,6 +1,6 @@
 # === command ===
 
-command.host.claim.success = Vous êtes désormais l'hôte de la partie.
+command.host.claim.success = Vous êtes désormais l'hôte de la partie, faites .
 command.host.claim.failure = Il y a déjà un host dans la partie.
 command.host.start.failure = La partie est déjà lancée.
 command.team.closed = Le choix des équipes n'est pas disponible.
@@ -74,7 +74,7 @@ page.team.full = Pleine
 
 option.TeamSize = Taille des équipes
 option.TeamCount = Nombre d'équipes
-option.TeamChoice = Choix de l'équipe
+option.TeamChoice = Équipes choisies par les joueurs
 option.TeammatesOnMap = Affichage alliés sur carte
 option.TeamSpawnTogether = Spawn par équipe
 option.SpawnCenter = Spawn au 0 0
