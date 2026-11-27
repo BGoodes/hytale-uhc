@@ -99,13 +99,19 @@ public class ParticipantDeathEvent implements IEvent<Void>, ICancellable {
     }
 
     private static Message defaultMessage(String username, @Nullable PlayerRef killer) {
-        Message message = UHCMessageUtil.tr(killer == null ? "uhc.game.death.player" : "uhc.game.death.killed")
-                .param("player", Message.raw(username));
+        Message tag = UHCMessageUtil.tag("×", UHCMessageUtil.ERROR_COLOR);
 
-        if (killer != null) {
-            message.param("killer", Message.raw(killer.getUsername()));
+        if (killer == null) {
+            return Message.join(tag, UHCMessageUtil.tr("uhc.game.death.player")
+                    .param("player", username)
+                    .color(Color.GRAY)
+                    .bold(true));
         }
 
-        return message.color(Color.ORANGE);
+        return Message.join(tag, UHCMessageUtil.tr("uhc.game.death.killed")
+                .param("player", username)
+                .param("killer", killer.getUsername())
+                .color(Color.GRAY)
+                .bold(true));
     }
 }

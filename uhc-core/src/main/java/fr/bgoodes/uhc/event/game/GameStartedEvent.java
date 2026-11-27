@@ -9,7 +9,7 @@ public class GameStartedEvent extends AnnouncementEvent {
     public GameStartedEvent() {
         super(
                 UHCMessageUtil.tr("uhc.game.start.chat"),
-                new Title(UHCMessageUtil.tr("uhc.game.start.title"))
+                new Title(UHCMessageUtil.tr("uhc.game.start.title").color(UHCMessageUtil.PREFIX_COLOR))
         );
     }
 }

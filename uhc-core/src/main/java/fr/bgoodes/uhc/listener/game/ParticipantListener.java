@@ -53,7 +53,7 @@ public class ParticipantListener {
         Message message = event.getMessage();
 
         if (message != null) {
-            UHCMessageUtil.broadcast(message);
+            UHCMessageUtil.broadcast(message, false);
             UHCSoundUtil.broadcast("SFX_Taiko");
         }
 

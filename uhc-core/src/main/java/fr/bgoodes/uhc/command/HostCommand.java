@@ -17,7 +17,6 @@ import fr.bgoodes.uhc.service.state.impl.StartingState;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 
 public class HostCommand extends AbstractCommandCollection {
@@ -52,9 +51,9 @@ public class HostCommand extends AbstractCommandCollection {
 
             if (!permissionService.hasHost()) {
                 permissionService.setHost(playerRef.getUuid());
-                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.host.claim.success").color(Color.magenta));
+                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.host.claim.success").color(UHCMessageUtil.SUCCESS_COLOR));
             } else {
-                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.host.claim.failure").color(Color.red));
+                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.host.claim.failure").color(UHCMessageUtil.ERROR_COLOR));
             }
         }
     }
@@ -100,7 +99,7 @@ public class HostCommand extends AbstractCommandCollection {
                 started = true;
                 UHC.get().getStateService().changeGameState(StartingState.STATE_ID);
             } else {
-                UHCMessageUtil.reply(context, UHCMessageUtil.tr("uhc.command.host.start.failure").color(Color.red));
+                UHCMessageUtil.reply(context, UHCMessageUtil.tr("uhc.command.host.start.failure").color(UHCMessageUtil.ERROR_COLOR));
             }
 
             return CompletableFuture.completedFuture(null);

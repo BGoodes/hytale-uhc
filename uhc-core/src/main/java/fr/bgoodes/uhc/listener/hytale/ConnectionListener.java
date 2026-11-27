@@ -2,9 +2,12 @@ package fr.bgoodes.uhc.listener.hytale;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.event.EventRegistry;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.event.events.player.AddPlayerToWorldEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerSetupConnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.RemovedPlayerFromWorldEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -25,6 +28,8 @@ public class ConnectionListener {
         eventRegistry.register(PlayerSetupConnectEvent.class, this::onPlayerSetupConnect);
         eventRegistry.registerGlobal(PlayerReadyEvent.class, this::onPlayerReady);
         eventRegistry.register(PlayerDisconnectEvent.class, this::onPlayerDisconnect);
+        eventRegistry.registerGlobal(AddPlayerToWorldEvent.class, this::onAddPlayerToWorld);
+        eventRegistry.registerGlobal(RemovedPlayerFromWorldEvent.class, this::onRemovedPlayerFromWorld);
     }
 
     private void onPlayerSetupConnect(PlayerSetupConnectEvent event) {
@@ -73,6 +78,28 @@ public class ConnectionListener {
         UUID uuid = event.getPlayerRef().getUuid();
         if (UHC.get().getPlayerService().isParticipant(uuid)) {
             UHC.get().getPlayerService().setDisconnected(uuid);
+        }
+    }
+
+    private void onAddPlayerToWorld(AddPlayerToWorldEvent event) {
+        PlayerRef playerRef = event.getHolder().getComponent(PlayerRef.getComponentType());
+
+        if (playerRef != null) {
+            event.setJoinMessage(Message.join(
+                    UHCMessageUtil.tag("+", UHCMessageUtil.SUCCESS_COLOR),
+                    Message.raw(playerRef.getUsername()).bold(true)
+            ));
+        }
+    }
+
+    private void onRemovedPlayerFromWorld(RemovedPlayerFromWorldEvent event) {
+        PlayerRef playerRef = event.getHolder().getComponent(PlayerRef.getComponentType());
+
+        if (playerRef != null) {
+            event.setLeaveMessage(Message.join(
+                    UHCMessageUtil.tag("-", UHCMessageUtil.ERROR_COLOR),
+                    Message.raw(playerRef.getUsername()).bold(true)
+            ));
         }
     }
 }

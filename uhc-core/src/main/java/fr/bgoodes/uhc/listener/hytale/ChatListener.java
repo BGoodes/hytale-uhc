@@ -30,7 +30,7 @@ public class ChatListener {
 
         return message
                 .insert(Message.raw(sender.getUsername()))
-                .insert(Message.raw(" » ").color(Color.GRAY))
+                .insert(Message.raw(" » ").color(Color.DARK_GRAY))
                 .insert(content);
     }
 }

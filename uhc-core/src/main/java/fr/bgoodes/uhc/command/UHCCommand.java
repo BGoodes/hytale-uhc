@@ -14,7 +14,6 @@ import fr.bgoodes.uhc.util.UHCMessageUtil;
 import fr.bgoodes.uhc.util.UHCTeamUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 
 public class UHCCommand extends AbstractCommandCollection {
 
@@ -45,7 +44,7 @@ public class UHCCommand extends AbstractCommandCollection {
                 @NotNull World world
         ) {
             if (!UHCTeamUtil.isChoiceOpen()) {
-                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.team.closed").color(Color.RED));
+                UHCMessageUtil.send(playerRef, UHCMessageUtil.tr("uhc.command.team.closed").color(UHCMessageUtil.ERROR_COLOR));
                 return;
             }
 

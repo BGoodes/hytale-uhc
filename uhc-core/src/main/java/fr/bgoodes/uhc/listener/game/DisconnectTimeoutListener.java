@@ -14,7 +14,7 @@ import fr.bgoodes.uhc.service.PlayerService;
 import fr.bgoodes.uhc.util.UHCMessageUtil;
 import org.joml.Vector3d;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -57,9 +57,13 @@ public class DisconnectTimeoutListener {
 
             ParticipantDeathEvent event = new ParticipantDeathEvent(uuid, username, null, world, position, null, null);
 
-            event.setMessage(UHCMessageUtil.tr("uhc.game.death.disconnected")
-                    .param("player", Message.raw(username))
-                    .color(Color.ORANGE));
+            event.setMessage(Message.join(
+                    UHCMessageUtil.tag("×", UHCMessageUtil.ERROR_COLOR),
+                    UHCMessageUtil.tr("uhc.game.death.disconnected")
+                            .param("player", username)
+                            .color(Color.GRAY)
+                            .bold(true)
+            ));
 
             HytaleServer.get().getEventBus()
                     .dispatchFor(ParticipantDeathEvent.class)
