@@ -22,6 +22,7 @@ import fr.bgoodes.uhc.listener.hytale.WorldListener;
 import fr.bgoodes.uhc.listener.option.BorderOptionListener;
 import fr.bgoodes.uhc.listener.option.OptionListener;
 import fr.bgoodes.uhc.listener.option.TeamOptionListener;
+import fr.bgoodes.uhc.listener.option.ScenarioOptionListener;
 import fr.bgoodes.uhc.listener.option.VoiceOptionListener;
 import fr.bgoodes.uhc.service.*;
 import fr.bgoodes.uhc.service.config.ConfigService;
@@ -33,6 +34,7 @@ import fr.bgoodes.uhc.service.state.impl.EndingState;
 import fr.bgoodes.uhc.service.state.impl.LobbyState;
 import fr.bgoodes.uhc.service.state.impl.PlayingState;
 import fr.bgoodes.uhc.service.state.impl.StartingState;
+import fr.bgoodes.uhc.service.scenario.ScenarioService;
 import fr.bgoodes.uhc.service.team.TeamService;
 import fr.bgoodes.uhc.system.*;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +69,7 @@ public class UHC extends JavaPlugin {
         services.register(ConfigService.class, new ConfigService(getDataDirectory()));
         services.register(StateService.class, new StateService());
         services.register(ClockService.class, new ClockService());
+        services.register(ScenarioService.class, new ScenarioService());
         services.register(FlagService.class, new FlagService());
         services.register(PermissionService.class, new PermissionService());
         services.register(PlayerService.class, new PlayerService());
@@ -75,7 +78,6 @@ public class UHC extends JavaPlugin {
         services.register(WorldBorderService.class, new WorldBorderService());
         services.register(HudService.class, new HudService());
         services.register(SpawnService.class, new SpawnService());
-
         // game config
         getConfigService().registerConfig(GameConfig.CONFIG_ID, gameConfig);
 
@@ -116,6 +118,7 @@ public class UHC extends JavaPlugin {
         new TeamOptionListener().register(getEventRegistry());
         new DisconnectTimeoutListener().register(getEventRegistry());
         new VoiceOptionListener().register(getEventRegistry());
+        new ScenarioOptionListener().register(getEventRegistry());
 
         LOGGER.atInfo().log("UHC Core plugin setup.");
     }
@@ -192,5 +195,9 @@ public class UHC extends JavaPlugin {
 
     public @NotNull SpawnService getSpawnService() {
         return services.get(SpawnService.class);
+    }
+
+    public @NotNull ScenarioService getScenarioService() {
+        return services.get(ScenarioService.class);
     }
 }

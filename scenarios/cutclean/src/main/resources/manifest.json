@@ -1,8 +1,8 @@
 {
   "Group": "fr.bgoodes",
-  "Name": "Example-UHC",
+  "Name": "UHC-CutClean",
   "Version": "${version}",
-  "Description": "Empty example game mode for the UHC core",
+  "Description": "CutClean scenario for UHC",
   "Authors": [
     {
       "Name": "Moullec Julien",
@@ -14,6 +14,6 @@
     "fr.bgoodes:UHC": "*"
   },
   "DisabledByDefault": false,
-  "IncludesAssetPack": false,
-  "Main": "fr.bgoodes.uhc.mode.example.ExampleUHC"
+  "IncludesAssetPack": true,
+  "Main": "fr.bgoodes.uhc.scenario.cutclean.CutClean"
 }
